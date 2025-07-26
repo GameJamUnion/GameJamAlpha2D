@@ -21,17 +21,22 @@ public enum SceneNames :int
     Max_Num,
 }
 
-public class SceneManagementManager : SingletonBase<SceneManagementManager>
+public class SceneManager : SingletonBase<SceneManager>
 {
     private SceneNames _CurrentScene = SceneNames.Invalid;
     private SceneStateBase _CurrentState = null;
     private bool _IsPending = false;
 
+    #region Request
+    private bool _ToTitleRequest = false;
+    #endregion
+
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void SceneInitialized()
     {
         SceneNames StartupSceneName = SceneNames.Title;
-        var scene = SceneManager.GetActiveScene();
+        var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
         var sceneCount = (int)SceneNames.Max_Num;
         for (int i = 0; i < sceneCount; i++)
         {
@@ -45,21 +50,21 @@ public class SceneManagementManager : SingletonBase<SceneManagementManager>
                     loadScene = StartupSceneName;
                 }
 
-                SceneManagementManager.Instance.setDefaultSceneState(loadScene, loadScene != sceneName);
+                SceneManager.Instance.setDefaultSceneState(loadScene, loadScene != sceneName);
                 return;
             }
         }
-        SceneManagementManager.Instance.setPendingState();
+        SceneManager.Instance.setPendingState();
     }
 
     public void loadScene(SceneNames sceneName)
     {
-        SceneManager.LoadScene(sceneName.ToString(), LoadSceneMode.Additive);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName.ToString(), LoadSceneMode.Additive);
     }
 
     public void unloadScene(SceneNames sceneName)
     {
-        SceneManager.UnloadSceneAsync(sceneName.ToString());
+        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(sceneName.ToString());
     }
 
     /// <summary>
@@ -117,7 +122,15 @@ public class SceneManagementManager : SingletonBase<SceneManagementManager>
             return;
         }
         // 現在のシーンステートを更新
-        var nextState = _CurrentState.checkNext();
+        var nextState = _CurrentState?.checkNext();
+
+        if (_ToTitleRequest == true)
+        {
+            // タイトルへ戻るリクエストがあればタイトルへ移行
+            nextState = new TitleSceneState();
+            _ToTitleRequest = false;
+        }
+
         if (nextState != null)
         {
             // 次のステートへ移行
@@ -128,4 +141,24 @@ public class SceneManagementManager : SingletonBase<SceneManagementManager>
         }
     }
     #endregion
+    /// <summary>
+    /// インゲームシーンか
+    /// </summary>
+    /// <returns></returns>
+    public bool checkInGameScene()
+    {
+        switch (_CurrentScene)
+        {
+            case SceneNames.komugi_workshop:
+                return true;
+        }
+        return false;
+    }
+
+    #region Request
+    public void requestToTitle()
+    {
+        _ToTitleRequest = true;
+    }
+    #endregion Request
 }

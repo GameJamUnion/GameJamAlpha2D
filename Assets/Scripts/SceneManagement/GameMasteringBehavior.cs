@@ -9,7 +9,7 @@ public class GameMasteringBehavior : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void main()
     {
-        SceneManager.LoadSceneAsync(GameMasteringSceneName, LoadSceneMode.Additive);
+        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(GameMasteringSceneName, LoadSceneMode.Additive);
     }
 
     private void Awake()

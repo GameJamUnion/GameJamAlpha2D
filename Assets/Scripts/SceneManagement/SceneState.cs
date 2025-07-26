@@ -16,13 +16,13 @@ public abstract class SceneStateBase
     public void OnEnter()
     {
         // 対象シーンロード
-        SceneManagementManager.Instance.loadScene(SceneName);
+        SceneManager.Instance.loadScene(SceneName);
     }
 
     public void OnExit()
     {
         // 対象シーンアンロード
-        SceneManagementManager.Instance.unloadScene(SceneName);
+        SceneManager.Instance.unloadScene(SceneName);
     }
 
     /// <summary>
