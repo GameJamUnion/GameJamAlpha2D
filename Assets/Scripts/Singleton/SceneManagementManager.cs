@@ -9,6 +9,7 @@ public enum SceneNames
     Master = 0,
     GameMastering = 1,
     Title = 2,
+    komugi_workshop = 3,
 }
 
 public class SceneManagementManager : SingletonBase<SceneManagementManager>
