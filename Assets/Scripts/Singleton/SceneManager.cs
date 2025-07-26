@@ -16,6 +16,7 @@ public enum SceneNames :int
     GameMastering = 1,
     Title = 2,
     komugi_workshop = 3,
+    dev_ozaki = 4,
 
     [Browsable(false)]
     Max_Num,
@@ -23,7 +24,7 @@ public enum SceneNames :int
 
 public class SceneManager : SingletonBase<SceneManager>
 {
-    private SceneNames _CurrentScene = SceneNames.Invalid;
+    private SceneNames[] _CurrentScene = new SceneNames[1] { SceneNames.Invalid };
     private SceneStateBase _CurrentState = null;
     private bool _IsPending = false;
 
@@ -80,10 +81,12 @@ public class SceneManager : SingletonBase<SceneManager>
         {
             var state = (SceneStateBase)System.Activator.CreateInstance(states[i]);
 
-            if (state.SceneName == sceneName)
+            // HACK : シーンが複数ある場合微妙
+            // TODO : 今のシーンを被る場合アンロードする？
+            if (state.SceneName[0] == sceneName)
             {
                 _CurrentState = state;
-                _CurrentScene = sceneName;
+                _CurrentScene = state.SceneName;
 
                 // 開始シーンとロード対象シーンが違えばロード処理呼び出す
                 if (loadRequest)
@@ -147,9 +150,9 @@ public class SceneManager : SingletonBase<SceneManager>
     /// <returns></returns>
     public bool checkInGameScene()
     {
-        switch (_CurrentScene)
+        switch (_CurrentState)
         {
-            case SceneNames.komugi_workshop:
+            case InGameSceneState0 _:
                 return true;
         }
         return false;
