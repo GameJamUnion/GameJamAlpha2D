@@ -15,8 +15,9 @@ public class ResumeInterface : MonoBehaviour
     [SerializeField] TextMeshProUGUI _tSection3Rank;
     [SerializeField] GameObject _stamp;
 
-    [Header("StampCustomButton")]
+    [Header("アタッチ")]
     [SerializeField] StampCustomButton _stampCustomButton;
+    [SerializeField] ResumeInterfaceCustomButton _resumeInterfaceCustomButton;
 
     #region プロパティ
     public BaseResume BaseResume
@@ -28,6 +29,14 @@ public class ResumeInterface : MonoBehaviour
         get { return _active; }
     }
     #endregion
+
+    private void Update()
+    {
+        if (_resumeInterfaceCustomButton.HoldTap)
+        {
+            Hold();
+        }
+    }
 
     /// <summary>
     /// 初期化
@@ -64,5 +73,16 @@ public class ResumeInterface : MonoBehaviour
         _baseResume.OnStamp = true;
         _baseResume.OnStampProcess();
         _officeGameMaster.Employment(_baseResume.BaseUnit);
+    }
+    public void Close()
+    {
+        
+    }
+    public void Hold()
+    {
+        // マウスの移動距離取得
+        Vector3 newPos = _resumeInterfaceCustomButton.CurrentMousePos - Input.mousePosition;
+        // 移動距離分座標をずらす
+        this.gameObject.transform.localPosition = _resumeInterfaceCustomButton.SaveRusumeInterfacePos - newPos;
     }
 }
