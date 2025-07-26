@@ -18,18 +18,23 @@ public class BaseUnit : MonoBehaviour
     [SerializeField] private float _liarIndex = 0f;
 
     [SerializeField] private BaseResume _baseResume;
-    [SerializeField] ResumeData _resumeData;
+    [SerializeField] private ResumeData _resumeData;
+    [SerializeField] private ResumeInterface _resumeInterface;
 
     #region プロパティ
     public string Name
     {
         get { return _name; }
     }
+    public ResumeInterface ResumeInterface
+    {
+        set { _resumeInterface = value; }
+    }
     #endregion
 
     void Start()
     {
-        Initialize();
+
     }
 
     void Update()
@@ -38,9 +43,11 @@ public class BaseUnit : MonoBehaviour
     }
 
     // ユニットの初期化処理
-    public void Initialize()
+    public void Initialize(OfficeGameMaster officeGameMaster)
     {
         _baseResume.SetResume(this);
+        _baseResume.SetOfficeGameMaster(officeGameMaster);
+        _resumeInterface.Initialize(_baseResume);
     }
 
     // 各適正のうち１つを指定して表示するテキストに変更する処理 float > string

@@ -3,29 +3,24 @@ using UnityEngine.UI;
 
 public class BaseCustomButton : MonoBehaviour
 {
-    [SerializeField] Color _enterColor = new Color();
-    [SerializeField] Color _exitColor = new Color();
+    [SerializeField] Color _enterColor = new Color(1f, 1f, 1f, 1f);
+    [SerializeField] Color _exitColor = new Color(0.8f, 0.8f, 0.8f, 1f);
     [SerializeField] Image _changeColorImage = null;
 
-    void Start()
+    virtual protected void Start()
     {
         PointExit();
     }
 
-    void Update()
-    {
-        
-    }
-
-    public void PointEnter()
+    virtual public void PointEnter()
     {
         _changeColorImage.color = _enterColor;
     }
-    public void PointExit()
+    virtual public void PointExit()
     {
         _changeColorImage.color = _exitColor;
     }
-    public void PointDown()
+    virtual public void PointDown()
     {
 
     }
