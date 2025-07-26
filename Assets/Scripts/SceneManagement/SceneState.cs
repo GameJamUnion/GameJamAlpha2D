@@ -11,18 +11,25 @@ using UnityEngine;
 /// </summary>
 public abstract class SceneStateBase
 {
-    public abstract SceneNames SceneName { get; }
+    public abstract SceneNames[] SceneName { get; }
 
     public void OnEnter()
     {
-        // 対象シーンロード
-        SceneManager.Instance.loadScene(SceneName);
+        for (int i = 0; i < SceneName.Length; i++)
+        {
+            // 対象シーンロード
+            SceneManager.Instance.loadScene(SceneName[i]);
+        }
+        
     }
 
     public void OnExit()
     {
-        // 対象シーンアンロード
-        SceneManager.Instance.unloadScene(SceneName);
+        for (int i = 0; i < SceneName.Length; i++)
+        {
+            // 対象シーンアンロード
+            SceneManager.Instance.unloadScene(SceneName[i]);
+        }        
     }
 
     /// <summary>
@@ -48,7 +55,7 @@ public abstract class SceneStateBase
 /// </summary>
 public class TitleSceneState : SceneStateBase
 {
-    public override SceneNames SceneName => SceneNames.Title;
+    public override SceneNames[] SceneName => new SceneNames[] { SceneNames.Title };
 
     public override SceneStateBase checkNext()
     {
@@ -93,7 +100,7 @@ public abstract class InGameSceneStateBase : SceneStateBase
 
 public class InGameSceneState0 : InGameSceneStateBase
 {
-    public override SceneNames SceneName => SceneNames.komugi_workshop;
+    public override SceneNames[] SceneName => new SceneNames[] { SceneNames.komugi_workshop, SceneNames.dev_ozaki };
     public override SceneStateBase checkNext()
     {
         var result = base.checkNext();
