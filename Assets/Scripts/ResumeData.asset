@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e045523ab289bc4d8ceea4d924014d8, type: 3}
+  m_Name: ResumeData
+  m_EditorClassIdentifier: 
+  _rankS:
+    _scoreStr: -S-
+    _maxProductionEfficiency: 2
+    _minProductionEfficiency: 1.8
+  _rankA:
+    _scoreStr: -A-
+    _maxProductionEfficiency: 1.8
+    _minProductionEfficiency: 1.5
+  _rankB:
+    _scoreStr: -B-
+    _maxProductionEfficiency: 1.5
+    _minProductionEfficiency: 1.2
+  _rankC:
+    _scoreStr: -C-
+    _maxProductionEfficiency: 1.2
+    _minProductionEfficiency: 1
+  _rankD:
+    _scoreStr: -D-
+    _maxProductionEfficiency: 1
+    _minProductionEfficiency: 0.8
+  _rankE:
+    _scoreStr: -E-
+    _maxProductionEfficiency: 0.8
+    _minProductionEfficiency: 0.4
+  _rankF:
+    _scoreStr: -F-
+    _maxProductionEfficiency: 0.4
+    _minProductionEfficiency: -100
