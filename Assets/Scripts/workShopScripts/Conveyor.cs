@@ -4,8 +4,11 @@ using System.Collections.Generic;
 /// <summary>
 /// コンベアクラス
 /// </summary>
-public class Conveyor : ObjBase
+public class Conveyor : StageObjBase
 {
+    /// <summary>
+    /// 作成物毎の経過運搬時間
+    /// </summary>
     private List<int> productsCarryTimeList;
 
     /// <summary>
@@ -24,6 +27,7 @@ public class Conveyor : ObjBase
     override protected void Start()
     {
         base.Start();
+        productList = new List<Product>();
         productsCarryTimeList = new List<int>();
     }
 
@@ -65,7 +69,7 @@ public class Conveyor : ObjBase
     /// </summary>
     public void outputProduct()
     {
-        if (productList != null && productList.Count > 0 
+        if (productList != null && productList.Count > 0
             && productsCarryTimeList != null && productsCarryTimeList.Count > 0)
         {
             if (productsCarryTimeList[0] > carryDistance)
