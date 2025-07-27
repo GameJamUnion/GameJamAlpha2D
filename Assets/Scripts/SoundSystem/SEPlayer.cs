@@ -15,6 +15,8 @@ public class SEPlayer : MonoBehaviour
 	[SerializeField]
 	private SEReferenceTable m_seTable;
 
+	static SEPlayer _instance = null;
+
 	/// <summary>
 	/// SEの再生
 	/// </summary>
@@ -59,11 +61,38 @@ public class SEPlayer : MonoBehaviour
 		loopPlayer.Play();
 	}
 
+	/// <summary>
+	/// 再生終了
+	/// </summary>
+	/// <param name="kind"></param>
+	public void StopLoopSE(SEKind kind) {
+		if (m_seTable == null) {
+#if UNITY_EDITOR
+			Debug.LogError("Not Reference SE Table");
+#endif
+			return;
+		}
+
+		var audio = m_loopAudios.Find(x => x.clip);
+
+		if (audio == null) {
+			return;
+		}
+
+		audio.Stop();
+		audio.clip = null;
+	}
 
 	/// <summary>
 	/// 初期化（参照取得）
 	/// </summary>
 	private void Awake() {
+		if (_instance != null) {
+			Destroy(this.gameObject);
+			return;
+		}
+
+		_instance = this;
 		TryGetComponent(out m_audioSource);
 	}
 
