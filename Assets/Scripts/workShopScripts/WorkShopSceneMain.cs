@@ -21,7 +21,21 @@ public class WorkShopSceneMain : MonoBehaviour
     /// シーンの親オブジェクト
     /// </summary>
     [SerializeField]
-    private Transform UnitRootTrans;
+    private Transform unitRootTrans;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [SerializeField]
+    private UnitContainer unitContainer;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    virtual protected void Start()
+    {
+        //unitContainer.RegisterEventOnHired(employWorker);
+        //unitContainer.RegisterEventOnRemove(removeWorker);
+        //unitContainer.RegisterEventOnCall(callWorker);
+    }
 
     /// <summary>
     /// 作業員を雇用する
@@ -39,7 +53,7 @@ public class WorkShopSceneMain : MonoBehaviour
             Quaternion rot = Quaternion.identity;
 
             // 作業員を複製
-            Worker worker = Instantiate<Worker>(workerPrefab, pos, rot, UnitRootTrans);
+            Worker worker = Instantiate<Worker>(workerPrefab, pos, rot, unitRootTrans);
             worker.OriginId = originId;
             worker.WorkPower = workPower;
 
