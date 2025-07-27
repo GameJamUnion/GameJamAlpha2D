@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "WorkScore", menuName = "Scriptable Objects/WorkScore")]
 public class WorkScore : ScriptableObject
@@ -12,16 +13,25 @@ public class WorkScore : ScriptableObject
 
 	public WorkShopGauge scoreGauge { get; private set; } = null;
 
+	public bool isFullScore { get { return score >= goalScore; } }
+
+	private UnityAction fullScoreEvent;
+
 	/// <summary>
 	/// スコアの加算
 	/// 減算はマイナス入れておくれ
 	/// </summary>
 	/// <param name="score"></param>
 	public void AddScore(int score) {
+		if (isFullScore) { return; }
 		this.score += score;
 
 		float rate = (float)this.score / (float)goalScore;
 		scoreGauge.UpdateValue(rate);
+
+		if (isFullScore) {
+			fullScoreEvent?.Invoke();
+		}
 	}
 
 	/// <summary>
@@ -43,5 +53,13 @@ public class WorkScore : ScriptableObject
 	public void RegisterGauge(WorkShopGauge gauge) {
 		scoreGauge = gauge;
 		scoreGauge.UpdateValue((float)score / (float)goalScore);
+	}
+
+	/// <summary>
+	/// スコアマックスになった時のイベント登録
+	/// </summary>
+	/// <param name="fullScoreEvent"></param>
+	private void RegisterFullScoreEvent(UnityAction fullScoreEvent) {
+		this.fullScoreEvent += fullScoreEvent;
 	}
 }

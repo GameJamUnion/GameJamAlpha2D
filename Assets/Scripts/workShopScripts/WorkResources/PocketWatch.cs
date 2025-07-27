@@ -25,6 +25,7 @@ public class PocketWatch : MonoBehaviour
 
 	// Update is called once per frame
 	void Update() {
+		if (m_workTime.isTimeup) { return; }
 		m_workTime.UpdateElapsedTime(Time.deltaTime);
 		m_currentRot = (FullRot + m_offset) + FullRot *  (1 - m_workTime.timeRate);
 		m_minuteHand.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 0.0f, m_currentRot));

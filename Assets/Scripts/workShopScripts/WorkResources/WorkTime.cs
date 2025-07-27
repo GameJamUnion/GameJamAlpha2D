@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "WorkTime", menuName = "Scriptable Objects/WorkTime")]
 public class WorkTime : ScriptableObject
@@ -16,6 +17,10 @@ public class WorkTime : ScriptableObject
 		}
 	}
 
+	public bool isTimeup { get{ return elapsedTime >= timeLimit; } }
+
+	private UnityAction timeupEvent;
+
 	/// <summary>
 	/// 時間経過
 	/// </summary>
@@ -24,11 +29,21 @@ public class WorkTime : ScriptableObject
 		counter += deltaTime;
 		elapsedTime = (int)counter;
 
-		float rate = (float)(timeLimit - elapsedTime) / (float)timeLimit;
+		if (isTimeup) {
+			timeupEvent?.Invoke();
+		}
 	}
 
 	public void Initialize() {
 		counter = 0.0f;
 		UpdateElapsedTime(0.0f);
+	}
+
+	/// <summary>
+	/// タイムアップイベントを登録
+	/// </summary>
+	/// <param name="timeupEvent"></param>
+	public void RegisterTimeupEvent(UnityAction timeupEvent) {
+		this.timeupEvent += timeupEvent;
 	}
 }
