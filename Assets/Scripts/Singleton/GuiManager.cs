@@ -8,6 +8,7 @@ public class GuiManager : SingletonBase<GuiManager>
     {
         Invalid = -1,
         Pause,
+        GameOver,
 
         [Browsable(false)]
         MaxNum,
@@ -31,10 +32,10 @@ public class GuiManager : SingletonBase<GuiManager>
     /// 指定Gui開くリクエスト
     /// </summary>
     /// <param name="type"></param>
-    public void requestOpenGui(GuiType type)
+    public void requestOpenGui(GuiType type, OpenParam param)
     {
         // とりあえず開く
-        open(type);
+        open(type, param);
     }
 
     /// <summary>
@@ -49,13 +50,13 @@ public class GuiManager : SingletonBase<GuiManager>
     /// <summary>
     /// Gui開く処理
     /// </summary>
-    private void open(GuiType type)
+    private void open(GuiType type, OpenParam param)
     {
         if (_GuiControllerDict.TryGetValue(type, out GuiControllerBase guiController))
         {
             // GUIのパネルをアクティブにする
             guiController.setActive(true);
-            guiController.onOpen();
+            guiController.onOpen(param);
         }
     }
 
@@ -74,11 +75,14 @@ public class GuiManager : SingletonBase<GuiManager>
     }
 }
 
+public class OpenParam
+{
+
+}
+
 public abstract class GuiControllerBase : MonoBehaviour
 {
     public abstract GuiManager.GuiType GuiType { get; }
-
-
 
     [DisplayName("Panelオブジェクト")]
     public GameObject[] GuiPanelObject
@@ -101,7 +105,7 @@ public abstract class GuiControllerBase : MonoBehaviour
     /// <summary>
     /// Gui開いたとき
     /// </summary>
-    public virtual void onOpen()
+    public virtual void onOpen(OpenParam openParam = null)
     {
 
     }

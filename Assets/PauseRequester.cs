@@ -74,7 +74,7 @@ public class PauseRequester : MonoBehaviour
         });
 
         // GUIŠJ‚­
-        GuiManager.Instance.requestOpenGui(GuiManager.GuiType.Pause);
+        GuiManager.Instance.requestOpenGui(GuiManager.GuiType.Pause, new OpenParam() { });
     }
 
     /// <summary>

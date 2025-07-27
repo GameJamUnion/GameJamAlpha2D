@@ -73,8 +73,7 @@ public class TitleSceneState : SceneStateBase
         
         if (checkInput() == true)
         {
-            // インゲームシーンへ
-            return new InGameSceneState0();
+            return new InGameSceneState0();// インゲームシーンへ　(後々GameStartupSceneにする)
         }
 
         return result;
@@ -102,6 +101,19 @@ public class TitleSceneState : SceneStateBase
 }
 
 #endregion Title
+
+#region Setup
+public class GameStartupScene : SceneStateBase
+{
+    public override SceneNames[] SceneName => new SceneNames[] {};
+
+    public override SceneStateBase checkNext()
+    {
+        // インゲームシーンへ
+        return new InGameSceneState0();
+    }
+}
+#endregion
 
 #region InGame
 public abstract class InGameSceneStateBase : SceneStateBase

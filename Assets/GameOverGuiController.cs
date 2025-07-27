@@ -1,8 +1,9 @@
 using System;
 using System.ComponentModel;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PauseGuiController : GuiControllerBase
+public class GameOverGuiController : GuiControllerBase
 {
     public class SelectWaitParam
     {
@@ -10,8 +11,7 @@ public class PauseGuiController : GuiControllerBase
         public Action onCancel;
     }
 
-    public override GuiManager.GuiType GuiType => GuiManager.GuiType.Pause;
-
+    public override GuiManager.GuiType GuiType => GuiManager.GuiType.GameOver;
 
     #region Property
     [DisplayName("はい/いいえ選択パネル")]
@@ -22,21 +22,12 @@ public class PauseGuiController : GuiControllerBase
     }
     [SerializeField]
     private GameObject _SelectPanel = null;
+    #endregion
 
-    #endregion Property
-
-    private PauseRequester _PauseRequester = null;
+    #region Field
     private SelectWaitParam _SelectWaitParam = null;
+    #endregion
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        gameObject.TryGetComponent(typeof(PauseRequester), out var requester);
-        if (requester != null)
-        {
-            _PauseRequester = requester as PauseRequester;
-        }
-    }
 
     public override void onClose()
     {
@@ -47,19 +38,15 @@ public class PauseGuiController : GuiControllerBase
     }
 
     /// <summary>
-    /// ポーズやめるボタンクリック
+    /// リスタートボタンクリック
     /// </summary>
-    public void onResumeClick()
+    public void onRestartClick()
     {
-        if (_PauseRequester != null)
-        {
-            // ポーズ終了
-            _PauseRequester.endPause();
-        }
+
     }
 
     /// <summary>
-    /// タイトルに戻るボタンクリック
+    /// タイトルへ戻るボタンクリック
     /// </summary>
     public void onToTitleClick()
     {
@@ -71,14 +58,9 @@ public class PauseGuiController : GuiControllerBase
 
         void onDecide()
         {
-            // タイトルへ
             SceneManager.Instance.requestToTitle();
 
-            // ポーズ終了
-            if (_PauseRequester != null)
-            {
-                _PauseRequester.endPause();
-            }
+            // ゲームオーバー画面終了
         }
 
         void onCancel()
@@ -92,11 +74,10 @@ public class PauseGuiController : GuiControllerBase
         _SelectWaitParam = new SelectWaitParam
         {
             onDecide = onDecide,
-            onCancel = onCancel,
+            onCancel = onCancel
         };
 
         _SelectPanel.SetActive(true);
-        setActive(false);
     }
 
     /// <summary>
