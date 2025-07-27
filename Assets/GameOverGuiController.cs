@@ -1,8 +1,9 @@
+using GuiUtil;
 using System;
 using System.ComponentModel;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using GuiUtil;
 
 public class GameOverGuiController : GuiControllerBase
 {
@@ -10,7 +11,8 @@ public class GameOverGuiController : GuiControllerBase
 
     public class OpenParam : OpenParamBase
     {
-
+        public int Score { get; set; } = 0;
+        public float RemainingTime { get; set; } = 0.0f;
     }
 
     public override GuiManager.GuiType GuiType => GuiManager.GuiType.GameOver;
@@ -24,12 +26,52 @@ public class GameOverGuiController : GuiControllerBase
     }
     [SerializeField]
     private GameObject _SelectPanel = null;
+
+    [DisplayName("スコア表示オブジェクト")]
+    public TextMeshProUGUI ScoreObject
+    {
+        get => _ScoreObject;
+        set => _ScoreObject = value;
+    }
+    [SerializeField]
+    private TextMeshProUGUI _ScoreObject = null;
+
+    [DisplayName("残り時間表示オブジェクト")]
+    public TextMeshProUGUI RemainingTimeObject
+    {
+        get => _RemainingTimeObject;
+        set => _RemainingTimeObject = value;
+    }
+    [SerializeField]
+    private TextMeshProUGUI _RemainingTimeObject = null;
     #endregion
 
     #region Field
     private SelectWaitParam _SelectWaitParam = null;
     #endregion
+    public override void onOpen(OpenParamBase openParam = null)
+    {
+        base.onOpen(openParam);
+        var param = openParam as OpenParam;
+        setParam(param);
+    }
 
+    /// <summary>
+    /// 結果報告表示設定
+    /// </summary>
+    /// <param name="param"></param>
+    private void setParam(OpenParam param)
+    {
+        if (ScoreObject != null)
+        {
+            ScoreObject.text = param.Score.ToString();
+        }
+
+        if (RemainingTimeObject != null)
+        {
+            RemainingTimeObject.text = param.RemainingTime.ToString("F0") + "秒";
+        }
+    }
 
     public override void onClose()
     {

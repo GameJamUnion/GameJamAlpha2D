@@ -48,6 +48,8 @@ MonoBehaviour:
   _GuiPanelObject:
   - {fileID: 6112001861437259173}
   _SelectPanel: {fileID: 8763653271974735671}
+  _ScoreObject: {fileID: 5360301309261760739}
+  _RemainingTimeObject: {fileID: 6958793918866512529}
 --- !u!1 &6100246328885683114
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,6 +620,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1988532360040794783}
     m_Modifications:
+    - target: {fileID: 893975385868746165, guid: 806a4454da6dfcf4e9a01e3d38983008, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ed054f65992f1e479cc4ccbb4fd3827, type: 2}
+    - target: {fileID: 893975385868746165, guid: 806a4454da6dfcf4e9a01e3d38983008, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2389900266048421861, guid: 4ed054f65992f1e479cc4ccbb4fd3827, type: 2}
+    - target: {fileID: 893975385868746165, guid: 806a4454da6dfcf4e9a01e3d38983008, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2083853274512341356, guid: 806a4454da6dfcf4e9a01e3d38983008, type: 3}
+      propertyPath: m_text
+      value: "\u6B8B\u308A\u6642\u9593"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2715132638401116322, guid: 806a4454da6dfcf4e9a01e3d38983008, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2781270152028762055, guid: 806a4454da6dfcf4e9a01e3d38983008, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ed054f65992f1e479cc4ccbb4fd3827, type: 2}
+    - target: {fileID: 2781270152028762055, guid: 806a4454da6dfcf4e9a01e3d38983008, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2389900266048421861, guid: 4ed054f65992f1e479cc4ccbb4fd3827, type: 2}
+    - target: {fileID: 2781270152028762055, guid: 806a4454da6dfcf4e9a01e3d38983008, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222003528089788096, guid: 806a4454da6dfcf4e9a01e3d38983008, type: 3}
+      propertyPath: m_text
+      value: "\u30B9\u30B3\u30A2"
+      objectReference: {fileID: 0}
     - target: {fileID: 7348615828490366832, guid: 806a4454da6dfcf4e9a01e3d38983008, type: 3}
       propertyPath: m_Name
       value: ScoreParent
@@ -712,3 +750,25 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7867122309076791325, guid: 806a4454da6dfcf4e9a01e3d38983008, type: 3}
   m_PrefabInstance: {fileID: 5047290829379335510}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5360301309261760739 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 893975385868746165, guid: 806a4454da6dfcf4e9a01e3d38983008, type: 3}
+  m_PrefabInstance: {fileID: 5047290829379335510}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6958793918866512529 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2781270152028762055, guid: 806a4454da6dfcf4e9a01e3d38983008, type: 3}
+  m_PrefabInstance: {fileID: 5047290829379335510}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

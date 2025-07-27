@@ -7,7 +7,10 @@ public class GameOverManager : SingletonBase<GameOverManager>
     public class GameOverStartArgs
     {
         // 表示するスコアなど
+        public int Score = 0;
 
+        // 残り時間
+        public float RemainingTime = 0.0f;
 
         // 成立時呼ばれる処理
         public Action onStartProcess;
@@ -77,6 +80,8 @@ public class GameOverManager : SingletonBase<GameOverManager>
         {
             // 開く際に渡すパラメータ
             // startArgsから渡す
+            Score = startArgs.Score,
+            RemainingTime = startArgs.RemainingTime,
         });
 
         startArgs.onStartProcess?.Invoke();

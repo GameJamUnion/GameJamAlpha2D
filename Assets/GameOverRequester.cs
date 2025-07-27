@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using TMPro;
 using UnityEngine;
 
 public class GameOverRequester : MonoBehaviour
@@ -19,6 +21,7 @@ public class GameOverRequester : MonoBehaviour
     }
     [SerializeField]
     private WorkScore _WorkScore = null;
+
 
     #endregion Property
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -43,9 +46,15 @@ public class GameOverRequester : MonoBehaviour
     /// </summary>
     private void startGameOver()
     {
+        if (WorkScore == null || WorkTime == null)
+        {
+            return;
+        }
+
         GameOverManager.Instance.requestStartGameOver(new GameOverManager.GameOverStartArgs()
         {
-            
+            Score = WorkScore.score,
+            RemainingTime = WorkTime.timeLimit * WorkTime.timeRate,
         });
     }
     #endregion Method
