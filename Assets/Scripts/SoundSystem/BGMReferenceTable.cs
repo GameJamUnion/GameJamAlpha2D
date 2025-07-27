@@ -14,7 +14,6 @@ public class BGMReferenceTalble : ScriptableObject
 	[SerializeField]
 	private List<ReferenceData> m_audios;
 
-	[SerializeField]
 	private BGMPlayer m_player;
 
 	/// <summary>

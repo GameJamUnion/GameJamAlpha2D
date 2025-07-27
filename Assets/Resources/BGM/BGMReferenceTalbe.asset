@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b261573b4ee1ff48965e8a0782181a9, type: 3}
   m_Name: BGMReferenceTalbe
   m_EditorClassIdentifier: 
-  m_audios: []
+  m_audios:
+  - kind: 2
+    clip: {fileID: 8300000, guid: 45d2a47bddd4891499632c71eae8aca3, type: 3}
+  - kind: 0
+    clip: {fileID: 8300000, guid: 77b3396ad882b514f9e16325835931d4, type: 3}
