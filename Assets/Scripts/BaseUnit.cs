@@ -27,9 +27,37 @@ public class BaseUnit : MonoBehaviour
     [SerializeField] private ResumeInterface _resumeInterface;
 
     #region プロパティ
+    public int Origin
+    {
+        get { return _originID; }
+    }
     public string Name
     {
         get { return _name; }
+    }
+    public float FatigueLevel
+    {
+        get { return _fatigueLevel; }
+    }
+    public float MotivationLevel
+    {
+        get { return _motivationLevel; }
+    }
+    public float ProductionEfficiency1
+    {
+        get { return _productionEfficiency1; }
+    }
+    public float ProductionEfficiency2
+    {
+        get { return _productionEfficiency2; }
+    }
+    public float ProductionEfficiency3
+    {
+        get { return _productionEfficiency3; }
+    }
+    public float LiarIndex
+    {
+        get { return _liarIndex; }
     }
     public ResumeInterface ResumeInterface
     {
