@@ -47,7 +47,11 @@ public class GameOverGuiController : GuiControllerBase
     /// </summary>
     public void onRestartClick()
     {
+        // リスタートリクエスト
+        SceneManager.Instance.requestRestartInGame();
 
+        // ゲームオーバー画面終了
+        GameOverManager.Instance.requestEndGameOver();
     }
 
     /// <summary>
@@ -63,6 +67,7 @@ public class GameOverGuiController : GuiControllerBase
 
         void onDecide()
         {
+            // タイトルへ戻るリクエスト
             SceneManager.Instance.requestToTitle();
 
             // ゲームオーバー画面終了

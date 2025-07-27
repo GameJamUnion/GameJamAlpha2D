@@ -31,6 +31,7 @@ public class SceneManager : SingletonBase<SceneManager>
 
     #region Request
     private bool _ToTitleRequest = false;
+    private bool _RestartInGameRequest = false;
     #endregion
 
 
@@ -131,8 +132,14 @@ public class SceneManager : SingletonBase<SceneManager>
         {
             // タイトルへ戻るリクエストがあればタイトルへ移行
             nextState = new TitleSceneState();
-            _ToTitleRequest = false;
         }
+        else if (_RestartInGameRequest == true)
+        {
+            nextState = new GameStartupScene();
+        }
+
+        _ToTitleRequest = false;
+        _RestartInGameRequest = false;
 
         if (nextState != null)
         {
@@ -159,9 +166,20 @@ public class SceneManager : SingletonBase<SceneManager>
     }
 
     #region Request
+    /// <summary>
+    /// タイトルに戻る
+    /// </summary>
     public void requestToTitle()
     {
         _ToTitleRequest = true;
+    }
+
+    /// <summary>
+    /// インゲームをリスタート
+    /// </summary>
+    public void requestRestartInGame()
+    {
+        _RestartInGameRequest = true;
     }
     #endregion Request
 }
