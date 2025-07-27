@@ -9,11 +9,6 @@ public class WorkScoreDriver : MonoBehaviour {
 		m_score.Initialize();
 	}
 
-	// Update is called once per frame
-	void Update() {
-		m_score.UpdateElapsedTime(Time.deltaTime);
-	}
-
 	[ContextMenu("Add Score Test")]
 	private void AddScoreTest(){
 		m_score.AddScore(1);

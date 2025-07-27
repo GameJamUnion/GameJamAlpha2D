@@ -1,37 +1,21 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "WorkScore", menuName = "Scriptable Objects/WorkScore")]
 public class WorkScore : ScriptableObject
 {
-	public enum Type {
-		Time,
-		Score,
-	}
 	[SerializeField]
-	private int goalScore;
+	private int m_goalScore;
 
-	[SerializeField]
-	private int timeLimit;
 	public int score { get; private set; }
 	
-	public int elapsedTime { get; private set; }
+	public int goalScore => m_goalScore;
 
-	private float counter { get; set; } = 0.0f;
-
-	public WorkShopGauge timeGauge { get; private set; } = null;
 	public WorkShopGauge scoreGauge { get; private set; } = null;
 
-	/// <summary>
-	/// 時間経過
-	/// </summary>
-	/// <param name="deltaTime"></param>
-	public void UpdateElapsedTime(float deltaTime) {
-		counter += deltaTime;
-		elapsedTime = (int)counter;
+	public bool isFullScore { get { return score >= goalScore; } }
 
-		float rate = (float)(timeLimit - elapsedTime) / (float)timeLimit;
-		timeGauge?.UpdateValue(rate);
-	}
+	private UnityAction fullScoreEvent;
 
 	/// <summary>
 	/// スコアの加算
@@ -39,10 +23,15 @@ public class WorkScore : ScriptableObject
 	/// </summary>
 	/// <param name="score"></param>
 	public void AddScore(int score) {
+		if (isFullScore) { return; }
 		this.score += score;
 
 		float rate = (float)this.score / (float)goalScore;
 		scoreGauge.UpdateValue(rate);
+
+		if (isFullScore) {
+			fullScoreEvent?.Invoke();
+		}
 	}
 
 	/// <summary>
@@ -51,9 +40,6 @@ public class WorkScore : ScriptableObject
 	/// <param name="timeLimit"></param>
 	/// <param name="goalScore"></param>
 	public void Initialize() {
-		counter = 0.0f;
-		UpdateElapsedTime(0.0f);
-
 		score = 0;
 		scoreGauge?.UpdateValue((float)score / (float)goalScore);
 	}
@@ -64,15 +50,16 @@ public class WorkScore : ScriptableObject
 	/// </summary>
 	/// <param name="type"></param>
 	/// <param name="gauge"></param>
-	public void RegisterGauge(Type type, WorkShopGauge gauge) {
-		switch(type) {
-			case Type.Score:
-				scoreGauge = gauge;
-				scoreGauge.UpdateValue((float)score / (float)goalScore);
-				break;
-			case Type.Time:
-				timeGauge = gauge;
-				break;
-		}
+	public void RegisterGauge(WorkShopGauge gauge) {
+		scoreGauge = gauge;
+		scoreGauge.UpdateValue((float)score / (float)goalScore);
+	}
+
+	/// <summary>
+	/// スコアマックスになった時のイベント登録
+	/// </summary>
+	/// <param name="fullScoreEvent"></param>
+	private void RegisterFullScoreEvent(UnityAction fullScoreEvent) {
+		this.fullScoreEvent += fullScoreEvent;
 	}
 }

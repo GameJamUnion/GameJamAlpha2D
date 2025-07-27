@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89fa3605495511d488e4c5eb3cec961e, type: 3}
-  m_Name: WorkScore
+  m_Script: {fileID: 11500000, guid: c69c43d1173c01d4ca30f18e44c1f5ca, type: 3}
+  m_Name: WorkTime
   m_EditorClassIdentifier: 
-  m_goalScore: 20
+  m_timeLimit: 60
