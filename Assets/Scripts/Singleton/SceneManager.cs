@@ -13,10 +13,11 @@ public enum SceneNames :int
     Invalid = -1,
 
     Master = 0,
-    GameMastering = 1,
-    Title = 2,
-    komugi_workshop = 3,
-    dev_ozaki = 4,
+    GameMastering,
+    Title,
+    Loading,
+    komugi_workshop,
+    dev_ozaki,
 
     [Browsable(false)]
     Max_Num,

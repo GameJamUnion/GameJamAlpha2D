@@ -73,7 +73,7 @@ public class TitleSceneState : SceneStateBase
         
         if (checkInput() == true)
         {
-            return new InGameSceneState0();// インゲームシーンへ　(後々GameStartupSceneにする)
+            return new GameStartupScene();
         }
 
         return result;
@@ -105,7 +105,7 @@ public class TitleSceneState : SceneStateBase
 #region Setup
 public class GameStartupScene : SceneStateBase
 {
-    public override SceneNames[] SceneName => new SceneNames[] {};
+    public override SceneNames[] SceneName => new SceneNames[] { SceneNames.Loading };
 
     public override SceneStateBase checkNext()
     {
