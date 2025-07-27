@@ -29,19 +29,19 @@ public class WorkColorManager : MonoBehaviour
     /// <summary>
     /// カラー変更メソッド
     /// </summary>
-    public void spriteColorChange(SpriteRenderer sprite, WorkState state)
+    public void spriteColorChange(SpriteRenderer sprite, WorkCommon.WorkState state)
     {
-        if (state == WorkState.EMPTY)
+        if (state == WorkCommon.WorkState.EMPTY)
         {
             // とりあえず青色
             sprite.color = emptyColor;
         }
-        else if (state == WorkState.WORKING)
+        else if (state == WorkCommon.WorkState.WORKING)
         {
             // とりあえず緑色
             sprite.color = workingColor;
         }
-        else if (state == WorkState.BURNING)
+        else if (state == WorkCommon.WorkState.BURNING)
         {
             // とりあえず赤色
             sprite.color = burningColor;

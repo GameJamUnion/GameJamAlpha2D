@@ -29,10 +29,11 @@ public class EditWork : WorkBase
     protected override int getWorkPower()
     {
         int workPower = 0;
+        //int workPower = 50;
 
         if (workerList != null && workerList.Count > 0)
         {
-            foreach (WorkerBase worker in workerList)
+            foreach (Worker worker in workerList)
             {
                 workPower += worker.WorkPower;
             }

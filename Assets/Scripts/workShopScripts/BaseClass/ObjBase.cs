@@ -4,11 +4,6 @@ using System.Collections.Generic;
 public abstract class ObjBase : MonoBehaviour
 {
     /// <summary>
-    /// 作成物リスト
-    /// </summary>
-    protected List<Product> productList;
-
-    /// <summary>
     /// 処理計測用time変数
     /// </summary>
     private float time;
@@ -19,16 +14,9 @@ public abstract class ObjBase : MonoBehaviour
     [SerializeField]
     private float workInterval;
 
-    /// <summary>
-    /// 作業物出力先オブジェクト
-    /// </summary>
-    [SerializeField]
-    protected ObjBase outputObj;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     virtual protected void Start()
     {
-        productList = new List<Product>();
         time = 0.0f;
     }
 
@@ -57,10 +45,4 @@ public abstract class ObjBase : MonoBehaviour
     /// フレーム毎の作業実行
     /// </summary>
     protected abstract void workPerFlame();
-
-    /// <summary>
-    /// 作業物を追加する
-    /// </summary>
-    /// <param name="product"></param>
-    public abstract void addProduct(Product product);
 }

@@ -10,6 +10,10 @@ public class Product
     /// </summary>
     private int workAmount;
 
+    /// <summary>
+    /// 点数
+    /// </summary>
+    private int scorePoint;
 
     /// <summary>
     /// コンストラクタ
@@ -17,14 +21,25 @@ public class Product
     public Product()
     {
         workAmount = 100;   // TODO とりあえず100
+        scorePoint = 1;     // TODO とりあえず1
     }
 
     /// <summary>
-    /// プロパティ
+    /// 必要な作業量
     /// </summary>
     public int WorkAmount
     {
         get { return workAmount; }
         set { workAmount = value; }
     }
+
+    /// <summary>
+    /// 点数
+    /// </summary>
+    public int ScorePoint
+    {
+        get { return scorePoint; }
+        set { scorePoint = value; }
+    }
+
 }
