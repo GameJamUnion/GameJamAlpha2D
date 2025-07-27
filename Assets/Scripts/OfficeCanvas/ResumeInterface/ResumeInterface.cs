@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// 履歴書インターフェイスが持っている
 public class ResumeInterface : MonoBehaviour
 {
     [SerializeField] OfficeGameMaster _officeGameMaster;
@@ -18,6 +19,8 @@ public class ResumeInterface : MonoBehaviour
     [Header("アタッチ")]
     [SerializeField] StampCustomButton _stampCustomButton;
     [SerializeField] ResumeInterfaceCustomButton _resumeInterfaceCustomButton;
+    [SerializeField] RIStampManager _riStampManager;
+    [SerializeField] RIPlacementManager _riPlacementManager;
 
     #region プロパティ
     public BaseResume BaseResume
@@ -66,13 +69,22 @@ public class ResumeInterface : MonoBehaviour
 
         _stamp.SetActive(_baseResume.OnStamp);
         _stamp.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0f, 0f, _baseResume.StampRotation);
+
+        // セクションのUI初期化
+        RIPlacementUpdate();
     }
 
     public void OnStamp()
     {
+        // スタンプボタンが押された場合の処理
         _baseResume.OnStamp = true;
         _baseResume.OnStampProcess();
         _officeGameMaster.Employment(_baseResume.BaseUnit);
+    }
+    public void SectionChange()
+    {
+        _baseResume.BaseUnit.ChangePlacementState();
+        RIPlacementUpdate();
     }
     public void Close()
     {
@@ -84,5 +96,11 @@ public class ResumeInterface : MonoBehaviour
         Vector3 newPos = _resumeInterfaceCustomButton.CurrentMousePos - Input.mousePosition;
         // 移動距離分座標をずらす
         this.gameObject.transform.localPosition = _resumeInterfaceCustomButton.SaveRusumeInterfacePos - newPos;
+    }
+
+    // Update
+    void RIPlacementUpdate()
+    {
+        _riPlacementManager.ChangePlacementState(_baseResume.BaseUnit.PlacementState);
     }
 }

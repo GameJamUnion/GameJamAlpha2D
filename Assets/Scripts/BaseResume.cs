@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// ユニットが持ている
 public class BaseResume : MonoBehaviour
 {
     [SerializeField] BaseUnit _baseUnit;
@@ -73,6 +74,7 @@ public class BaseResume : MonoBehaviour
     }
     public void OnStampProcess()
     {
+        // 採用スタンプを押した際に発生する処理
         if (!_onStamp)
         {
             _onStamp = true;
