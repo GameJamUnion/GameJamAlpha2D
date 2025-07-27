@@ -78,6 +78,9 @@ public class GameClearManager : SingletonBase<GameClearManager>
             RemainingTime = startArgs.RemainingTime,
         });
 
+        // ƒTƒEƒ“ƒhÄ¶
+        SoundManager.Instance.requestPlaySound(BGMKind.Result);
+
         startArgs.onStartProcess?.Invoke();
     }
 

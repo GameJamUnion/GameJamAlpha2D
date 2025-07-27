@@ -13,7 +13,7 @@ public abstract class SceneStateBase
 {
     public abstract SceneNames[] SceneName { get; }
 
-    public void OnEnter()
+    public virtual void OnEnter()
     {
         for (int i = 0; i < SceneName.Length; i++)
         {
@@ -23,7 +23,7 @@ public abstract class SceneStateBase
         
     }
 
-    public void OnExit()
+    public virtual void OnExit()
     {
         for (int i = 0; i < SceneName.Length; i++)
         {
@@ -66,6 +66,13 @@ public class MasterSceneState : SceneStateBase
 public class TitleSceneState : SceneStateBase
 {
     public override SceneNames[] SceneName => new SceneNames[] { SceneNames.Title };
+
+    public override void OnEnter()
+    {
+        base.OnEnter();
+
+        SoundManager.Instance.requestPlaySound(BGMKind.Title);
+    }
 
     public override SceneStateBase checkNext()
     {
@@ -118,6 +125,12 @@ public class GameStartupScene : SceneStateBase
 #region InGame
 public abstract class InGameSceneStateBase : SceneStateBase
 {
+    public override void OnEnter()
+    {
+        base.OnEnter();
+
+        SoundManager.Instance.requestPlaySound(BGMKind.MainGame);
+    }
 }
 
 public class InGameSceneState0 : InGameSceneStateBase

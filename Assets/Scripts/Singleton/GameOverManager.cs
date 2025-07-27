@@ -84,6 +84,9 @@ public class GameOverManager : SingletonBase<GameOverManager>
             RemainingTime = startArgs.RemainingTime,
         });
 
+        // ƒTƒEƒ“ƒhÄ¶
+        SoundManager.Instance.requestPlaySound(BGMKind.Result);
+
         startArgs.onStartProcess?.Invoke();
     }
 
