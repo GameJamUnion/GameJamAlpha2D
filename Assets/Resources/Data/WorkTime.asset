@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69c43d1173c01d4ca30f18e44c1f5ca, type: 3}
   m_Name: WorkTime
   m_EditorClassIdentifier: 
-  m_timeLimit: 60
+  m_timeLimit: 180
