@@ -1,12 +1,15 @@
 using GuiUtil;
 using System.ComponentModel;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameClearGuiController : GuiControllerBase
 {
     public class  OpenParam : OpenParamBase
     {
-        
+        public int Score { get; set; } = 0;
+        public float RemainingTime { get; set; } = 0.0f;
     }
 
     public override GuiManager.GuiType GuiType => GuiManager.GuiType.GameClear;
@@ -20,6 +23,24 @@ public class GameClearGuiController : GuiControllerBase
     }
     [SerializeField]
     private GameObject _SelectPanel = null;
+
+    [DisplayName("スコア表示オブジェクト")]
+    public TextMeshProUGUI ScoreObject
+    {
+        get => _ScoreObject;
+        set => _ScoreObject = value;
+    }
+    [SerializeField]
+    private TextMeshProUGUI _ScoreObject = null;
+
+    [DisplayName("残り時間表示オブジェクト")]
+    public TextMeshProUGUI RemainingTimeObject
+    {
+        get => _RemainingTimeObject;
+        set => _RemainingTimeObject = value;
+    }
+    [SerializeField]
+    private TextMeshProUGUI _RemainingTimeObject = null;
     #endregion Property
 
     #region Field
@@ -31,6 +52,37 @@ public class GameClearGuiController : GuiControllerBase
         
     }
 
+    /// <summary>
+    /// GuiOpen時
+    /// </summary>
+    /// <param name="openParam"></param>
+    public override void onOpen(OpenParamBase openParam = null)
+    {
+        base.onOpen(openParam);
+        var param = openParam as OpenParam;
+        setParam(param);        
+    }
+    
+    /// <summary>
+    /// スコア表示を設定
+    /// </summary>
+    /// <param name="param"></param>
+    private void setParam(OpenParam param)
+    {
+        if (_ScoreObject != null)
+        {
+            _ScoreObject.text = param.Score.ToString();
+        }
+
+        if (_RemainingTimeObject != null)
+        {
+            _RemainingTimeObject.text = param.RemainingTime.ToString("F0") + "秒";
+        }
+    }
+
+    /// <summary>
+    /// GuiClose時
+    /// </summary>
     public override void onClose()
     {
         base.onClose();

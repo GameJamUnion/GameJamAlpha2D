@@ -42,9 +42,14 @@ public class GameClearRequester : MonoBehaviour
     /// </summary>
     private void startGameClear()
     {
+        if (WorkScore == null || WorkTime == null)
+        {
+            return;
+        }
         GameClearManager.Instance.requestStartGameClear(new GameClearManager.GameClearStartArgs()
         {
-            
+            Score = WorkScore.score,
+            RemainingTime = WorkTime.timeLimit * WorkTime.timeRate,
         });
     }
     #endregion Method
