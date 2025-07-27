@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class BaseUnit : MonoBehaviour
 {
-    // 名前
+    // 固有ID
+    [SerializeField] private int _originID = 0;
+    // 名前(表示名)
     [SerializeField] private string _name = "NoName";
     // 疲労度
     [SerializeField] private float _fatigueLevel = 0f;
@@ -31,11 +33,16 @@ public class BaseUnit : MonoBehaviour
     }
     public ResumeInterface ResumeInterface
     {
+        get { return _resumeInterface; }
         set { _resumeInterface = value; }
     }
     public RI.PlacementState PlacementState
     {
         get { return _placementState; }
+    }
+    public BaseResume MyResume
+    {
+        get { return _baseResume; }
     }
     #endregion
 
@@ -46,12 +53,13 @@ public class BaseUnit : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     // ユニットの初期化処理
-    public void Initialize(OfficeGameMaster officeGameMaster)
+    public void Initialize(int originID, OfficeGameMaster officeGameMaster)
     {
+        _originID = originID;
         _baseResume.SetResume(this);
         _baseResume.SetOfficeGameMaster(officeGameMaster);
         _resumeInterface.Initialize(_baseResume);
@@ -81,7 +89,7 @@ public class BaseUnit : MonoBehaviour
                 break;
         }
 
-        if(_resumeData.RankS.MinProductionEfficiency <= productionEfficiencyNum)
+        if (_resumeData.RankS.MinProductionEfficiency <= productionEfficiencyNum)
         {
             return _resumeData.RankS.ScoreStr;
         }

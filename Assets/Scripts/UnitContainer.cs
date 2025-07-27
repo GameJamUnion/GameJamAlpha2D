@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "UnitContainer", menuName = "Scriptable Objects/UnitContainer")]
 public class UnitContainer : ScriptableObject
@@ -9,17 +10,43 @@ public class UnitContainer : ScriptableObject
     private UnityAction onRemove;
 
 	private UnityAction onCall;
-   
 
-	/// <summary>
-	/// 雇用
-	/// </summary>
-	public void Hired() {
+	// オフィス側で扱っているユニット
+	private List<BaseUnit> _officeBaseUnit;
+
+    #region プロパティ
+	public List<BaseUnit> OfficeBaseUnit
+	{
+		get { return _officeBaseUnit; }
+		set { _officeBaseUnit = value; }
+	}
+    #endregion
+
+    /// <summary>
+    /// 雇用
+    /// </summary>
+    public void Hired() {
 		// 実際の処理
 
 
 		// イベント発火
 		onHired?.Invoke();
+	}
+
+	/// <summary>
+	/// 解雇
+	/// </summary>
+	public void Remove()
+	{
+		onRemove?.Invoke();
+	}
+
+	/// <summary>
+	/// 呼び出し
+	/// </summary>
+	public void Call()
+	{
+		onCall?.Invoke();
 	}
 
 	

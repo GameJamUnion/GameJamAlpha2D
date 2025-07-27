@@ -6,6 +6,10 @@ public class ResumeInterfaceManager : MonoBehaviour
     [SerializeField] private List<ResumeInterface> _resumeInterfaces;
 
     #region プロパティ
+    public List<ResumeInterface> ResumeInterfaces
+    {
+        get { return _resumeInterfaces; }
+    }
     public bool AssignInactiveResumeInterface
     {
         get
