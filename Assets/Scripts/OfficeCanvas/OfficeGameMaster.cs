@@ -24,7 +24,7 @@ public class OfficeGameMaster : MonoBehaviour
 
     public void Initialize()
     {
-        CreateUnit();
+        //CreateUnit();
     }
 
     void Update()
@@ -32,7 +32,7 @@ public class OfficeGameMaster : MonoBehaviour
         
     }
 
-    void CreateUnit()
+    public void CreateUnit()
     {
         // ŒÙ—p‚Ì‚½‚ß‚É•”‰®‚ÉŒÄ‚ÔŒÀŠEãŒÀ‚R‘Ì
         if (_reserveUnits.Count >= 3)
@@ -41,6 +41,7 @@ public class OfficeGameMaster : MonoBehaviour
         GameObject newUnit = Instantiate(_createUnitPref);
         if (newUnit == null)
             return;
+        newUnit.SetActive(true);
 
         BaseUnit newBaseUnit = newUnit.GetComponent<BaseUnit>();
 
@@ -59,6 +60,7 @@ public class OfficeGameMaster : MonoBehaviour
             newBaseUnit.transform.parent = _parentUnits.transform;
             _reserveUnits.Add(newBaseUnit);
             _baseUnits.Add(newBaseUnit);
+            newUnit.GetComponent<RectTransform>().transform.localPosition = Vector3.zero;
         }
     }
 

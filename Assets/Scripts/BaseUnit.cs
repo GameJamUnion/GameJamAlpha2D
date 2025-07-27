@@ -17,6 +17,9 @@ public class BaseUnit : MonoBehaviour
     // 嘘つき指数
     [SerializeField] private float _liarIndex = 0f;
 
+    // 配属
+    [SerializeField] private RI.PlacementState _placementState = RI.PlacementState.Section1;
+
     [SerializeField] private BaseResume _baseResume;
     [SerializeField] private ResumeData _resumeData;
     [SerializeField] private ResumeInterface _resumeInterface;
@@ -29,6 +32,10 @@ public class BaseUnit : MonoBehaviour
     public ResumeInterface ResumeInterface
     {
         set { _resumeInterface = value; }
+    }
+    public RI.PlacementState PlacementState
+    {
+        get { return _placementState; }
     }
     #endregion
 
@@ -102,6 +109,20 @@ public class BaseUnit : MonoBehaviour
         {
             return _resumeData.RankF.ScoreStr;
         }
+    }
+
+    /// <summary>
+    /// 配属先の変更
+    /// </summary>
+    public void ChangePlacementState()
+    {
+        int num = (int)_placementState;
+        num++;
+        if (num >= (int)RI.PlacementState.END)
+        {
+            num = 1;
+        }
+        _placementState = (RI.PlacementState)num;
     }
 }
 
