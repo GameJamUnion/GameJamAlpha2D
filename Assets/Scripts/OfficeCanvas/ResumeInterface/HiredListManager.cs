@@ -15,6 +15,10 @@ public class HiredListManager : MonoBehaviour
 
     }
 
+    public void SetDefault()
+    {
+        _hiredList.SetDefault();
+    }
     // Update
     public void HiredListUpdate()
     {

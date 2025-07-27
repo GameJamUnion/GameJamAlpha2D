@@ -62,6 +62,16 @@ public class ResumeInterface : MonoBehaviour
         }
     }
 
+    public void SetDefault()
+    {
+        _tName.text = "NoData";
+        _tSection1Rank.text = "-No Data-";
+        _tSection2Rank.text = "-No Data-";
+        _tSection3Rank.text = "-No Data-";
+        _riPlacementManager.ChangePlacementState(RI.PlacementState.NONE);
+        _stamp.SetActive(false);
+    }
+
     private void SetResumeInterface()
     {
         gameObject.SetActive(_active);

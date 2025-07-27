@@ -21,11 +21,25 @@ public class RIPlacementManager : MonoBehaviour
     {
         _placementState = newState;
 
+
         foreach (var section in _tSections)
         {
             section.SetActive(false);
         }
-        _tSections[Mathf.Clamp((int)newState - 1, 0, (int)RI.PlacementState.END - 1)].SetActive(true);
+        switch (newState)
+        {
+            case RI.PlacementState.NONE:
+                Debug.Log("Ç›ÇÒÇ»Ç¢Ç»Ç≠Ç»Ç¡ÇøÇ·Ç¡ÇΩÉlèŒ");
+                break;
+
+            case RI.PlacementState.END:
+                Debug.Log("Ç±Ç±Ç÷ÇÕóàÇƒÇÕÇ¢ÇØÇ»Ç¢ÅB");
+                break;
+
+            default:
+                _tSections[Mathf.Clamp((int)newState - 1, 0, (int)RI.PlacementState.END - 1)].SetActive(true);
+                break;
+        }
     }
 }
 

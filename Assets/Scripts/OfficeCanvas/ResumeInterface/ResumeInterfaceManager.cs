@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class ResumeInterfaceManager : MonoBehaviour
 {
@@ -43,5 +44,16 @@ public class ResumeInterfaceManager : MonoBehaviour
 
         Debug.Log("ResumeInterface‚Ì”‚ª‘«‚è‚È‚¢YO");
         return null;
+    }
+    public int GetInactiveResumeInterfaceCount()
+    {
+        int count = 0;
+        foreach (var item in _resumeInterfaces)
+        {
+            if (item.Active)
+                count++;
+        }
+
+        return count;
     }
 }

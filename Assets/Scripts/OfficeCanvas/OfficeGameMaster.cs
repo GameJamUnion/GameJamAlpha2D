@@ -1,6 +1,7 @@
-using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
+using UnityEngine;
 
 public class OfficeGameMaster : MonoBehaviour
 {
@@ -63,9 +64,9 @@ public class OfficeGameMaster : MonoBehaviour
         // ユニットのステータスをランダム化
         newBaseUnit.SetState(
             _nameTable.Names[Random.Range(0, 20000) % _nameTable.Names.Count],
-            Random.Range(0f, 2f),
-            Random.Range(0f, 2f),
-            Random.Range(0f, 2f)
+            Random.Range(-2f, 2f),
+            Random.Range(-2f, 2f),
+            Random.Range(-2f, 2f)
             );
 
         if (newBaseUnit == null)// 失敗
@@ -79,6 +80,7 @@ public class OfficeGameMaster : MonoBehaviour
         if (_resumeInterfaceManager.AssignInactiveResumeInterface)
         {
             newBaseUnit.ResumeInterface = _resumeInterfaceManager.GetInactiveResumeInterface();
+            newBaseUnit.ResumeInterface.gameObject.GetComponent<RectTransform>().transform.localPosition = new Vector3(10f * ((float)_resumeInterfaceManager.GetInactiveResumeInterfaceCount() - 1f), 10f * ((float)_resumeInterfaceManager.GetInactiveResumeInterfaceCount() - 1), 0f);
             newBaseUnit.Initialize(_nextID, this);
             _nextID++;
             newBaseUnit.transform.parent = _parentUnits.transform;
@@ -112,6 +114,9 @@ public class OfficeGameMaster : MonoBehaviour
     // 呼び出し処理
     public void Call()
     {
+        if (_baseUnits.Count <= 0)
+            return;
+
         foreach (var item in _inRoomUnits)
         {
             if(item.Origin == _selectUnit.Origin)
@@ -136,6 +141,39 @@ public class OfficeGameMaster : MonoBehaviour
         _unitContainer.Call(_selectUnit);
         _inRoomUnits.Add(_selectUnit);
         _selectUnit.gameObject.SetActive(true);
+    }
+    // 解雇
+    public void Fire()
+    {
+        // ユニットが存在しない場合終了
+        if (_baseUnits.Count == 0)
+            return;
+
+        // 部屋にいない場合終了
+        if (!_inRoomUnits.Contains(_selectUnit))
+            return;
+
+        // 次のユニットに渡る処理
+        int no = _baseUnits.IndexOf(_selectUnit);
+        _baseUnits.Remove(_selectUnit);
+        _inRoomUnits.Remove(_selectUnit);
+         if (no >= _baseUnits.Count)
+        {
+            no = 0;
+        }
+        Destroy(_selectUnit.gameObject);
+        if(_baseUnits.Count != 0)
+        {
+            // 抜いた状態の雇用リストに変更
+            _selectUnit = _baseUnits[no];
+            // 更新
+            _hiredListManager.HiredListUpdate();
+        }
+        else
+        {
+            // 何も表示されていない状態に変更
+            _hiredListManager.SetDefault();
+        }
     }
 
     // SelectUnit関連
