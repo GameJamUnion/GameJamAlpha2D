@@ -625,9 +625,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c564cc28946a2438ff98982546ebfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  workerPrefab: {fileID: 2250903242938854983, guid: 66f466f7b7a35694881dfbd92f9bbfc4, type: 3}
+  workerPrefab: {fileID: 2825300826785006975, guid: 66f466f7b7a35694881dfbd92f9bbfc4, type: 3}
   workManager: {fileID: 229329137}
-  UnitRootTrans: {fileID: 1745313118}
+  unitRootTrans: {fileID: 1745313118}
   unitContainer: {fileID: 11400000, guid: 6d20c0998ac4d0b409f4cf4a16e96985, type: 2}
 --- !u!4 &1131180583
 Transform:
