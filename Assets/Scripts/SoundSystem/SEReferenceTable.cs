@@ -10,7 +10,6 @@ public class SEReferenceTable : ScriptableObject
 		public AudioClip clip;
 	}
 
-
 	[SerializeField]
 	private List<ReferenceData> m_audios;
 
@@ -39,12 +38,12 @@ public class SEReferenceTable : ScriptableObject
 	/// </summary>
 	/// <param name="kind"></param>
 	/// <param name="isLoop"></param>
-	public void PlaySE(SEKind kind, bool isLoop = false) {
+	public void PlaySE(SEKind kind, bool isLoop = false, float volume = 1.0f) {
 		if (isLoop) {
-			m_player?.PlayLoopSE(kind);
+			m_player?.PlayLoopSE(kind, volume);
 		}
 		else {
-			m_player?.PlaySE(kind);
+			m_player?.PlaySE(kind, volume);
 		}
 	}
 
@@ -64,4 +63,5 @@ public enum SEKind {
 	DoorOpen,
 	Paper,
 	MachineWork,
+	Watch,
 }

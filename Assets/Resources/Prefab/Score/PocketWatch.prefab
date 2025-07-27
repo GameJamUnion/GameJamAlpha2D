@@ -128,6 +128,8 @@ MonoBehaviour:
   m_minuteHand: {fileID: 3078650178372840031}
   m_watchBoard: {fileID: 4453210679860018748}
   m_workTime: {fileID: 11400000, guid: 5f684e5fa59a2be4c9c547c3f4e98eef, type: 2}
+  m_seTable: {fileID: 11400000, guid: 9c398f7c7c5cf1d498ce888b1dc98c4d, type: 2}
+  m_seVolume: 0.17
   m_offset: 0
 --- !u!1 &7505771704904390682
 GameObject:

@@ -21,7 +21,7 @@ public class SEPlayer : MonoBehaviour
 	/// SEの再生
 	/// </summary>
 	/// <param name="kind"></param>
-	public void PlaySE(SEKind kind) {
+	public void PlaySE(SEKind kind, float volume) {
 		if (m_seTable == null) {
 #if UNITY_EDITOR
 			Debug.LogError("Not Reference SE Table");
@@ -33,6 +33,7 @@ public class SEPlayer : MonoBehaviour
 			return;
 		}
 
+		m_audioSource.volume = volume;
 		m_audioSource.PlayOneShot(m_seTable.audioMap[kind]);
 	}
 
@@ -40,7 +41,7 @@ public class SEPlayer : MonoBehaviour
 	/// SEの再生
 	/// </summary>
 	/// <param name="kind"></param>
-	public void PlayLoopSE(SEKind kind) {
+	public void PlayLoopSE(SEKind kind, float volume) {
 		if (m_seTable == null) {
 #if UNITY_EDITOR
 			Debug.LogError("Not Reference SE Table");
@@ -58,8 +59,10 @@ public class SEPlayer : MonoBehaviour
 
 		loopPlayer.loop = true;
 		loopPlayer.clip = m_seTable.audioMap[kind];
+		loopPlayer.volume = volume;
 		loopPlayer.Play();
 	}
+
 
 	/// <summary>
 	/// 再生終了
@@ -100,16 +103,16 @@ public class SEPlayer : MonoBehaviour
 	/// テーブルの初期化
 	/// </summary>
 	private void Start() {
-		m_seTable.Initialize();
+		m_seTable.Initialize(this);
 	}
 
 	[ContextMenu("Test Play")]
 	private void TestPlay() {
-		PlaySE(SEKind.MachineWork);
+		PlaySE(SEKind.MachineWork, 1.0f);
 	}
 
 	[ContextMenu("Test Play Loop")]
 	private void TestPlayLoop() {
-		PlayLoopSE(SEKind.MachineWork);
+		PlayLoopSE(SEKind.MachineWork, 1.0f);
 	}
 }
