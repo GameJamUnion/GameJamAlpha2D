@@ -59,7 +59,7 @@ public class WorkScore : ScriptableObject
 	/// スコアマックスになった時のイベント登録
 	/// </summary>
 	/// <param name="fullScoreEvent"></param>
-	private void RegisterFullScoreEvent(UnityAction fullScoreEvent) {
+	public void RegisterFullScoreEvent(UnityAction fullScoreEvent) {
 		this.fullScoreEvent += fullScoreEvent;
 	}
 }
