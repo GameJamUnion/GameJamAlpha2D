@@ -47,7 +47,17 @@ public abstract class SceneStateBase
     }
 }
 #endregion Base
-
+#region Master
+public class MasterSceneState : SceneStateBase
+{
+    public override SceneNames[] SceneName => new SceneNames[] { SceneNames.Master};
+    public override SceneStateBase checkNext()
+    {
+        // ƒ^ƒCƒgƒ‹‚Ö
+        return new TitleSceneState();
+    }
+}
+#endregion
 #region Title
 
 /// <summary>

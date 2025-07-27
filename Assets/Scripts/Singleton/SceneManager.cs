@@ -36,22 +36,21 @@ public class SceneManager : SingletonBase<SceneManager>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void SceneInitialized()
     {
-        SceneNames StartupSceneName = SceneNames.Title;
         var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
         var sceneCount = (int)SceneNames.Max_Num;
+        
+        // 常駐シーンをロード
+        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(SceneNames.GameMastering.ToString(), LoadSceneMode.Additive);
+
+
+
         for (int i = 0; i < sceneCount; i++)
         {
             var sceneName = (SceneNames)i;
             if (scene.name == sceneName.ToString())
             {
                 var loadScene = sceneName;
-                if (sceneName == SceneNames.Master)
-                {
-                    // Masterシーン開始は指定シーンから開始
-                    loadScene = StartupSceneName;
-                }
-
-                SceneManager.Instance.setDefaultSceneState(loadScene, loadScene != sceneName);
+                SceneManager.Instance.setDefaultSceneState(loadScene);
                 return;
             }
         }
@@ -60,6 +59,11 @@ public class SceneManager : SingletonBase<SceneManager>
 
     public void loadScene(SceneNames sceneName)
     {
+        var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        if (scene.name == sceneName.ToString())
+        {
+            return;
+        }
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName.ToString(), LoadSceneMode.Additive);
     }
 
@@ -72,7 +76,7 @@ public class SceneManager : SingletonBase<SceneManager>
     /// 開始シーンステートを設定
     /// </summary>
     /// <param name="sceneName"></param>
-    private void setDefaultSceneState(SceneNames sceneName, bool loadRequest)
+    private void setDefaultSceneState(SceneNames sceneName)
     {
         var states = System.Reflection.Assembly.GetAssembly(typeof(SceneStateBase))
             .GetTypes().Where(x => x.IsSubclassOf(typeof(SceneStateBase)) && !x.IsAbstract).ToArray();
@@ -81,18 +85,13 @@ public class SceneManager : SingletonBase<SceneManager>
         {
             var state = (SceneStateBase)System.Activator.CreateInstance(states[i]);
 
-            // HACK : シーンが複数ある場合微妙
-            // TODO : 今のシーンを被る場合アンロードする？
-            if (state.SceneName[0] == sceneName)
+            // 指定シーンをロードする
+            if (state.SceneName.Contains(sceneName))
             {
                 _CurrentState = state;
                 _CurrentScene = state.SceneName;
 
-                // 開始シーンとロード対象シーンが違えばロード処理呼び出す
-                if (loadRequest)
-                {
-                    _CurrentState.OnEnter();
-                }
+                _CurrentState.OnEnter();
                 return;
             }
         }

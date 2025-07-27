@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Develop/komugi_workshop.unity
     guid: b6049afc9ab24144b8f9830fded743b8
+  - enabled: 1
+    path: Assets/Scenes/Develop/dev_ozaki.unity
+    guid: f987f7fcd49900d44a7e407783750eb9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
