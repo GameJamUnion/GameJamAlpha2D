@@ -25,6 +25,7 @@ public class StampCustomButton : BaseCustomButton
         {
             _resumeInterface.OnStamp();
             _stampAnimation.AnimationActive();
+            base.PointExit();
         }
     }
 }

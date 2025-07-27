@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResumeInterfaceCustomButton : BaseCustomButton
 {
     [Header("アタッチ")]
     [SerializeField] ResumeInterface _resumeInterface;
+    [SerializeField] Image _hiredListImage;
+    [SerializeField] bool _hiredListImageActive = true;
 
     [Header("長押し")]
     [SerializeField] bool _holdTap = false;
@@ -55,18 +58,22 @@ public class ResumeInterfaceCustomButton : BaseCustomButton
     public override void PointDown()
     {
         _holdTap = true;
+        if (_hiredListImageActive)
+            _hiredListImage.raycastTarget = true;
         _currentMousePos = Input.mousePosition;
         _saveRusumeInterfacePos = _resumeInterface.GetComponent<RectTransform>().localPosition;
         _doubleTapTimer = 0f;
         if (_doubleTapTimer <= _maxDoubleTapTime)
         {
             _doubleTap = true;
-            _resumeInterface.Close();
+            //_resumeInterface.Close();
         }
         base.PointDown();
     }
     public void PointUp()
     {
         _holdTap = false;
+        if (_hiredListImageActive)
+            _hiredListImage.raycastTarget = false;
     }
 }
