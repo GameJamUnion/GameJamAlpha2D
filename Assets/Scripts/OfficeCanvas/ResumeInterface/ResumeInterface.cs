@@ -31,6 +31,10 @@ public class ResumeInterface : MonoBehaviour
     {
         get { return _active; }
     }
+    public bool HoldFlg
+    {
+        get { return _resumeInterfaceCustomButton.HoldTap; }
+    }
     #endregion
 
     private void Update()
@@ -79,7 +83,6 @@ public class ResumeInterface : MonoBehaviour
         // スタンプボタンが押された場合の処理
         _baseResume.OnStamp = true;
         _baseResume.OnStampProcess();
-        _officeGameMaster.Employment(_baseResume.BaseUnit);
     }
     public void SectionChange()
     {
@@ -88,7 +91,7 @@ public class ResumeInterface : MonoBehaviour
     }
     public void Close()
     {
-        
+        _active = false;
     }
     public void Hold()
     {
@@ -96,6 +99,13 @@ public class ResumeInterface : MonoBehaviour
         Vector3 newPos = _resumeInterfaceCustomButton.CurrentMousePos - Input.mousePosition;
         // 移動距離分座標をずらす
         this.gameObject.transform.localPosition = _resumeInterfaceCustomButton.SaveRusumeInterfacePos - newPos;
+    }
+    public void Rejected()
+    {
+        _active = false;
+        gameObject.SetActive(false);
+
+        _officeGameMaster.Reject(_baseResume.BaseUnit);
     }
 
     // Update

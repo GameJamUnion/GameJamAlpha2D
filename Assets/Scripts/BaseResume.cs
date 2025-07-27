@@ -78,7 +78,6 @@ public class BaseResume : MonoBehaviour
         if (!_onStamp)
         {
             _onStamp = true;
-            _officeGameMaster.Employment(_baseUnit);
             _stampRotaion = Random.Range(-10f, 10f);
         }
     }

@@ -25,7 +25,7 @@ public class RIPlacementManager : MonoBehaviour
         {
             section.SetActive(false);
         }
-        _tSections[(int)newState - 1].SetActive(true);
+        _tSections[Mathf.Clamp((int)newState - 1, 0, (int)RI.PlacementState.END - 1)].SetActive(true);
     }
 }
 
