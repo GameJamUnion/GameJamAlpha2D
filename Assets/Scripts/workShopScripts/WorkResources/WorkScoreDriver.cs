@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class WorkScoreDriver : MonoBehaviour {
 	[SerializeField]
 	private WorkScore m_score;
