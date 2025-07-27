@@ -714,6 +714,34 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3720327009219350647, guid: 61033cbc6bfb7734eb9b987f357a6b45, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720327009219350647, guid: 61033cbc6bfb7734eb9b987f357a6b45, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720327009219350647, guid: 61033cbc6bfb7734eb9b987f357a6b45, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1201604595}
+    - target: {fileID: 3720327009219350647, guid: 61033cbc6bfb7734eb9b987f357a6b45, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720327009219350647, guid: 61033cbc6bfb7734eb9b987f357a6b45, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Call
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720327009219350647, guid: 61033cbc6bfb7734eb9b987f357a6b45, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: OfficeGameMaster, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720327009219350647, guid: 61033cbc6bfb7734eb9b987f357a6b45, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5880939987105740617, guid: 61033cbc6bfb7734eb9b987f357a6b45, type: 3}
       propertyPath: _exitColor.b
       value: 1
@@ -1543,7 +1571,7 @@ MonoBehaviour:
   _resumeInterfaceManager: {fileID: 1555793229}
   _hiredListManager: {fileID: 1555793230}
   _baseUnits: []
-  _reserveUnits: []
+  _inRoomUnits: []
   _selectUnit: {fileID: 0}
   _nextID: 0
   _unitContainer: {fileID: 11400000, guid: 6d20c0998ac4d0b409f4cf4a16e96985, type: 2}
@@ -2487,7 +2515,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1691199521
 RectTransform:
   m_ObjectHideFlags: 0

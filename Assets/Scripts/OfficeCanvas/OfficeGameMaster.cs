@@ -12,7 +12,8 @@ public class OfficeGameMaster : MonoBehaviour
 
     [Header("生成")]
     [SerializeField] List<BaseUnit> _baseUnits;
-    [SerializeField] List<BaseUnit> _reserveUnits;
+    //[SerializeField] List<BaseUnit> _reserveUnits;
+    [SerializeField] List<BaseUnit> _inRoomUnits;
 
     [Header("選択")]
     [SerializeField] BaseUnit _selectUnit;
@@ -24,10 +25,10 @@ public class OfficeGameMaster : MonoBehaviour
     [SerializeField] UnitContainer _unitContainer;
 
     #region プロパティ
-    public List<BaseUnit> ReserveUnits
-    {
-        get { return _reserveUnits; }
-    }
+    //public List<BaseUnit> ReserveUnits
+    //{
+    //    get { return _reserveUnits; }
+    //}
     public BaseUnit SelectUnit
     {
         get { return _selectUnit; }
@@ -47,7 +48,7 @@ public class OfficeGameMaster : MonoBehaviour
     public void CreateUnit()
     {
         // 雇用のために部屋に呼ぶ限界上限３体
-        if (_reserveUnits.Count >= 3)
+        if (_inRoomUnits.Count >= 3)
             return;
 
         GameObject newUnit = Instantiate(_createUnitPref);
@@ -71,7 +72,7 @@ public class OfficeGameMaster : MonoBehaviour
             newBaseUnit.Initialize(_nextID, this);
             _nextID++;
             newBaseUnit.transform.parent = _parentUnits.transform;
-            _reserveUnits.Add(newBaseUnit);
+            _inRoomUnits.Add(newBaseUnit);
             newUnit.GetComponent<RectTransform>().transform.localPosition = Vector3.zero;
         }
     }
@@ -86,7 +87,7 @@ public class OfficeGameMaster : MonoBehaviour
             _hiredListManager.HiredListUpdate();// 更新
         }
         baseUnit.ResumeInterface.Close();
-        _reserveUnits.Remove(baseUnit);// リザーブから消去
+        _inRoomUnits.Remove(baseUnit);// 部屋から退出
         baseUnit.ResumeInterface.gameObject.SetActive(false);// 非表示に変更
         baseUnit.gameObject.SetActive(false);// とりあえず雇ったら非表示
 
@@ -95,13 +96,36 @@ public class OfficeGameMaster : MonoBehaviour
     }
     public void Reject(BaseUnit baseUnit)
     {
-        _reserveUnits.Remove(baseUnit);// リザーブから消去
+        _inRoomUnits.Remove(baseUnit);// 部屋から退出
         Destroy(baseUnit.gameObject);// Unitの削除
     }
     // 呼び出し処理
     public void Call()
     {
+        foreach (var item in _inRoomUnits)
+        {
+            if(item.Origin == _selectUnit.Origin)
+            {
+                // すでに呼び出されている
+                Debug.Log("元の作業場に戻りなさい。");
+                _unitContainer.CallBack(_selectUnit);
+                _inRoomUnits.Remove(_selectUnit);
+                _selectUnit.gameObject.SetActive(false);
+                return;
+            }
+        }
+        
+        Debug.Log("今すぐ執務室に来なさい。");
+        // 入室制限
+        if (_inRoomUnits.Count >= 3)
+        {
+            return;
+        }
 
+        // ※瞬間的に呼び出される
+        _unitContainer.Call(_selectUnit);
+        _inRoomUnits.Add(_selectUnit);
+        _selectUnit.gameObject.SetActive(true);
     }
 
     // SelectUnit関連
