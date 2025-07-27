@@ -23,6 +23,8 @@ public class OfficeGameMaster : MonoBehaviour
 
     [Header("UnitContainer")]
     [SerializeField] UnitContainer _unitContainer;
+    [Header("NameTable")]
+    [SerializeField] NameTable _nameTable;
 
     #region プロパティ
     //public List<BaseUnit> ReserveUnits
@@ -57,6 +59,14 @@ public class OfficeGameMaster : MonoBehaviour
         newUnit.SetActive(true);
 
         BaseUnit newBaseUnit = newUnit.GetComponent<BaseUnit>();
+
+        // ユニットのステータスをランダム化
+        newBaseUnit.SetState(
+            _nameTable.Names[Random.Range(0, 20000) % _nameTable.Names.Count],
+            Random.Range(0f, 2f),
+            Random.Range(0f, 2f),
+            Random.Range(0f, 2f)
+            );
 
         if (newBaseUnit == null)// 失敗
         {
@@ -154,5 +164,17 @@ public class OfficeGameMaster : MonoBehaviour
         }
         _selectUnit = _baseUnits[no];
         _hiredListManager.HiredListUpdate();
+    }
+
+    public bool AmIInTheRoom(BaseUnit baseUnit)
+    {
+        foreach (var item in _inRoomUnits)
+        {
+            if(item.Origin == baseUnit.Origin)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

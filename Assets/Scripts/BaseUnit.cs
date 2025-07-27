@@ -92,6 +92,14 @@ public class BaseUnit : MonoBehaviour
         _baseResume.SetOfficeGameMaster(officeGameMaster);
         _resumeInterface.Initialize(_baseResume);
     }
+    // ステータス設定
+    public void SetState(string name,float productionEfficiency1,float productionEfficiency2,float productionEfficiency3)
+    {
+        _name = name;
+        _productionEfficiency1 = productionEfficiency1;
+        _productionEfficiency2 = productionEfficiency2;
+        _productionEfficiency3 = productionEfficiency3;
+    }
 
     // 各適正のうち１つを指定して表示するテキストに変更する処理 float > string
     public string GetProductionEfficiencyRank(ProductionEfficiency productionEfficiency)

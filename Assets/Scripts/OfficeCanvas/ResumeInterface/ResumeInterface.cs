@@ -75,7 +75,7 @@ public class ResumeInterface : MonoBehaviour
         _stamp.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0f, 0f, _baseResume.StampRotation);
 
         // ÉZÉNÉVÉáÉìÇÃUIèâä˙âª
-        RIPlacementUpdate();
+        RIPlacementUpdate(true);
     }
 
     public void OnStamp()
@@ -87,7 +87,7 @@ public class ResumeInterface : MonoBehaviour
     public void SectionChange()
     {
         _baseResume.BaseUnit.ChangePlacementState();
-        RIPlacementUpdate();
+        RIPlacementUpdate(false);
     }
     public void Close()
     {
@@ -109,8 +109,15 @@ public class ResumeInterface : MonoBehaviour
     }
 
     // Update
-    void RIPlacementUpdate()
+    void RIPlacementUpdate(bool init)
     {
-        _riPlacementManager.ChangePlacementState(_baseResume.BaseUnit.PlacementState);
+        if (_officeGameMaster.AmIInTheRoom(_baseResume.BaseUnit) || init)
+        {
+            _riPlacementManager.ChangePlacementState(_baseResume.BaseUnit.PlacementState);
+        }
+        else
+        {
+            Debug.Log("ç°ïîâÆÇ…Ç¢Ç»Ç¢Ç©ÇÁÇ‹Ç∏ÇÕåƒÇŒÇ»Ç¢Ç∆...");
+        }
     }
 }

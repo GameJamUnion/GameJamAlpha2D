@@ -1575,6 +1575,7 @@ MonoBehaviour:
   _selectUnit: {fileID: 0}
   _nextID: 0
   _unitContainer: {fileID: 11400000, guid: 6d20c0998ac4d0b409f4cf4a16e96985, type: 2}
+  _nameTable: {fileID: 11400000, guid: 5f1b26d26419e734a849475b21e88705, type: 2}
 --- !u!1 &1228862419
 GameObject:
   m_ObjectHideFlags: 0
