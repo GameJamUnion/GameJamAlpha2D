@@ -28,6 +28,16 @@ public class BGMReferenceTalble : ScriptableObject
 	public bool isInitialize { get; private set; } = false;
 
 	/// <summary>
+	/// BGM‚ÌÄ¶
+	/// </summary>
+	/// <param name="kind"></param>
+	/// <param name="crossFade"></param>
+	/// <param name="offset"></param>
+	public void PlayBGM(BGMKind kind, float crossFade = 2.0f, float offset = 1.0f) {
+		m_player?.PlayBGM(kind, crossFade, offset);
+	}
+
+	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
 	public void Initialize(BGMPlayer player) {
