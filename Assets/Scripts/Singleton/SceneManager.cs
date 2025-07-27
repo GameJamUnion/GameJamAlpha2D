@@ -135,7 +135,7 @@ public class SceneManager : SingletonBase<SceneManager>
         }
         else if (_RestartInGameRequest == true)
         {
-            nextState = new GameStartupScene();
+            nextState = new GameLoadScene();
         }
 
         _ToTitleRequest = false;

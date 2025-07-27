@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
 
 
 #region Base
@@ -80,7 +83,7 @@ public class TitleSceneState : SceneStateBase
         
         if (checkInput() == true)
         {
-            return new GameStartupScene();
+            return new GameLoadScene();
         }
 
         return result;
@@ -110,14 +113,96 @@ public class TitleSceneState : SceneStateBase
 #endregion Title
 
 #region Setup
-public class GameStartupScene : SceneStateBase
+public class GameLoadScene : SceneStateBase
 {
     public override SceneNames[] SceneName => new SceneNames[] { SceneNames.Loading };
 
+    public class PreLoadOperationWork
+    {
+        public AsyncOperation Operation;
+    }
+
+    private List<PreLoadOperationWork> _OperationWork = new List<PreLoadOperationWork>(4);
+    private float _CurrentProgressRate = 0f;
+
+    public override void OnEnter()
+    {
+        base.OnEnter();
+
+        var startScene = getStartInGameScene();
+        if (startScene != null)
+        {
+            var preLoadScene = startScene.SceneName;
+            var sceneCount = preLoadScene.Length;
+            if (sceneCount > 0)
+            {
+                for (int i = 0; i < sceneCount; i++)
+                {
+                    var scene = preLoadScene[i];
+                    var work = new PreLoadOperationWork();
+                    work.Operation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(scene.ToString(), LoadSceneMode.Additive);
+                    _OperationWork.Add(work);
+                }
+            }
+            
+        }
+
+        PauseManager.Instance.requestStartPause(new PauseManager.PauseRequestArgs()
+        {
+            Owner = this.GetType(),
+            Type = PauseType.InGamePause,
+        });
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+        PauseManager.Instance.requestEndPause(this.GetType());
+        _OperationWork.Clear();
+    }
+
     public override SceneStateBase checkNext()
     {
-        // インゲームシーンへ
+        updateWork();
+
+        if (_CurrentProgressRate >= 1f)
+        {
+            // インゲームシーンへ
+            return new InGameSceneState0();
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// 開始インゲームシーンを取得
+    /// </summary>
+    /// <returns></returns>
+    public InGameSceneStateBase getStartInGameScene()
+    {
         return new InGameSceneState0();
+    }
+
+
+    /// <summary>
+    /// OperationWorkの更新
+    /// </summary>
+    private void updateWork()
+    {
+        var count = _OperationWork.Count;
+        if (count == 0)
+        {
+            _CurrentProgressRate = 1f;
+            return;
+        }
+
+        var rateSum = 0f;
+        for (int i = 0; i < count; i++)
+        {
+            var work = _OperationWork[i];
+            rateSum += work.Operation.progress;
+        }
+
+        _CurrentProgressRate = rateSum / (float)count;
     }
 }
 #endregion
