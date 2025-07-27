@@ -14,6 +14,11 @@ public class WorkManager : MonoBehaviour
     private List<WorkBase> workList;
 
     /// <summary>
+    /// ì‹ÆˆõƒŠƒXƒg
+    /// </summary>
+    private List<Worker> workerList;
+
+    /// <summary>
     /// w’è‚Ìì‹Æê‚ğæ“¾‚·‚é
     /// </summary>
     /// <param name="placementState"></param>

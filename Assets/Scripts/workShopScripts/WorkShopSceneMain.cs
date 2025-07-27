@@ -24,10 +24,16 @@ public class WorkShopSceneMain : MonoBehaviour
     private Transform unitRootTrans;
 
     /// <summary>
-    /// 
+    /// ユニット
     /// </summary>
     [SerializeField]
     private UnitContainer unitContainer;
+
+    /// <summary>
+    /// 作業力倍率
+    /// </summary>
+    [SerializeField]
+    private float workPowerRate;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     virtual protected void Start()
@@ -126,6 +132,13 @@ public class WorkShopSceneMain : MonoBehaviour
                 break;
 
         }
+
+        if (workPower < 0.0f)
+        {
+            workPower = 0.0f;
+        }
+
+        workPower = workPower * workPowerRate;
 
         return workPower;
     }

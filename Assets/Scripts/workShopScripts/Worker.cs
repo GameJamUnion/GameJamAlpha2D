@@ -23,13 +23,11 @@ public class Worker : ObjBase
     override protected void Start()
     {
         base.Start();
-
-        WorkDataManager.Instance.registerWorker(this);
     }
 
     private void OnDestroy()
     {
-        WorkDataManager.Instance.unregisterWorker(this);
+
     }
 
     /// <summary>
@@ -64,41 +62,5 @@ public class Worker : ObjBase
     { 
         get { return workPower; } 
         set { workPower = value; } 
-    }
-
-    /// <summary>
-    /// 自身のゲームオブジェクトを削除する
-    /// </summary>
-    public void destroyThis()
-    {
-        //Destroy(gameObject);
-        WorkDataManager.Instance.destroy(this);
-    }
-}
-
-public class WorkDataManager : SingletonBase<WorkDataManager>
-{
-    List<Worker> _Workers = new List<Worker>(16);
-
-    public void registerWorker(Worker obj)
-    {
-        _Workers.Add(obj);
-    }
-
-    public void unregisterWorker(Worker obj)
-    {
-        _Workers.Remove(obj);
-    }
-
-    public void destroy(Worker obj)
-    {
-        if (_Workers.Contains(obj))
-        {
-            if (obj != null)
-            {
-                GameObject.Destroy(obj.gameObject);
-                unregisterWorker(obj);
-            }
-        }        
     }
 }
