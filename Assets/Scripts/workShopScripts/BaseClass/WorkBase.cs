@@ -124,7 +124,10 @@ public abstract class WorkBase : StageObjBase
 
             foreach (Worker worker in removeList)
             {
-                worker.destroyThis();
+                if (worker != null)
+                {
+                    destroyGameObj(worker.gameObject);
+                }
                 workerList.Remove(worker);
             }
         }
@@ -174,25 +177,28 @@ public abstract class WorkBase : StageObjBase
     /// </summary>
     private void updateWorkState()
     {
-        if (productList.Count == 0 && workingProduct == null)
+        if (productList != null)
         {
-            workState = WorkCommon.WorkState.EMPTY;
-        }
-        else if (productList.Count > burningCount)
-        {
-            workState = WorkCommon.WorkState.BURNING;
-        }
-        else if (workingProduct != null || productList.Count != 0)
-        {
-            workState = WorkCommon.WorkState.WORKING;
-        }
-        else
-        {
-            // 入ることはないはず
-            workState = WorkCommon.WorkState.EMPTY;
-        }
+            if (productList.Count == 0 && workingProduct == null)
+            {
+                workState = WorkCommon.WorkState.EMPTY;
+            }
+            else if (productList.Count > burningCount)
+            {
+                workState = WorkCommon.WorkState.BURNING;
+            }
+            else if (workingProduct != null || productList.Count != 0)
+            {
+                workState = WorkCommon.WorkState.WORKING;
+            }
+            else
+            {
+                // 入ることはないはず
+                workState = WorkCommon.WorkState.EMPTY;
+            }
 
-        workColorManager.spriteColorChange(sprite, workState);
+            workColorManager.spriteColorChange(sprite, workState);
+        }
     }
 
     /// <summary>
@@ -226,6 +232,14 @@ public abstract class WorkBase : StageObjBase
                 productList.RemoveAt(0);
             }
         }
+    }
+
+    /// <summary>
+    /// 指定のオブジェクトを削除する
+    /// </summary>
+    private void destroyGameObj(GameObject gameObject)
+    {
+        GameObject.Destroy(gameObject);
     }
 
     /// <summary>
