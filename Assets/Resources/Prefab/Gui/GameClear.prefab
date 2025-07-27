@@ -61,7 +61,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 999
   m_TargetDisplay: 0
 --- !u!114 &6908571924147402258
 MonoBehaviour:
@@ -285,8 +285,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34cd6da995d0f6d4a83afdb0903fb863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _GuiPanelObject: []
-  _SelectPanel: {fileID: 0}
+  _GuiPanelObject:
+  - {fileID: 6350561410868080260}
+  _SelectPanel: {fileID: 4903070211270585485}
 --- !u!114 &6096494659817665072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +300,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725d713e14a1aff41969613cfb45d550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _WorkTime: {fileID: 11400000, guid: 5f684e5fa59a2be4c9c547c3f4e98eef, type: 2}
+  _WorkScore: {fileID: 11400000, guid: 3f77c20b27896be429db014f644342d2, type: 2}
 --- !u!1 &6350561410868080260
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,11 +574,56 @@ PrefabInstance:
       propertyPath: m_Name
       value: SelectPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 8686756338864313968, guid: 07d46caf88ce92744ba89bee5ab4edac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6389175528168459149}
+    - target: {fileID: 8686756338864313968, guid: 07d46caf88ce92744ba89bee5ab4edac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: onCancelClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 8686756338864313968, guid: 07d46caf88ce92744ba89bee5ab4edac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameClearGuiController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9202316487088271332, guid: 07d46caf88ce92744ba89bee5ab4edac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9202316487088271332, guid: 07d46caf88ce92744ba89bee5ab4edac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9202316487088271332, guid: 07d46caf88ce92744ba89bee5ab4edac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6389175528168459149}
+    - target: {fileID: 9202316487088271332, guid: 07d46caf88ce92744ba89bee5ab4edac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9202316487088271332, guid: 07d46caf88ce92744ba89bee5ab4edac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: onDecideClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 9202316487088271332, guid: 07d46caf88ce92744ba89bee5ab4edac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameClearGuiController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9202316487088271332, guid: 07d46caf88ce92744ba89bee5ab4edac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: PauseGuiController, Assembly-CSharp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07d46caf88ce92744ba89bee5ab4edac, type: 3}
+--- !u!1 &4903070211270585485 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7772595762659502009, guid: 07d46caf88ce92744ba89bee5ab4edac, type: 3}
+  m_PrefabInstance: {fileID: 3447218316254612276}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8636876683934098672 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6344062649649426372, guid: 07d46caf88ce92744ba89bee5ab4edac, type: 3}
@@ -672,6 +720,30 @@ PrefabInstance:
     - target: {fileID: 4466610700406171219, guid: fc77cf45239b2ae459fe90045cab96c5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965430782149500195, guid: fc77cf45239b2ae459fe90045cab96c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6389175528168459149}
+    - target: {fileID: 5965430782149500195, guid: fc77cf45239b2ae459fe90045cab96c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: onRestartClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965430782149500195, guid: fc77cf45239b2ae459fe90045cab96c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameClearGuiController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8928736186270623944, guid: fc77cf45239b2ae459fe90045cab96c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6389175528168459149}
+    - target: {fileID: 8928736186270623944, guid: fc77cf45239b2ae459fe90045cab96c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: onToTitleClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 8928736186270623944, guid: fc77cf45239b2ae459fe90045cab96c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameClearGuiController, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

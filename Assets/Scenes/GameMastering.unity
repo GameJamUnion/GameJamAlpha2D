@@ -393,6 +393,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameClear
       objectReference: {fileID: 0}
+    - target: {fileID: 6096494659817665072, guid: ec16eeefa06e907459b40d7eeaa58e0f, type: 3}
+      propertyPath: _WorkTime
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f684e5fa59a2be4c9c547c3f4e98eef, type: 2}
+    - target: {fileID: 6096494659817665072, guid: ec16eeefa06e907459b40d7eeaa58e0f, type: 3}
+      propertyPath: _WorkScore
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f77c20b27896be429db014f644342d2, type: 2}
+    - target: {fileID: 6389175528168459149, guid: ec16eeefa06e907459b40d7eeaa58e0f, type: 3}
+      propertyPath: _SelectPanel
+      value: 
+      objectReference: {fileID: 5004417790180852279}
+    - target: {fileID: 6389175528168459149, guid: ec16eeefa06e907459b40d7eeaa58e0f, type: 3}
+      propertyPath: _GuiPanelObject.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6389175528168459149, guid: ec16eeefa06e907459b40d7eeaa58e0f, type: 3}
+      propertyPath: '_GuiPanelObject.Array.data[0]'
+      value: 
+      objectReference: {fileID: 5004417790180852280}
     - target: {fileID: 8829985894573850029, guid: ec16eeefa06e907459b40d7eeaa58e0f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -441,6 +461,16 @@ PrefabInstance:
 --- !u!4 &5004417790180852278 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8829985894573850029, guid: ec16eeefa06e907459b40d7eeaa58e0f, type: 3}
+  m_PrefabInstance: {fileID: 5004417790180852277}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5004417790180852279 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4903070211270585485, guid: ec16eeefa06e907459b40d7eeaa58e0f, type: 3}
+  m_PrefabInstance: {fileID: 5004417790180852277}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5004417790180852280 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6350561410868080260, guid: ec16eeefa06e907459b40d7eeaa58e0f, type: 3}
   m_PrefabInstance: {fileID: 5004417790180852277}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7695456560813646214

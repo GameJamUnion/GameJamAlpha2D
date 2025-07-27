@@ -25,7 +25,7 @@ public class GameClearRequester : MonoBehaviour
     {
         if (WorkScore != null)
         {
-            //WorkScore
+            WorkScore.RegisterFullScoreEvent(startGameClear);
         }
     }
 
