@@ -14,6 +14,9 @@ public class BGMReferenceTalble : ScriptableObject
 	[SerializeField]
 	private List<ReferenceData> m_audios;
 
+	[SerializeField]
+	private BGMPlayer m_player;
+
 	/// <summary>
 	/// ランタイム用のオーディオマップ
 	/// </summary>
@@ -25,15 +28,23 @@ public class BGMReferenceTalble : ScriptableObject
 	public bool isInitialize { get; private set; } = false;
 
 	/// <summary>
+	/// BGMの再生
+	/// </summary>
+	/// <param name="kind"></param>
+	/// <param name="crossFade"></param>
+	/// <param name="offset"></param>
+	public void PlayBGM(BGMKind kind, float crossFade = 2.0f, float offset = 1.0f) {
+		m_player?.PlayBGM(kind, crossFade, offset);
+	}
+
+	/// <summary>
 	/// 初期化
 	/// </summary>
-	public void Initialize() {
-		if (isInitialize) { return; }
+	public void Initialize(BGMPlayer player) {
 		foreach (var audio in m_audios) {
 			audioMap.Add(audio.kind, audio.clip);
 		}
-
-		isInitialize = true;
+		m_player = player;
 	}
 }
 
