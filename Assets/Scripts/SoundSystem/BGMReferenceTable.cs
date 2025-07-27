@@ -14,6 +14,9 @@ public class BGMReferenceTalble : ScriptableObject
 	[SerializeField]
 	private List<ReferenceData> m_audios;
 
+	[SerializeField]
+	private BGMPlayer m_player;
+
 	/// <summary>
 	/// ランタイム用のオーディオマップ
 	/// </summary>
@@ -27,13 +30,11 @@ public class BGMReferenceTalble : ScriptableObject
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	public void Initialize() {
-		if (isInitialize) { return; }
+	public void Initialize(BGMPlayer player) {
 		foreach (var audio in m_audios) {
 			audioMap.Add(audio.kind, audio.clip);
 		}
-
-		isInitialize = true;
+		m_player = player;
 	}
 }
 
