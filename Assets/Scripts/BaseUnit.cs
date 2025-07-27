@@ -125,27 +125,27 @@ public class BaseUnit : MonoBehaviour
                 break;
         }
 
-        if (_resumeData.RankS.MinProductionEfficiency <= productionEfficiencyNum)
+        if (_resumeData.RankS.MinProductionEfficiency <= Mathf.Abs( productionEfficiencyNum))
         {
             return _resumeData.RankS.ScoreStr;
         }
-        else if (_resumeData.RankA.MinProductionEfficiency <= productionEfficiencyNum)
+        else if (_resumeData.RankA.MinProductionEfficiency <= Mathf.Abs(productionEfficiencyNum))
         {
             return _resumeData.RankA.ScoreStr;
         }
-        else if (_resumeData.RankB.MinProductionEfficiency <= productionEfficiencyNum)
+        else if (_resumeData.RankB.MinProductionEfficiency <= Mathf.Abs(productionEfficiencyNum))
         {
             return _resumeData.RankB.ScoreStr;
         }
-        else if (_resumeData.RankC.MinProductionEfficiency <= productionEfficiencyNum)
+        else if (_resumeData.RankC.MinProductionEfficiency <= Mathf.Abs(productionEfficiencyNum))
         {
             return _resumeData.RankC.ScoreStr;
         }
-        else if (_resumeData.RankD.MinProductionEfficiency <= productionEfficiencyNum)
+        else if (_resumeData.RankD.MinProductionEfficiency <= Mathf.Abs(productionEfficiencyNum))
         {
             return _resumeData.RankD.ScoreStr;
         }
-        else if (_resumeData.RankE.MinProductionEfficiency <= productionEfficiencyNum)
+        else if (_resumeData.RankE.MinProductionEfficiency <= Mathf.Abs(productionEfficiencyNum))
         {
             return _resumeData.RankE.ScoreStr;
         }
