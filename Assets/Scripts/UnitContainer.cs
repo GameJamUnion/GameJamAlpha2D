@@ -1,61 +1,70 @@
 using UnityEngine;
 using UnityEngine.Events;
-using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "UnitContainer", menuName = "Scriptable Objects/UnitContainer")]
 public class UnitContainer : ScriptableObject
 {
-    private UnityAction onHired;
+    /// <summary>
+    /// 雇用イベント
+    /// </summary>
+    private UnityAction<BaseUnit> onHired;
 
-    private UnityAction onRemove;
+	/// <summary>
+	/// 解雇イベント
+	/// </summary>
+    private UnityAction<BaseUnit> onRemove;
 
-	private UnityAction onCall;
+    /// <summary>
+    /// 呼び出しイベント
+    /// </summary>
+    private UnityAction<BaseUnit> onCall;
 
-	// オフィス側で扱っているユニット
-	private List<BaseUnit> _officeBaseUnit;
-
-    #region プロパティ
-	public List<BaseUnit> OfficeBaseUnit
-	{
-		get { return _officeBaseUnit; }
-		set { _officeBaseUnit = value; }
-	}
-    #endregion
+    /// <summary>
+    /// 呼び出した後返すイベント
+    /// </summary>
+    private UnityAction<BaseUnit> onCallBack;
 
     /// <summary>
     /// 雇用
     /// </summary>
-    public void Hired() {
+    public void Hired(BaseUnit unit) {
 		// 実際の処理
 
 
 		// イベント発火
-		onHired?.Invoke();
+		onHired?.Invoke(unit);
 	}
 
 	/// <summary>
 	/// 解雇
 	/// </summary>
-	public void Remove()
+	public void Remove(BaseUnit unit)
 	{
-		onRemove?.Invoke();
+		onRemove?.Invoke(unit);
 	}
 
 	/// <summary>
 	/// 呼び出し
 	/// </summary>
-	public void Call()
+	public void Call(BaseUnit unit)
 	{
-		onCall?.Invoke();
+		onCall?.Invoke(unit);
 	}
 
-	
+    /// <summary>
+    /// 呼び出した後返す
+    /// </summary>
+    public void CallBack(BaseUnit unit)
+	{
+		onCallBack?.Invoke(unit);
+	}
 
 	/// <summary>
 	/// 雇用イベント登録
 	/// </summary>
 	/// <param name="onHired"></param>
-    public void RegisterEventOnHired(UnityAction onHired) {
+    public void RegisterEventOnHired(UnityAction<BaseUnit> onHired)
+	{
         this.onHired += onHired;
     }
 
@@ -63,7 +72,8 @@ public class UnitContainer : ScriptableObject
 	/// 解雇イベント登録
 	/// </summary>
 	/// <param name="onRemove"></param>
-	public void RegisterEventOnRemove(UnityAction onRemove) {
+	public void RegisterEventOnRemove(UnityAction<BaseUnit> onRemove)
+	{
 		this.onRemove += onRemove;
 	}
 
@@ -71,7 +81,17 @@ public class UnitContainer : ScriptableObject
 	/// 呼び出しイベント登録
 	/// </summary>
 	/// <param name="onCall"></param>
-	public void RegisterEventOnCall(UnityAction onCall) {
+	public void RegisterEventOnCall(UnityAction<BaseUnit> onCall)
+	{
 		this.onCall += onCall;
 	}
+
+    /// <summary>
+    /// 呼び出した後返すイベント登録
+    /// </summary>
+    /// <param name="onCallBack"></param>
+    public void RegisterEventOnCallBack(UnityAction<BaseUnit> onCallBack)
+	{
+        this.onHired += onHired;
+    }
 }

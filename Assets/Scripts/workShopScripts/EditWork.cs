@@ -26,10 +26,9 @@ public class EditWork : WorkBase
     /// 作業力を取得する
     /// </summary>
     /// <returns></returns>
-    protected override int getWorkPower()
+    protected override float getWorkPower()
     {
-        int workPower = 0;
-        //int workPower = 50;
+        float workPower = 0;
 
         if (workerList != null && workerList.Count > 0)
         {

@@ -32,17 +32,18 @@ public class WorkShopSceneMain : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     virtual protected void Start()
     {
-        //unitContainer.RegisterEventOnHired(employWorker);
-        //unitContainer.RegisterEventOnRemove(removeWorker);
-        //unitContainer.RegisterEventOnCall(callWorker);
+        unitContainer.RegisterEventOnHired(employWorker);
+        unitContainer.RegisterEventOnRemove(removeWorker);
+        unitContainer.RegisterEventOnCall(callWorker);
     }
 
     /// <summary>
     /// 作業員を雇用する
     /// </summary>
-    public void employWorker(RI.PlacementState placementState, int originId, int workPower)
+    /// <param name="unit"></param>
+    public void employWorker(BaseUnit unit)
     {
-        WorkBase work = workManager.GetWork(placementState);
+        WorkBase work = workManager.GetWork(unit.PlacementState);
 
         if (work != null)
         {
@@ -52,10 +53,12 @@ public class WorkShopSceneMain : MonoBehaviour
             pos.x += 25 + (work.workerCount() * 10);
             Quaternion rot = Quaternion.identity;
 
+            
+
             // 作業員を複製
             Worker worker = Instantiate<Worker>(workerPrefab, pos, rot, unitRootTrans);
-            worker.OriginId = originId;
-            worker.WorkPower = workPower;
+            worker.OriginId = unit.Origin;
+            worker.WorkPower = getWorkPower(unit, unit.PlacementState);
 
             work.addWorker(worker);
         }
@@ -64,63 +67,65 @@ public class WorkShopSceneMain : MonoBehaviour
     /// <summary>
     /// 作業員を解雇する
     /// </summary>
-    /// <param name="originId"></param>
-    public void removeWorker(int originId)
+    /// <param name="unit"></param>
+    public void removeWorker(BaseUnit unit)
     {
-        workManager.removeWorker(originId);
+        workManager.removeWorker(unit.Origin);
     }
 
     /// <summary>
     /// 作業員を呼び出す
     /// </summary>
-    /// <param name="originId"></param>
-    public void callWorker(int originId)
+    /// <param name="unit"></param>
+    public void callWorker(BaseUnit unit)
     {
-        removeWorker(originId);
+        removeWorker(unit);
     }
 
     /// <summary>
     /// 作業員が呼び出しから戻ってくる
     /// </summary>
-    public void callBackWorker(RI.PlacementState placementState, int originId, int workPower)
+    /// <param name="unit"></param>
+    public void callBackWorker(BaseUnit unit)
     {
-        employWorker(placementState, originId, workPower);
+        employWorker(unit);
     }
 
-
-    [ContextMenu("section1")]
-    public void test1()
+    /// <summary>
+    /// 作業力を取得する
+    /// TODO 定義と取得の方法は考える必要あり
+    /// </summary>
+    /// <param name="unit"></param>
+    /// <param name="placementState"></param>
+    /// <returns></returns>
+    private float getWorkPower(BaseUnit unit, RI.PlacementState placementState)
     {
-        employWorker(RI.PlacementState.Section1, 1, 50);
-    }
+        float workPower = 0.0f;
 
-    [ContextMenu("section2")]
-    public void test2()
-    {
-        employWorker(RI.PlacementState.Section2, 2, 50);
-    }
+        switch (placementState)
+        {
+            case RI.PlacementState.NONE:
+                // 初期値でそのまま
+                break;
 
-    [ContextMenu("section3")]
-    public void test3()
-    {
-        employWorker(RI.PlacementState.Section3, 3, 50);
-    }
+            case RI.PlacementState.Section1:
+                workPower = unit.ProductionEfficiency1;
+                break;
 
-    [ContextMenu("remove1")]
-    public void removeTest1()
-    {
-        removeWorker(1);
-    }
+            case RI.PlacementState.Section2:
+                workPower = unit.ProductionEfficiency2;
+                break;
 
-    [ContextMenu("remove2")]
-    public void removeTest()
-    {
-        removeWorker(2);
-    }
+            case RI.PlacementState.Section3:
+                workPower = unit.ProductionEfficiency3;
+                break;
 
-    [ContextMenu("remove3")]
-    public void removeTest3()
-    {
-        removeWorker(3);
+            case RI.PlacementState.END:
+                // 初期値でそのまま
+                break;
+
+        }
+
+        return workPower;
     }
 }

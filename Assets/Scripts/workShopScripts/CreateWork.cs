@@ -47,7 +47,7 @@ public class CreateWork : WorkBase
     /// 作業力を取得する
     /// </summary>
     /// <returns></returns>
-    protected override int getWorkPower()
+    protected override float getWorkPower()
     {
         return createPower;
     }
