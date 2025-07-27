@@ -8,15 +8,12 @@ public class WorkShopGauge : MonoBehaviour {
 	[SerializeField]
 	private WorkScore m_score;
 
-	[SerializeField]
-	private WorkScore.Type m_type;
-
 	private void Awake() {
 		TryGetComponent(out m_slider);
 	}
 
 	private void Start() {
-		m_score.RegisterGauge(WorkScore.Type.Score, this);
+		m_score.RegisterGauge(this);
 	}
 
 	/// <summary>
