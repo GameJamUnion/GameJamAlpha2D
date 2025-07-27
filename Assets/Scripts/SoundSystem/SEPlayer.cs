@@ -1,9 +1,16 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
 public class SEPlayer : MonoBehaviour
 {
+	/// <summary>
+	/// OneShot用のソース
+	/// </summary>
 	private AudioSource m_audioSource;
+
+	private List<AudioSource> m_loopAudios = new List<AudioSource>();
 
 	[SerializeField]
 	private SEReferenceTable m_seTable;
@@ -28,6 +35,32 @@ public class SEPlayer : MonoBehaviour
 	}
 
 	/// <summary>
+	/// SEの再生
+	/// </summary>
+	/// <param name="kind"></param>
+	public void PlayLoopSE(SEKind kind) {
+		if (m_seTable == null) {
+#if UNITY_EDITOR
+			Debug.LogError("Not Reference SE Table");
+#endif
+			return;
+		}
+
+		AudioSource loopPlayer = m_loopAudios.Find(x => x.isPlaying == false);
+
+		if (loopPlayer == null) {
+			loopPlayer = gameObject.AddComponent<AudioSource>();
+
+			m_loopAudios.Add(loopPlayer);
+		}
+
+		loopPlayer.loop = true;
+		loopPlayer.clip = m_seTable.audioMap[kind];
+		loopPlayer.Play();
+	}
+
+
+	/// <summary>
 	/// 初期化（参照取得）
 	/// </summary>
 	private void Awake() {
@@ -44,5 +77,10 @@ public class SEPlayer : MonoBehaviour
 	[ContextMenu("Test Play")]
 	private void TestPlay() {
 		PlaySE(SEKind.MachineWork);
+	}
+
+	[ContextMenu("Test Play Loop")]
+	private void TestPlayLoop() {
+		PlayLoopSE(SEKind.MachineWork);
 	}
 }

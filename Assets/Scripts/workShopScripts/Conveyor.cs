@@ -1,39 +1,98 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Conveyor
+/// <summary>
+/// コンベアクラス
+/// </summary>
+public class Conveyor : ObjBase
 {
-    // 作業物リスト
-    private List<Product> productList;
+    private List<int> productsCarryTimeList;
 
-    // 排出先作業場
-    private WorkBase outputWork;
-
-    // 運搬力
+    /// <summary>
+    /// 運搬力
+    /// </summary>
+    [SerializeField]
     private int carryPower;
 
-    // コンストラクタ
-    public Conveyor()
+    /// <summary>
+    /// 運搬距離
+    /// </summary>
+    [SerializeField]
+    private int carryDistance;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    override protected void Start()
     {
-        productList = new List<Product>();
-        carryPower = 1;                         // とりあえず1固定値
+        base.Start();
+        productsCarryTimeList = new List<int>();
     }
 
-    // 作業物を追加する
-    public void addProduct(Product p)
+    /// <summary>
+    /// 指定秒毎の作業実行
+    /// </summary>
+    protected override void workPerSeconds()
     {
-        productList.Add(p);
+        carryProduct();
+        outputProduct();
     }
 
-    // 作業物を運搬する(1処理分)
+    /// <summary>
+    /// フレーム毎の作業実行
+    /// </summary>
+    protected override void workPerFlame()
+    {
+
+    }
+
+    /// <summary>
+    /// 作業物を運搬する(1処理分)
+    /// </summary>
     public void carryProduct()
     {
+        if (productList != null && productList.Count > 0
+            && productsCarryTimeList != null && productsCarryTimeList.Count > 0)
+        {
+            for (int i = 0; i < productsCarryTimeList.Count; i++)
+            {
+                productsCarryTimeList[i] += carryPower;
+            }
 
+        }
     }
 
+    /// <summary>
+    /// 最初の作業物を出力する
+    /// </summary>
     public void outputProduct()
     {
-        
+        if (productList != null && productList.Count > 0 
+            && productsCarryTimeList != null && productsCarryTimeList.Count > 0)
+        {
+            if (productsCarryTimeList[0] > carryDistance)
+            {
+                outputObj.addProduct(productList[0]);
+                productList.RemoveAt(0);
+                productsCarryTimeList.RemoveAt(0);
+            }
+        }
     }
 
+    /// <summary>
+    /// 作業物を追加する
+    /// </summary>
+    /// <param name="product"></param>
+    public override void addProduct(Product product)
+    {
+        if (productList == null)
+        {
+            productList = new List<Product>();
+        }
+        productList.Add(product);
+
+        if (productsCarryTimeList == null)
+        {
+            productsCarryTimeList = new List<int>();
+        }
+        productsCarryTimeList.Add(0);
+    }
 }

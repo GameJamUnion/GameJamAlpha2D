@@ -1,45 +1,183 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
-/// 作業場の基底クラス
-public class WorkBase
+public abstract class WorkBase : ObjBase
 {
-    // 作業員リスト
-    private List<WorkerBase> workerList;
+    /// <summary>
+    /// 作業状況
+    /// </summary>
+    private WorkState workState;
 
-    // 作業物リスト
-    private List<Product> productList;
+    /// <summary>
+    /// 作業員リスト
+    /// </summary>
+    protected List<WorkerBase> workerList;
 
-    // 実作業の値
-    private int workPoint;
+    /// <summary>
+    /// 現在の作業物
+    /// </summary>
+    private Product workingProduct;
 
-    // 作業中の物
-    private Product workProduct;
+    /// <summary>
+    /// 実作業ポイント
+    /// </summary>
+    private int workingPoint;
 
-    // 排出先コンベア
-    private Conveyor outputConveyor;
+    /// <summary>
+    /// 炎上するカウント数
+    /// </summary>
+    [SerializeField]
+    private int burningCount;
 
-    // コンストラクタ
-    public WorkBase()
+    /// <summary>
+    /// スプライトれんだらー
+    /// </summary>
+    [SerializeField]
+    private SpriteRenderer sprite;
+
+    /// <summary>
+    /// カラーマネージャー
+    /// </summary>
+    [SerializeField]
+    private WorkColorManager workColorManager;
+    
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    override protected void Start()
     {
-
+        base.Start();
+        workState = WorkState.EMPTY;
+        workerList = new List<WorkerBase>();
+        workingPoint = 0;
+        workingProduct = null;
     }
 
-    // 作業
-    public void work(int workAmount)
+    /// <summary>
+    /// 指定秒毎の作業実行
+    /// </summary>
+    protected override void workPerSeconds()
     {
-        workPoint += workAmount;
+        execWork();
+    }
 
-        if (workPoint >= workProduct.WorkAmount)
+
+    /// <summary>
+    /// フレーム毎の作業実行
+    /// </summary>
+    protected override void workPerFlame()
+    {
+        updateWorkState();
+    }
+
+    /// <summary>
+    /// 作業物を追加する
+    /// </summary>
+    /// <param name="product"></param>
+    public override void addProduct(Product product)
+    {
+        if (productList == null)
         {
-            outputProduct();
+            productList = new List<Product>();
+        }
+        productList.Add(product);
+    }
+
+    /// <summary>
+    /// 作業員を配置する
+    /// </summary>
+    /// <param name="worker"></param>
+    public void addWorker(WorkerBase worker)
+    {
+        if (workerList == null)
+        {
+            workerList = new List<WorkerBase>();
+        }
+        workerList.Add(worker);
+    }
+
+    /// <summary>
+    /// 作業員を解雇する
+    /// </summary>
+    /// <param name="worker"></param>
+    public void removeWorker(WorkerBase worker)
+    {
+        if (workerList != null && workerList.Contains(worker))
+        {
+            workerList.Remove(worker);
         }
     }
 
-    // 作成物をコンベアに流す
-    private void outputProduct()
+    /// <summary>
+    /// 作業物を次のオブジェクトに出力して現在の作業物を空にする
+    /// </summary>
+    protected void outputProduct()
     {
-        outputConveyor.addProduct(workProduct);
-        workProduct = null;
+        if (outputObj != null && workingProduct != null)
+        {
+            outputObj.addProduct(workingProduct);
+            workingProduct = null;
+            workingPoint = 0;
+        }
     }
+
+    /// <summary>
+    /// 作業状態を更新する
+    /// </summary>
+    private void updateWorkState()
+    {
+        if (productList.Count <= 0)
+        {
+            workState = WorkState.EMPTY;
+        }
+        else if (productList.Count > burningCount)
+        {
+            workState = WorkState.BURNING;
+        }
+        else
+        {
+            workState = WorkState.WORKING;
+        }
+
+        workColorManager.spriteColorChange(sprite, workState);
+    }
+
+    /// <summary>
+    /// 作業力にあわせて作業を進める
+    /// </summary>
+    protected void execWork()
+    {
+        sliceProductToWorkingProduct();
+
+        if (workingProduct != null)
+        {
+            workingPoint += getWorkPower();
+
+            if (workingPoint >= workingProduct.WorkAmount)
+            {
+                outputProduct();
+            }
+        }
+    }
+
+    /// <summary>
+    /// 作業中の物がない場合に作業物をセットする
+    /// </summary>
+    private void sliceProductToWorkingProduct()
+    {
+        if (workingProduct == null)
+        {
+            if (productList.Count > 0)
+            {
+                workingProduct = productList[0];
+                productList.RemoveAt(0);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 作業力を取得する
+    /// </summary>
+    /// <returns></returns>
+    abstract protected int getWorkPower();
 }
