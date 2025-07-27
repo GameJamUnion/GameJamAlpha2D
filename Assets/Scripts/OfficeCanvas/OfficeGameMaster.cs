@@ -20,6 +20,9 @@ public class OfficeGameMaster : MonoBehaviour
     [Header("ID")]
     [SerializeField] int _nextID = 0;
 
+    [Header("UnitContainer")]
+    [SerializeField] UnitContainer _unitContainer;
+
     #region プロパティ
     public List<BaseUnit> ReserveUnits
     {
@@ -73,6 +76,7 @@ public class OfficeGameMaster : MonoBehaviour
         }
     }
 
+    // 雇用処理
     public void Employment(BaseUnit baseUnit)
     {
         _baseUnits.Add(baseUnit);// 雇用
@@ -84,11 +88,20 @@ public class OfficeGameMaster : MonoBehaviour
         baseUnit.ResumeInterface.Close();
         _reserveUnits.Remove(baseUnit);// リザーブから消去
         baseUnit.ResumeInterface.gameObject.SetActive(false);// 非表示に変更
+        baseUnit.gameObject.SetActive(false);// とりあえず雇ったら非表示
+
+        // ※とりあえず瞬間雇用
+        _unitContainer.Hired(baseUnit);
     }
     public void Reject(BaseUnit baseUnit)
     {
         _reserveUnits.Remove(baseUnit);// リザーブから消去
         Destroy(baseUnit.gameObject);// Unitの削除
+    }
+    // 呼び出し処理
+    public void Call()
+    {
+
     }
 
     // SelectUnit関連

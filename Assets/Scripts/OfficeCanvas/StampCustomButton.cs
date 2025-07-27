@@ -11,11 +11,17 @@ public class StampCustomButton : BaseCustomButton
     }
     public override void PointEnter()
     {
+        if (_resumeInterface.BaseResume == null)
+            return;
+
         if (!_resumeInterface.BaseResume.OnStamp)
             base.PointEnter();
     }
     public override void PointExit()
     {
+        if (_resumeInterface.BaseResume == null)
+            return;
+
         if (!_resumeInterface.BaseResume.OnStamp)
             base.PointExit();
     }
