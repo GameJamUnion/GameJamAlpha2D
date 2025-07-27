@@ -32,7 +32,7 @@ public class GuiManager : SingletonBase<GuiManager>
     /// 指定Gui開くリクエスト
     /// </summary>
     /// <param name="type"></param>
-    public void requestOpenGui(GuiType type, OpenParam param)
+    public void requestOpenGui(GuiType type, OpenParamBase param)
     {
         // とりあえず開く
         open(type, param);
@@ -50,7 +50,7 @@ public class GuiManager : SingletonBase<GuiManager>
     /// <summary>
     /// Gui開く処理
     /// </summary>
-    private void open(GuiType type, OpenParam param)
+    private void open(GuiType type, OpenParamBase param)
     {
         if (_GuiControllerDict.TryGetValue(type, out GuiControllerBase guiController))
         {
@@ -75,7 +75,7 @@ public class GuiManager : SingletonBase<GuiManager>
     }
 }
 
-public class OpenParam
+public class OpenParamBase
 {
 
 }
@@ -105,7 +105,7 @@ public abstract class GuiControllerBase : MonoBehaviour
     /// <summary>
     /// Gui開いたとき
     /// </summary>
-    public virtual void onOpen(OpenParam openParam = null)
+    public virtual void onOpen(OpenParamBase openParam = null)
     {
 
     }

@@ -11,6 +11,11 @@ public class GameOverGuiController : GuiControllerBase
         public Action onCancel;
     }
 
+    public class OpenParam : OpenParamBase
+    {
+
+    }
+
     public override GuiManager.GuiType GuiType => GuiManager.GuiType.GameOver;
 
     #region Property
@@ -61,6 +66,7 @@ public class GameOverGuiController : GuiControllerBase
             SceneManager.Instance.requestToTitle();
 
             // ゲームオーバー画面終了
+            GameOverManager.Instance.requestEndGameOver();
         }
 
         void onCancel()

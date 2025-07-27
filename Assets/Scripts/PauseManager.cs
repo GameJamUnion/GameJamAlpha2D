@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public enum PauseType
 {
@@ -13,7 +14,7 @@ public class PauseManager : SingletonBase<PauseManager>
 {
     public class PauseRequestArgs
     {
-        public GameObject Owner;
+        public Type Owner;
         public PauseType Type;
     }
 
@@ -93,7 +94,7 @@ public class PauseManager : SingletonBase<PauseManager>
     /// ポーズ終了リクエスト
     /// </summary>
     /// <param name="owner"></param>
-    public void requestEndPause(GameObject owner)
+    public void requestEndPause(Type owner)
     {
         lock(_PauseRequest)
         {

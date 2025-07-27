@@ -345,6 +345,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1346321948}
     m_Modifications:
+    - target: {fileID: 1381947394874319918, guid: b4de06e3bb0e988418e477fb2ac482f2, type: 3}
+      propertyPath: _WorkTime
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f684e5fa59a2be4c9c547c3f4e98eef, type: 2}
+    - target: {fileID: 2874826294417456648, guid: b4de06e3bb0e988418e477fb2ac482f2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 999
+      objectReference: {fileID: 0}
     - target: {fileID: 2934450791365114018, guid: b4de06e3bb0e988418e477fb2ac482f2, type: 3}
       propertyPath: m_Name
       value: GameOver
@@ -392,13 +400,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2934450791365114018, guid: b4de06e3bb0e988418e477fb2ac482f2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7744560319582752962}
   m_SourcePrefab: {fileID: 100100000, guid: b4de06e3bb0e988418e477fb2ac482f2, type: 3}
 --- !u!4 &7744560319582752960 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4344322619485444217, guid: b4de06e3bb0e988418e477fb2ac482f2, type: 3}
   m_PrefabInstance: {fileID: 7744560319582752959}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7744560319582752961 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2934450791365114018, guid: b4de06e3bb0e988418e477fb2ac482f2, type: 3}
+  m_PrefabInstance: {fileID: 7744560319582752959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7744560319582752962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744560319582752961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d820a283fbc705e4ab0019d936b46533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _WorkTime: {fileID: 11400000, guid: 5f684e5fa59a2be4c9c547c3f4e98eef, type: 2}
+  _WorkScore: {fileID: 11400000, guid: 3f77c20b27896be429db014f644342d2, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

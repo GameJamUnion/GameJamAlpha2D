@@ -69,12 +69,12 @@ public class PauseRequester : MonoBehaviour
         // ポーズ開始
         PauseManager.Instance.requestStartPause(new PauseManager.PauseRequestArgs()
         {
-            Owner = this.gameObject,
+            Owner = this.GetType(),
             Type = PauseType.InGamePause,
         });
 
         // GUI開く
-        GuiManager.Instance.requestOpenGui(GuiManager.GuiType.Pause, new OpenParam() { });
+        GuiManager.Instance.requestOpenGui(GuiManager.GuiType.Pause, new OpenParamBase() { });
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public class PauseRequester : MonoBehaviour
         GuiManager.Instance.requestCloseGui(GuiManager.GuiType.Pause);
 
         // ポーズ終了
-        PauseManager.Instance.requestEndPause(this.gameObject);
+        PauseManager.Instance.requestEndPause(this.GetType());
     }
 
     /// <summary>
