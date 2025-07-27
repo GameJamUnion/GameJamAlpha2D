@@ -92,6 +92,6 @@ public class UnitContainer : ScriptableObject
     /// <param name="onCallBack"></param>
     public void RegisterEventOnCallBack(UnityAction<BaseUnit> onCallBack)
 	{
-        this.onHired += onHired;
+        this.onCallBack += onCallBack;
     }
 }

@@ -35,6 +35,7 @@ public class WorkShopSceneMain : MonoBehaviour
         unitContainer.RegisterEventOnHired(employWorker);
         unitContainer.RegisterEventOnRemove(removeWorker);
         unitContainer.RegisterEventOnCall(callWorker);
+        unitContainer.RegisterEventOnCallBack(callBackWorker);
     }
 
     /// <summary>
