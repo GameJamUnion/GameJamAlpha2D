@@ -21,6 +21,7 @@ public class WorkShopGauge : MonoBehaviour {
 	/// </summary>
 	/// <param name="rate"></param>
 	public void UpdateValue(float rate) {
+		if (m_slider == null) { return; }
 		m_slider.value = rate;
 	}
 }
