@@ -1,12 +1,15 @@
-using System;
+using GuiUtil;
 using System.ComponentModel;
 using UnityEngine;
-using GuiUtil;
-public class PauseGuiController : GuiControllerBase
+
+public class GameClearGuiController : GuiControllerBase
 {
+    public class  OpenParam : OpenParamBase
+    {
+        
+    }
 
-    public override GuiManager.GuiType GuiType => GuiManager.GuiType.Pause;
-
+    public override GuiManager.GuiType GuiType => GuiManager.GuiType.GameClear;
 
     #region Property
     [DisplayName("はい/いいえ選択パネル")]
@@ -17,20 +20,15 @@ public class PauseGuiController : GuiControllerBase
     }
     [SerializeField]
     private GameObject _SelectPanel = null;
-
     #endregion Property
 
-    private PauseRequester _PauseRequester = null;
+    #region Field
     private SelectWaitParam _SelectWaitParam = null;
-
+    #endregion Field
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gameObject.TryGetComponent(typeof(PauseRequester), out var requester);
-        if (requester != null)
-        {
-            _PauseRequester = requester as PauseRequester;
-        }
+        
     }
 
     public override void onClose()
@@ -41,20 +39,27 @@ public class PauseGuiController : GuiControllerBase
         _SelectWaitParam = null;
     }
 
-    /// <summary>
-    /// ポーズやめるボタンクリック
-    /// </summary>
-    public void onResumeClick()
+    // Update is called once per frame
+    void Update()
     {
-        if (_PauseRequester != null)
-        {
-            // ポーズ終了
-            _PauseRequester.endPause();
-        }
+        
     }
 
     /// <summary>
-    /// タイトルに戻るボタンクリック
+    /// リスタートボタンクリック
+    /// </summary>
+    public void onRestartClick()
+    {
+        // リスタートリクエスト
+        SceneManager.Instance.requestRestartInGame();
+
+        // ゲームクリア画面終了
+        GameClearManager.Instance.requestEndGameClear();
+    }
+
+
+    /// <summary>
+    /// タイトルへ戻るボタンクリック
     /// </summary>
     public void onToTitleClick()
     {
@@ -63,18 +68,16 @@ public class PauseGuiController : GuiControllerBase
             Debug.LogError("SelectPanel が null");
             return;
         }
-
+        
         void onDecide()
         {
-            // タイトルへ
+            // タイトルへ戻るリクエスト
             SceneManager.Instance.requestToTitle();
 
-            // ポーズ終了
-            if (_PauseRequester != null)
-            {
-                _PauseRequester.endPause();
-            }
+            //ゲームクリア画面終了
+            GameClearManager.Instance.requestEndGameClear();
         }
+
 
         void onCancel()
         {
@@ -84,14 +87,13 @@ public class PauseGuiController : GuiControllerBase
             _SelectWaitParam = null;
         }
 
-        _SelectWaitParam = new SelectWaitParam
+        _SelectWaitParam = new SelectWaitParam()
         {
             onDecide = onDecide,
-            onCancel = onCancel,
+            onCancel = onCancel
         };
 
         _SelectPanel.SetActive(true);
-        setActive(false);
     }
 
     /// <summary>

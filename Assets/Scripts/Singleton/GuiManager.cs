@@ -9,6 +9,7 @@ public class GuiManager : SingletonBase<GuiManager>
         Invalid = -1,
         Pause,
         GameOver,
+        GameClear,
 
         [Browsable(false)]
         MaxNum,

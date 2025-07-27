@@ -2,14 +2,11 @@ using System;
 using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
+using GuiUtil;
 
 public class GameOverGuiController : GuiControllerBase
 {
-    public class SelectWaitParam
-    {
-        public Action onDecide;
-        public Action onCancel;
-    }
+
 
     public class OpenParam : OpenParamBase
     {

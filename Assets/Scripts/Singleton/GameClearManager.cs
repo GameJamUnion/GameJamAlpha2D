@@ -1,31 +1,26 @@
-using System;
 using UnityEngine;
+using System;
 
-public class GameOverManager : SingletonBase<GameOverManager>
+public class GameClearManager : SingletonBase<GameClearManager>
 {
-    #region Definition
-    public class GameOverStartArgs
-    {
-        // 表示するスコアなど
+	#region Definition
+	public class GameClearStartArgs
+	{
+		// 表示するスコアなど
 
-
-        // 成立時呼ばれる処理
-        public Action onStartProcess;
-
+		// 成立時呼ばれる処理
+		public Action onStartProcess;
         // 終了時呼ばれる処理
         //public Action onEndProcess; 必要になったら解放
     }
-
     #endregion Definition
-
     #region Field
-    private GameOverStartArgs _GameOverStartRequest = null;
-    private bool _GameOverEndRequest = false;
+    private GameClearStartArgs _GameClearStartRequest = null;
+    private bool _GameClearEndRequest = false;
     #endregion Field
 
     #region Method
     #region 更新処理
-
     public override void LateUpdate()
     {
         base.LateUpdate();
@@ -38,32 +33,30 @@ public class GameOverManager : SingletonBase<GameOverManager>
     /// </summary>
     private void updateRequest()
     {
-        // ゲームオーバー終了
-        if (_GameOverEndRequest == true)
+        // ゲームクリア終了
+        if (_GameClearEndRequest == true)
         {
-            endGameOver();
-            _GameOverEndRequest = false;
+            endGameClear();
+            _GameClearEndRequest = false;
 
             // 終了リクエストを優先させるため開始リクエストは終了させる
-            _GameOverStartRequest = null;
+            _GameClearStartRequest = null;
             return;
         }
 
-
-        // ゲームオーバー開始
-        if (_GameOverStartRequest != null)
+        // ゲームクリア開始
+        if (_GameClearStartRequest != null)
         {
-            startGameOver(_GameOverStartRequest);
-            _GameOverStartRequest = null;
+            startGameClear(_GameClearStartRequest);
+            _GameClearStartRequest = null;
         }
-
     }
     #endregion 更新処理
     /// <summary>
-    /// ゲームオーバー開始処理
+    /// ゲームクリア開始処理
     /// </summary>
     /// <param name="startArgs"></param>
-    private void startGameOver(GameOverStartArgs startArgs)
+    private void startGameClear(GameClearStartArgs startArgs)
     {
         // ポーズかける
         PauseManager.Instance.requestStartPause(new PauseManager.PauseRequestArgs()
@@ -73,7 +66,7 @@ public class GameOverManager : SingletonBase<GameOverManager>
         });
 
         // Gui開く
-        GuiManager.Instance.requestOpenGui(GuiManager.GuiType.GameOver, new GameOverGuiController.OpenParam()
+        GuiManager.Instance.requestOpenGui(GuiManager.GuiType.GameClear, new GameClearGuiController.OpenParam()
         {
             // 開く際に渡すパラメータ
             // startArgsから渡す
@@ -83,36 +76,33 @@ public class GameOverManager : SingletonBase<GameOverManager>
     }
 
     /// <summary>
-    /// ゲームオーバー終了処理
+    /// ゲームクリア終了処理
     /// </summary>
-    private void endGameOver()
+    private void endGameClear()
     {
         // Gui閉じる
-        GuiManager.Instance.requestCloseGui(GuiManager.GuiType.GameOver);
+        GuiManager.Instance.requestCloseGui(GuiManager.GuiType.GameClear);
 
         // ポーズ終了
         PauseManager.Instance.requestEndPause(this.GetType());
-
     }
-
     #region Request
     /// <summary>
-    /// ゲームオーバー開始リクエスト
+    /// ゲームクリア開始リクエスト
     /// </summary>
     /// <param name="args"></param>
-    public void requestStartGameOver(GameOverStartArgs args)
+    public void requestStartGameClear(GameClearStartArgs args)
     {
-        _GameOverStartRequest = args;
+        _GameClearStartRequest = args;
     }
 
     /// <summary>
-    /// ゲームオーバー終了リクエスト
+    /// ゲームクリア終了リクエスト
     /// </summary>
-    public void requestEndGameOver()
+    public void requestEndGameClear()
     {
-        _GameOverEndRequest = true;
+        _GameClearEndRequest = true;
     }
     #endregion Request
     #endregion Method
-
 }
