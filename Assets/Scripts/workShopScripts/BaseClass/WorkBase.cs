@@ -31,7 +31,7 @@ public abstract class WorkBase : StageObjBase
     /// <summary>
     /// 実作業ポイント
     /// </summary>
-    private int workingPoint;
+    private float workingPoint;
 
     /// <summary>
     /// 炎上するカウント数
@@ -65,7 +65,7 @@ public abstract class WorkBase : StageObjBase
         base.Start();
         workState = WorkCommon.WorkState.EMPTY;
         workerList = new List<Worker>();
-        workingPoint = 0;
+        workingPoint = 0.0f;
         workingProduct = null;
     }
 
@@ -165,7 +165,7 @@ public abstract class WorkBase : StageObjBase
         {
             outputObj.addProduct(workingProduct);
             workingProduct = null;
-            workingPoint = 0;
+            workingPoint = 0.0f;
         }
     }
 
@@ -232,5 +232,5 @@ public abstract class WorkBase : StageObjBase
     /// 作業力を取得する
     /// </summary>
     /// <returns></returns>
-    abstract protected int getWorkPower();
+    abstract protected float getWorkPower();
 }

@@ -14,7 +14,7 @@ public class Worker : ObjBase
     /// <summary>
     /// 作業力
     /// </summary>
-    private int workPower;
+    private float workPower;
 
 
     private WorkCommon.WorkerState workerState;
@@ -53,7 +53,7 @@ public class Worker : ObjBase
     /// <summary>
     /// 作業力
     /// </summary>
-    public int WorkPower
+    public float WorkPower
     { 
         get { return workPower; } 
         set { workPower = value; } 
