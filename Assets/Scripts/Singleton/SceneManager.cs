@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,16 +27,27 @@ public enum SceneNames :int
 
 public class SceneManager : SingletonBase<SceneManager>
 {
+    /// <summary>
+    /// 進行中のアンロードデータ管理
+    /// </summary>
+    public class UnLoadProgressParam
+    {
+        public SceneNames SceneName;
+        public float Progress;
+    }
+
+
     private SceneNames[] _CurrentScene = new SceneNames[1] { SceneNames.Invalid };
     private SceneStateBase _CurrentState = null;
     private bool _IsPending = false;
-
     #region Request
     private bool _ToTitleRequest = false;
     private bool _RestartInGameRequest = false;
     #endregion
 
-
+    /// <summary>
+    /// ゲーム再生時に呼ばれる
+    /// </summary>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void SceneInitialized()
     {
@@ -56,58 +69,9 @@ public class SceneManager : SingletonBase<SceneManager>
                 return;
             }
         }
+
+        // 登録されているシーン以外で開始した場合、シーン制御を行わない待機状態にする
         SceneManager.Instance.setPendingState();
-    }
-
-    public void loadScene(SceneNames sceneName)
-    {
-        var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
-        if (scene.name == sceneName.ToString())
-        {
-            return;
-        }
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName.ToString(), LoadSceneMode.Additive);
-    }
-
-    public void unloadScene(SceneNames sceneName)
-    {
-        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(sceneName.ToString());
-    }
-
-    /// <summary>
-    /// 開始シーンステートを設定
-    /// </summary>
-    /// <param name="sceneName"></param>
-    private void setDefaultSceneState(SceneNames sceneName)
-    {
-        var states = System.Reflection.Assembly.GetAssembly(typeof(SceneStateBase))
-            .GetTypes().Where(x => x.IsSubclassOf(typeof(SceneStateBase)) && !x.IsAbstract).ToArray();
-
-        for (int i = 0; i < states.Length; i++)
-        {
-            var state = (SceneStateBase)System.Activator.CreateInstance(states[i]);
-
-            // 指定シーンをロードする
-            if (state.SceneName.Contains(sceneName))
-            {
-                _CurrentState = state;
-                _CurrentScene = state.SceneName;
-
-                _CurrentState.OnEnter();
-                return;
-            }
-        }
-        setPendingState();        
-    }
-
-    /// <summary>
-    /// 動作停止状態にする
-    /// </summary>
-    private void setPendingState()
-    {
-        // 不正状態
-        // 開発シーンとかなので切り替え停止
-        _IsPending = true;
     }
 
     #region LateUpdate
@@ -135,7 +99,7 @@ public class SceneManager : SingletonBase<SceneManager>
         }
         else if (_RestartInGameRequest == true)
         {
-            nextState = new GameLoadScene();
+            nextState = new GameLoadSceneState();
         }
 
         _ToTitleRequest = false;
@@ -164,6 +128,70 @@ public class SceneManager : SingletonBase<SceneManager>
         }
         return false;
     }
+
+    /// <summary>
+    /// 開始シーンステートを設定
+    /// </summary>
+    /// <param name="sceneName"></param>
+    private void setDefaultSceneState(SceneNames sceneName)
+    {
+        var states = System.Reflection.Assembly.GetAssembly(typeof(SceneStateBase))
+            .GetTypes().Where(x => x.IsSubclassOf(typeof(SceneStateBase)) && !x.IsAbstract).ToArray();
+
+        for (int i = 0; i < states.Length; i++)
+        {
+            var state = (SceneStateBase)System.Activator.CreateInstance(states[i]);
+
+            // 指定シーンをロードする
+            if (state.SceneName.Contains(sceneName))
+            {
+                _CurrentState = state;
+                _CurrentScene = state.SceneName;
+
+                _CurrentState.OnEnter();
+                return;
+            }
+        }
+        setPendingState();
+    }
+
+    /// <summary>
+    /// 動作停止状態にする
+    /// </summary>
+    private void setPendingState()
+    {
+        // 不正状態
+        // 開発シーンとかなので切り替え停止
+        _IsPending = true;
+    }
+
+    #region Load
+
+    /// <summary>
+    /// シーンロード
+    /// </summary>
+    /// <param name="sceneName"></param>
+    public void loadScene(SceneNames sceneName)
+    {
+        var scene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(sceneName.ToString());
+        if (scene.isLoaded == true)
+        {
+            return;
+        }
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName.ToString(), LoadSceneMode.Additive);
+    }
+
+    /// <summary>
+    /// シーンアンロード
+    /// </summary>
+    /// <param name="sceneName"></param>
+    public void unloadScene(SceneNames sceneName)
+    {
+        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(sceneName.ToString());
+    }
+
+
+    #endregion
 
     #region Request
     /// <summary>

@@ -83,7 +83,7 @@ public class TitleSceneState : SceneStateBase
         
         if (checkInput() == true)
         {
-            return new GameLoadScene();
+            return new GameLoadSceneState();
         }
 
         return result;
@@ -113,7 +113,7 @@ public class TitleSceneState : SceneStateBase
 #endregion Title
 
 #region Setup
-public class GameLoadScene : SceneStateBase
+public class GameLoadSceneState : SceneStateBase
 {
     public override SceneNames[] SceneName => new SceneNames[] { SceneNames.Loading };
 
@@ -122,30 +122,21 @@ public class GameLoadScene : SceneStateBase
         public AsyncOperation Operation;
     }
 
+    public enum Phase
+    {
+        UnloadWait,
+        Loading,
+    }
+
     private List<PreLoadOperationWork> _OperationWork = new List<PreLoadOperationWork>(4);
     private float _CurrentProgressRate = 0f;
+    private Phase _CurrentPhase = Phase.UnloadWait;
+
 
     public override void OnEnter()
     {
         base.OnEnter();
-
-        var startScene = getStartInGameScene();
-        if (startScene != null)
-        {
-            var preLoadScene = startScene.SceneName;
-            var sceneCount = preLoadScene.Length;
-            if (sceneCount > 0)
-            {
-                for (int i = 0; i < sceneCount; i++)
-                {
-                    var scene = preLoadScene[i];
-                    var work = new PreLoadOperationWork();
-                    work.Operation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(scene.ToString(), LoadSceneMode.Additive);
-                    _OperationWork.Add(work);
-                }
-            }
-            
-        }
+        _CurrentPhase = Phase.UnloadWait;
 
         PauseManager.Instance.requestStartPause(new PauseManager.PauseRequestArgs()
         {
@@ -163,7 +154,18 @@ public class GameLoadScene : SceneStateBase
 
     public override SceneStateBase checkNext()
     {
-        updateWork();
+        switch (_CurrentPhase)
+        {
+            case Phase.UnloadWait:
+                updateWait();
+                break;
+            case Phase.Loading:
+                updateWork();
+                break;
+            default:
+                break;
+        }
+        
 
         if (_CurrentProgressRate >= 1f)
         {
@@ -177,11 +179,34 @@ public class GameLoadScene : SceneStateBase
     /// 開始インゲームシーンを取得
     /// </summary>
     /// <returns></returns>
-    public InGameSceneStateBase getStartInGameScene()
+    public InGameSceneStateBase getStartInGameSceneState()
     {
         return new InGameSceneState0();
     }
 
+    /// <summary>
+    /// 待機更新
+    /// </summary>
+    private void updateWait()
+    {
+        var unloading = false;
+        var nextState = getStartInGameSceneState();
+        if (nextState != null)
+        {
+            var scenes = nextState.SceneName;
+            for (int i = 0; i < scenes.Length; i++)
+            {
+                var isLoad = UnityEngine.SceneManagement.SceneManager.GetSceneByName(scenes[i].ToString()).isLoaded;
+                unloading |= isLoad;
+            }
+        }
+
+        // ロード予定のシーンが読み込まれていなければロード開始する
+        if (unloading == false)
+        {
+            changePhase(Phase.Loading);
+        }
+    }
 
     /// <summary>
     /// OperationWorkの更新
@@ -203,6 +228,49 @@ public class GameLoadScene : SceneStateBase
         }
 
         _CurrentProgressRate = rateSum / (float)count;
+    }
+
+    /// <summary>
+    /// Phase切り替え
+    /// </summary>
+    /// <param name="next"></param>
+    private void changePhase(Phase next)
+    {
+        switch (next)
+        {
+            case Phase.UnloadWait:
+                break;
+            case Phase.Loading:
+                startLoad();
+                break;
+            default:
+                break;
+        }
+
+        _CurrentPhase = next;
+    }
+
+    /// <summary>
+    /// シーンロード開始
+    /// </summary>
+    private void startLoad()
+    {
+        var startScene = getStartInGameSceneState();
+        if (startScene != null)
+        {
+            var preLoadScene = startScene.SceneName;
+            var sceneCount = preLoadScene.Length;
+            if (sceneCount > 0)
+            {
+                for (int i = 0; i < sceneCount; i++)
+                {
+                    var scene = preLoadScene[i];
+                    var work = new PreLoadOperationWork();
+                    work.Operation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(scene.ToString(), LoadSceneMode.Additive);
+                    _OperationWork.Add(work);
+                }
+            }
+        }
     }
 }
 #endregion
