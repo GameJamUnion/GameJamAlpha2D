@@ -7,21 +7,24 @@ public class PauseGuiController : GuiControllerBase
 
     public override GuiManager.GuiType GuiType => GuiManager.GuiType.Pause;
 
+    private const string ToTitleText = "タイトルにもどりますか？";
+    private const string RestartText = "やりなおしますか？";
 
     #region Property
-    [DisplayName("はい/いいえ選択パネル")]
+    [DisplayName("はい/いいえ選択パネル"), Browsable(true)]
     public GameObject SelectPanel
     {
         get => _SelectPanel;
         set => _SelectPanel = value;
     }
-    [SerializeField]
+    [SerializeField, Browsable(false)]
     private GameObject _SelectPanel = null;
 
     #endregion Property
 
     private PauseRequester _PauseRequester = null;
     private SelectWaitParam _SelectWaitParam = null;
+    private SelectPanelController _SelectPanelController = null;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,6 +33,11 @@ public class PauseGuiController : GuiControllerBase
         if (requester != null)
         {
             _PauseRequester = requester as PauseRequester;
+        }
+
+        if (SelectPanel != null)
+        {
+            _SelectPanelController = SelectPanel.GetComponent<SelectPanelController>();
         }
     }
 
@@ -58,7 +66,7 @@ public class PauseGuiController : GuiControllerBase
     /// </summary>
     public void onToTitleClick()
     {
-        if (_SelectPanel == null)
+        if (_SelectPanel == null || _SelectPanelController == null)
         {
             Debug.LogError("SelectPanel が null");
             return;
@@ -90,6 +98,48 @@ public class PauseGuiController : GuiControllerBase
             onCancel = onCancel,
         };
 
+        _SelectPanel.SetActive(true);
+        _SelectPanelController.setMainText(ToTitleText);
+        setActive(false);
+    }
+
+    /// <summary>
+    /// やりなおすボタンクリック
+    /// </summary>
+    public void onRestartClick()
+    {
+        if (_SelectPanel == null || _SelectPanelController == null)
+        {
+            Debug.LogError("SelectPanel が null");
+            return;
+        }
+
+        void onDecide()
+        {
+            // やり直す
+            SceneManager.Instance.requestRestartInGame();
+
+            if (_PauseRequester != null)
+            {
+                _PauseRequester.endPause();
+            }
+        }
+
+        void onCancel()
+        {
+            // 前の画面に戻す
+            _SelectPanel.SetActive(false);
+            setActive(true);
+            _SelectWaitParam = null;
+        }
+
+        _SelectWaitParam = new SelectWaitParam
+        {
+            onDecide = onDecide,
+            onCancel = onCancel,
+        };
+
+        _SelectPanelController.setMainText(RestartText);
         _SelectPanel.SetActive(true);
         setActive(false);
     }
