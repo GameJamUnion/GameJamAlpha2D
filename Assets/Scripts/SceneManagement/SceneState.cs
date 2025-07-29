@@ -112,10 +112,13 @@ public class TitleSceneState : SceneStateBase
 
 #endregion Title
 
-#region Setup
+#region Loading
 public class GameLoadSceneState : SceneStateBase
 {
     public override SceneNames[] SceneName => new SceneNames[] { SceneNames.Loading };
+
+    // 無理やり待つ時間 (ロード画面演出用)
+    public const float ForceWaitFrame = 0f;
 
     public class PreLoadOperationWork
     {
@@ -131,12 +134,13 @@ public class GameLoadSceneState : SceneStateBase
     private List<PreLoadOperationWork> _OperationWork = new List<PreLoadOperationWork>(4);
     private float _CurrentProgressRate = 0f;
     private Phase _CurrentPhase = Phase.UnloadWait;
-
+    private float _ForceWaitFrameTimer = ForceWaitFrame;
 
     public override void OnEnter()
     {
         base.OnEnter();
         _CurrentPhase = Phase.UnloadWait;
+        _ForceWaitFrameTimer = ForceWaitFrame;
 
         PauseManager.Instance.requestStartPause(new PauseManager.PauseRequestArgs()
         {
@@ -228,6 +232,12 @@ public class GameLoadSceneState : SceneStateBase
         }
 
         _CurrentProgressRate = rateSum / (float)count;
+
+        _ForceWaitFrameTimer = Mathf.Max(0, _ForceWaitFrameTimer - 1);
+        if (_ForceWaitFrameTimer > 0)
+        {
+            _CurrentProgressRate = Mathf.Max(0, _CurrentProgressRate - 0.1f);
+        }
     }
 
     /// <summary>
