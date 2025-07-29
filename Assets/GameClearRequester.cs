@@ -49,7 +49,7 @@ public class GameClearRequester : MonoBehaviour
         GameClearManager.Instance.requestStartGameClear(new GameClearManager.GameClearStartArgs()
         {
             Score = WorkScore.score,
-            RemainingTime = WorkTime.timeLimit * WorkTime.timeRate,
+            RemainingTime = WorkTime.timeLimit * (1f - WorkTime.timeRate),
         });
     }
     #endregion Method

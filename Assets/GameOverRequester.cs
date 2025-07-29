@@ -54,7 +54,7 @@ public class GameOverRequester : MonoBehaviour
         GameOverManager.Instance.requestStartGameOver(new GameOverManager.GameOverStartArgs()
         {
             Score = WorkScore.score,
-            RemainingTime = WorkTime.timeLimit * WorkTime.timeRate,
+            RemainingTime = WorkTime.timeLimit * (1f - WorkTime.timeRate),
         });
     }
     #endregion Method
