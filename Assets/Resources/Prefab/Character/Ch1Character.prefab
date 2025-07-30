@@ -105,7 +105,7 @@ MonoBehaviour:
     ScriptableObject: {fileID: 11400000, guid: 223a709c83ebcb544ac8ee36b9d7b2f6, type: 2}
   LimbLeftHandParam:
     TargetObj: {fileID: 3974844378765599369}
-    ScriptableObject: {fileID: 11400000, guid: c2476de5ce8c81b459e64b9ffb0659bb, type: 2}
+    ScriptableObject: {fileID: 11400000, guid: 2eed05e1d798774458600463f2b96a61, type: 2}
 --- !u!1 &1781087987294633932
 GameObject:
   m_ObjectHideFlags: 0
