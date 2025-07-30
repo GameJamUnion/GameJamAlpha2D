@@ -18,10 +18,18 @@ public class UnitAbilityUI : MonoBehaviour
 
 	public void SetAbility(Ability ability) {
 		if (ability == null) {
-			gameObject.SetActive(false);
+			Hide();
 		}
 		m_text.text = ability.name;
+		Display();
+	}
+
+	public void Display() {
 		gameObject.SetActive(true);
+	}
+
+	public void Hide() {
+		gameObject.SetActive(false);
 	}
 }
 
