@@ -6,10 +6,6 @@ public class BaseUnit : MonoBehaviour
     [SerializeField] private int _originID = 0;
     // 名前(表示名)
     [SerializeField] private string _name = "NoName";
-    // 疲労度
-    [SerializeField] private float _fatigueLevel = 0f;
-    // やる気
-    [SerializeField] private float _motivationLevel = 0f;
 
     // 各セクションの生産効率(%)
     [SerializeField] private float _productionEfficiency1 = 1f;
@@ -35,14 +31,6 @@ public class BaseUnit : MonoBehaviour
     public string Name
     {
         get { return _name; }
-    }
-    public float FatigueLevel
-    {
-        get { return _fatigueLevel; }
-    }
-    public float MotivationLevel
-    {
-        get { return _motivationLevel; }
     }
     public float ProductionEfficiency1
     {
@@ -90,6 +78,21 @@ public class BaseUnit : MonoBehaviour
 
     }
 
+    #region
+    public BaseUnit()
+    {
+
+    }
+    public BaseUnit(BaseUnit baseUnit)
+    {
+        _name = name;
+        _productionEfficiency1 = baseUnit.ProductionEfficiency1;
+        _productionEfficiency2 = baseUnit.ProductionEfficiency2;
+        _productionEfficiency3 = baseUnit.ProductionEfficiency3;
+    }
+    #endregion
+
+    #region SetData
     // ユニットの初期化処理
     public void Initialize(int originID, OfficeGameMaster officeGameMaster)
     {
@@ -106,6 +109,15 @@ public class BaseUnit : MonoBehaviour
         _productionEfficiency2 = productionEfficiency2;
         _productionEfficiency3 = productionEfficiency3;
     }
+    public void SetState(BaseUnit baseUnit)
+    {
+        _name = baseUnit.Name;
+
+        _productionEfficiency1 = baseUnit.ProductionEfficiency1;
+        _productionEfficiency2 = baseUnit.ProductionEfficiency2;
+        _productionEfficiency3 = baseUnit.ProductionEfficiency3;
+    }
+    #endregion SetData
 
     // 各適正のうち１つを指定して表示するテキストに変更する処理 float > string
     public string GetProductionEfficiencyRank(ProductionEfficiency productionEfficiency)
