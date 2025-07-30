@@ -28,16 +28,6 @@ public class EditWork : WorkBase
     /// <returns></returns>
     protected override float getWorkPower()
     {
-        float workPower = 0;
-
-        if (workerList != null && workerList.Count > 0)
-        {
-            foreach (Worker worker in workerList)
-            {
-                workPower += worker.WorkPower;
-            }
-        }
-
-        return workPower;
+        return workManager.getWorkPower(workId);
     }
 }

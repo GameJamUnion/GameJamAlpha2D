@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -29,12 +30,6 @@ public class WorkShopSceneMain : MonoBehaviour
     [SerializeField]
     private UnitContainer unitContainer;
 
-    /// <summary>
-    /// 作業力倍率
-    /// </summary>
-    [SerializeField]
-    private float workPowerRate;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     virtual protected void Start()
     {
@@ -57,17 +52,23 @@ public class WorkShopSceneMain : MonoBehaviour
             // 座標を設定
             // TODO とりあえず作業場の隣に並べてる
             Vector3 pos = work.transform.position;
-            pos.x += 25 + (work.workerCount() * 10);
+            pos.x += 25 + (workManager.getWokerList(unit.PlacementState).Count * 10);
             Quaternion rot = Quaternion.identity;
 
-            
+            Dictionary<RI.PlacementState, float> powerDictionary = new Dictionary<RI.PlacementState, float>
+            {
+                { RI.PlacementState.Section1, unit.ProductionEfficiency1 },
+                { RI.PlacementState.Section2, unit.ProductionEfficiency2 },
+                { RI.PlacementState.Section3, unit.ProductionEfficiency3 }
+            };
+
+            WokerStatus status = new WokerStatus(powerDictionary);
 
             // 作業員を複製
             Worker worker = Instantiate<Worker>(workerPrefab, pos, rot, unitRootTrans);
-            worker.OriginId = unit.Origin;
-            worker.WorkPower = getWorkPower(unit, unit.PlacementState);
+            worker.initializeWoker(unit.Origin, unit.PlacementState, status);
 
-            work.addWorker(worker);
+            workManager.employWoker(worker);
         }
     }
 
@@ -96,50 +97,5 @@ public class WorkShopSceneMain : MonoBehaviour
     public void callBackWorker(BaseUnit unit)
     {
         employWorker(unit);
-    }
-
-    /// <summary>
-    /// 作業力を取得する
-    /// TODO 定義と取得の方法は考える必要あり
-    /// </summary>
-    /// <param name="unit"></param>
-    /// <param name="placementState"></param>
-    /// <returns></returns>
-    private float getWorkPower(BaseUnit unit, RI.PlacementState placementState)
-    {
-        float workPower = 0.0f;
-
-        switch (placementState)
-        {
-            case RI.PlacementState.NONE:
-                // 初期値でそのまま
-                break;
-
-            case RI.PlacementState.Section1:
-                workPower = unit.ProductionEfficiency1;
-                break;
-
-            case RI.PlacementState.Section2:
-                workPower = unit.ProductionEfficiency2;
-                break;
-
-            case RI.PlacementState.Section3:
-                workPower = unit.ProductionEfficiency3;
-                break;
-
-            case RI.PlacementState.END:
-                // 初期値でそのまま
-                break;
-
-        }
-
-        if (workPower < 0.0f)
-        {
-            workPower = 0.0f;
-        }
-
-        workPower = workPower * workPowerRate;
-
-        return workPower;
     }
 }

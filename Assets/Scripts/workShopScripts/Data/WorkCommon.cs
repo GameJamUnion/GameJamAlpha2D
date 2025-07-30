@@ -34,9 +34,14 @@ namespace WorkCommon
         WORKING,
 
         /// <summary>
-        /// 走ってる
+        /// 移動中
         /// </summary>
         RUNNING,
+
+        /// <summary>
+        /// 休憩中
+        /// </summary>
+        BREAK,
 
         /// <summary>
         /// 呼び出し中
