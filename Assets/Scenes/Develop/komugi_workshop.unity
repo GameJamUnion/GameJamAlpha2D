@@ -363,6 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3ff1d13d95f4547a21db4b7e57a238, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  workPowerRate: 5
   workList:
   - {fileID: 2080463404}
   - {fileID: 2012282227}
@@ -838,6 +839,7 @@ MonoBehaviour:
   burningCount: 5
   sprite: {fileID: 1510371246}
   workColorManager: {fileID: 2079947231}
+  workManager: {fileID: 229329137}
 --- !u!1001 &1602206791
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1012,6 +1014,7 @@ MonoBehaviour:
   burningCount: 5
   sprite: {fileID: 1639104573}
   workColorManager: {fileID: 2079947231}
+  workManager: {fileID: 229329137}
 --- !u!1001 &1668523446
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1411,6 +1414,7 @@ MonoBehaviour:
   burningCount: 5
   sprite: {fileID: 2012282225}
   workColorManager: {fileID: 2079947231}
+  workManager: {fileID: 229329137}
 --- !u!1 &2079947229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1565,6 +1569,7 @@ MonoBehaviour:
   burningCount: 99
   sprite: {fileID: 2080463402}
   workColorManager: {fileID: 2079947231}
+  workManager: {fileID: 229329137}
   maxCreateProductsNum: 10
   createPower: 40
 --- !u!1660057539 &9223372036854775807

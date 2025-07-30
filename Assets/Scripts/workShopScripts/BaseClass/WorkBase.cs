@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 
 /// <summary>
 /// 作業場の基底クラス
@@ -11,27 +10,7 @@ public abstract class WorkBase : StageObjBase
     /// 作業場のID
     /// </summary>
     [SerializeField]
-    private RI.PlacementState workId;
-
-    /// <summary>
-    /// 作業状況
-    /// </summary>
-    private WorkCommon.WorkState workState;
-
-    /// <summary>
-    /// 作業員リスト
-    /// </summary>
-    protected List<Worker> workerList;
-
-    /// <summary>
-    /// 現在の作業物
-    /// </summary>
-    private Product workingProduct;
-
-    /// <summary>
-    /// 実作業ポイント
-    /// </summary>
-    private float workingPoint;
+    protected RI.PlacementState workId;
 
     /// <summary>
     /// 炎上するカウント数
@@ -52,6 +31,27 @@ public abstract class WorkBase : StageObjBase
     private WorkColorManager workColorManager;
 
     /// <summary>
+    /// 作業場の管理クラス
+    /// </summary>
+    [SerializeField]
+    protected WorkManager workManager;
+
+    /// <summary>
+    /// 作業状況
+    /// </summary>
+    private WorkCommon.WorkState workState;
+
+    /// <summary>
+    /// 現在の作業物
+    /// </summary>
+    private Product workingProduct;
+
+    /// <summary>
+    /// 実作業ポイント
+    /// </summary>
+    private float workingPoint;
+
+    /// <summary>
     /// 作業場のID
     /// </summary>
     public RI.PlacementState WorkId
@@ -64,7 +64,6 @@ public abstract class WorkBase : StageObjBase
     {
         base.Start();
         workState = WorkCommon.WorkState.EMPTY;
-        workerList = new List<Worker>();
         workingPoint = 0.0f;
         workingProduct = null;
     }
@@ -97,66 +96,6 @@ public abstract class WorkBase : StageObjBase
             productList = new List<Product>();
         }
         productList.Add(product);
-    }
-
-    /// <summary>
-    /// 作業員を配置する
-    /// </summary>
-    /// <param name="worker"></param>
-    public void addWorker(Worker worker)
-    {
-        if (workerList == null)
-        {
-            workerList = new List<Worker>();
-        }
-        workerList.Add(worker);
-    }
-
-    /// <summary>
-    /// 作業員を解雇する
-    /// </summary>
-    /// <param name="originId"></param>
-    public void removeWorker(int originId)
-    {
-        if (workerList != null)
-        {
-            List<Worker> removeList = workerList.Where(w => w.OriginId == originId).ToList();
-
-            foreach (Worker worker in removeList)
-            {
-                if (worker != null)
-                {
-                    destroyGameObj(worker.gameObject);
-                }
-                workerList.Remove(worker);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 作業員の数を返す
-    /// </summary>
-    /// <returns></returns>
-    public int workerCount()
-    {
-        return workerList.Count;
-    }
-
-    /// <summary>
-    /// 指定の作業員が存在するかどうか
-    /// </summary>
-    /// <param name="originId"></param>
-    /// <returns></returns>
-    public bool ExistsWorker(int originId)
-    {
-        bool exists = false;
-
-        if (workerList != null)
-        {
-            exists = workerList.Any(w => w.OriginId == originId);
-        }
-
-        return exists;
     }
 
     /// <summary>
@@ -232,14 +171,6 @@ public abstract class WorkBase : StageObjBase
                 productList.RemoveAt(0);
             }
         }
-    }
-
-    /// <summary>
-    /// 指定のオブジェクトを削除する
-    /// </summary>
-    private void destroyGameObj(GameObject gameObject)
-    {
-        GameObject.Destroy(gameObject);
     }
 
     /// <summary>
