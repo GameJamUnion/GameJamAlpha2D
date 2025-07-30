@@ -2,6 +2,9 @@ using System;
 using System.ComponentModel;
 using UnityEngine;
 
+/// <summary>
+/// キャラクターの四肢の移動の調整パラメータ
+/// </summary>
 [CreateAssetMenu(fileName = "Ch1LimbAnimationScriptableObject", menuName = "Scriptable Objects/Ch1LimbAnimationScriptableObject")]
 public class Ch1LimbAnimationScriptableObject : ScriptableObject
 {

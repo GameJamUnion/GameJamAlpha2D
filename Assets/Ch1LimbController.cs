@@ -2,6 +2,9 @@ using System;
 using System.ComponentModel;
 using UnityEngine;
 
+/// <summary>
+/// キャラクターの四肢を動かす機能Behavior
+/// </summary>
 public class Ch1LimbController : MonoBehaviour
 {
     #region Definition

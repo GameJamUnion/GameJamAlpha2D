@@ -1,11 +1,17 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// キャラクターの四肢を動かすクラス
+/// </summary>
 public class Ch1LimbAnimator
 {
     #region Definition
     public enum AnimationTypes
     {
+        /// <summary>
+        /// 通常待機
+        /// </summary>
         Waiting,
     }
     #endregion
@@ -21,6 +27,7 @@ public class Ch1LimbAnimator
     private GameObject _TargetObj = null;
     private Ch1LimbAnimationScriptableObject _Data = null;
 
+    // 基本の位置
     private Vector3 _BasePosition = Vector3.zero;
 
     // 前回のループからの経過時間
@@ -56,9 +63,6 @@ public class Ch1LimbAnimator
             default:
                 break;
         }
-
-
-
     }
 
     #region update
@@ -75,6 +79,7 @@ public class Ch1LimbAnimator
             var interpolateValue = data.VerticalMove.MoveCurve.Evaluate(timeRate);
             var addPosY = interpolateValue * data.VerticalMove.MoveValue;
 
+            // 移動
             _TargetObj.transform.localPosition = _BasePosition + new Vector3(0f, addPosY, 0f);
         }
 
