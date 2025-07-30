@@ -25,6 +25,7 @@ public class BaseUnit : MonoBehaviour
     [SerializeField] private BaseResume _baseResume;
     [SerializeField] private ResumeData _resumeData;
     [SerializeField] private ResumeInterface _resumeInterface;
+    [SerializeField] private IntervieweeUnitAbility _intervieweeUnitAbility;
 
     #region プロパティ
     public int Origin
@@ -71,6 +72,11 @@ public class BaseUnit : MonoBehaviour
     public BaseResume MyResume
     {
         get { return _baseResume; }
+    }
+    public IntervieweeUnitAbility IntervieweeUnitAbility
+    {
+        get { return _intervieweeUnitAbility; }
+        set { _intervieweeUnitAbility = value; }
     }
     #endregion
 

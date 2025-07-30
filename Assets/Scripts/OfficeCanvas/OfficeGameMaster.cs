@@ -12,9 +12,12 @@ public class OfficeGameMaster : MonoBehaviour
     [SerializeField] HiredListManager _hiredListManager;
 
     [Header("生成")]
-    [SerializeField] List<BaseUnit> _baseUnits;
+    [SerializeField] List<BaseUnit> _baseUnits;// 雇用中のユニット
     //[SerializeField] List<BaseUnit> _reserveUnits;
-    [SerializeField] List<BaseUnit> _inRoomUnits;
+    [SerializeField] List<BaseUnit> _inRoomUnits;// 部屋の中にいるユニット
+    [SerializeField] List<BaseUnit> _reserveUnits;// 生成だけされているユニット
+
+    [SerializeField] int _maxReserveUnits = 6;
 
     [Header("選択")]
     [SerializeField] BaseUnit _selectUnit;
@@ -26,6 +29,10 @@ public class OfficeGameMaster : MonoBehaviour
     [SerializeField] UnitContainer _unitContainer;
     [Header("NameTable")]
     [SerializeField] NameTable _nameTable;
+    [Header("UnitAbilityCanvasUI")]
+    [SerializeField] UnitAbilityCanvasUI _unitAbilityCanvasUI;
+    [Header("AbilityTable")]
+    [SerializeField] AbilityTable _abilityTable;
 
     #region プロパティ
     //public List<BaseUnit> ReserveUnits
@@ -41,6 +48,11 @@ public class OfficeGameMaster : MonoBehaviour
     public void Initialize()
     {
         //CreateUnit();
+
+        for (; _maxReserveUnits > _reserveUnits.Count;)
+        {
+            CreateUnit();
+        }
     }
 
     void Update()
@@ -48,12 +60,8 @@ public class OfficeGameMaster : MonoBehaviour
 
     }
 
-    public void CreateUnit()
+    private void CreateUnit()
     {
-        // 雇用のために部屋に呼ぶ限界上限３体
-        if (_inRoomUnits.Count >= 3)
-            return;
-
         GameObject newUnit = Instantiate(_createUnitPref);
         if (newUnit == null)
             return;
@@ -69,23 +77,43 @@ public class OfficeGameMaster : MonoBehaviour
             Random.Range(-2f, 2f)
             );
 
-        if (newBaseUnit == null)// 失敗
+        if (newBaseUnit == null)// nullチェック
         {
             Destroy(newUnit);// ユニットの消去
             Debug.Log("#Elalice : OfficeGameMaster > CreateUnit // Error");
             return;
         }
+        newBaseUnit.IntervieweeUnitAbility = _abilityTable.CreateIntervieweeUnitAbility();
+        newBaseUnit.transform.parent = _parentUnits.transform;
 
-        // 成功
+        // リザーブに入れておく
+        _reserveUnits.Add(newBaseUnit);
+    }
+
+    // 呼び込む
+    public void ComeInUnit()
+    {
+        // 雇用のために部屋に呼ぶ限界上限３体
+        if (_inRoomUnits.Count >= 1)
+            return;
+
+        if (_reserveUnits.Count == 0)
+            return;
+
+        BaseUnit newBaseUnit = _reserveUnits[0];
+
+        _reserveUnits.Remove(newBaseUnit);
+        CreateUnit();
+
         if (_resumeInterfaceManager.AssignInactiveResumeInterface)
         {
             newBaseUnit.ResumeInterface = _resumeInterfaceManager.GetInactiveResumeInterface();
             newBaseUnit.ResumeInterface.gameObject.GetComponent<RectTransform>().transform.localPosition = new Vector3(10f * ((float)_resumeInterfaceManager.GetInactiveResumeInterfaceCount() - 1f), 10f * ((float)_resumeInterfaceManager.GetInactiveResumeInterfaceCount() - 1), 0f);
             newBaseUnit.Initialize(_nextID, this);
             _nextID++;
-            newBaseUnit.transform.parent = _parentUnits.transform;
             _inRoomUnits.Add(newBaseUnit);
-            newUnit.GetComponent<RectTransform>().transform.localPosition = Vector3.zero;
+            newBaseUnit.gameObject.GetComponent<RectTransform>().transform.localPosition = Vector3.zero;
+            _unitAbilityCanvasUI.OnDisplay(newBaseUnit.IntervieweeUnitAbility);
         }
     }
 
@@ -102,12 +130,14 @@ public class OfficeGameMaster : MonoBehaviour
         _inRoomUnits.Remove(baseUnit);// 部屋から退出
         baseUnit.ResumeInterface.gameObject.SetActive(false);// 非表示に変更
         baseUnit.gameObject.SetActive(false);// とりあえず雇ったら非表示
+        _unitAbilityCanvasUI.OnHide();
 
         // ※とりあえず瞬間雇用
         _unitContainer.Hired(baseUnit);
     }
     public void Reject(BaseUnit baseUnit)
     {
+        _unitAbilityCanvasUI.OnHide();
         _inRoomUnits.Remove(baseUnit);// 部屋から退出
         Destroy(baseUnit.gameObject);// Unitの削除
     }
