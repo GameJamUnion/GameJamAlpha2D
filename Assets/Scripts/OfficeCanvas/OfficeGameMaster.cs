@@ -38,6 +38,7 @@ public class OfficeGameMaster : MonoBehaviour
     [Header("RandomStatusCreation")]
     [SerializeField] TableSwitch _tableSwitch;
     [SerializeField] FullCustomRandomStatus _fullCustomRandomStatus;
+    [SerializeField] CustomSimpleAutoRandomStatus _customSimpleAutoRandomStatus;
 
     #region プロパティ
     //public List<BaseUnit> ReserveUnits
@@ -79,6 +80,10 @@ public class OfficeGameMaster : MonoBehaviour
             case TableSwitch.FullCustom:
                 newBaseUnit.SetState(CreateFullCustomRamdomStatus());
                 break;
+
+            case TableSwitch.SimpleAuto:
+                newBaseUnit.SetState(CreateSimpleAutoRandomStatus());
+                break;
         }
 
         if (newBaseUnit == null)// nullチェック
@@ -110,21 +115,71 @@ public class OfficeGameMaster : MonoBehaviour
     }
 
     /// <summary>
-    /// 複雑版ランダムステータス生成
+    /// シンプル版自動ランダムステータス生成
     /// </summary>
-    /// <returns></returns>
+    /// <returns>ユニットデータ</returns>
     private BaseUnit CreateSimpleAutoRandomStatus()
     {
+        BaseUnit newBaseUnit = new BaseUnit();
 
-        return null;
+        int sumWeigh = 0;
+        foreach (var data in _customSimpleAutoRandomStatus.Datas)
+        {
+            sumWeigh += data.Weight;
+        }
+
+        // ProductionEfficiency1
+        // 区間の取り出し
+        SimpleAutoRandomStatusSectionData useData = ExtractingSection(sumWeigh);
+        // 値の取り出し
+        float s1 = Random.Range(useData.Max, useData.Min);
+
+        // ProductionEfficiency2
+        useData = ExtractingSection(sumWeigh);
+        float s2 = Random.Range(useData.Max, useData.Min);
+
+        // ProductionEfficiency3
+        useData = ExtractingSection(sumWeigh);
+        float s3 = Random.Range(useData.Max, useData.Min);
+
+        newBaseUnit.SetState(
+            _nameTable.Names[Random.Range(0, 20000) % _nameTable.Names.Count],
+            s1,
+            s2,
+            s3);
+
+        return newBaseUnit;
+    }
+    private SimpleAutoRandomStatusSectionData ExtractingSection(int sumWeigh)
+    {
+        // 区間の指定
+        int random = Random.Range(0, sumWeigh);
+        int currentRandom = random;
+        SimpleAutoRandomStatusSectionData useData = null;
+        // 区間の取り出し
+        for (int i = 0; i < _customSimpleAutoRandomStatus.Datas.Count; i++)
+        {
+            currentRandom -= _customSimpleAutoRandomStatus.Datas[i].Weight;
+            if (currentRandom <= 0)
+            {
+                useData = _customSimpleAutoRandomStatus.Datas[i];
+                break;
+            }
+        }
+
+        if (useData == null)
+            return null;
+
+        return useData;
     }
 
     /// <summary>
-    /// 複雑版ランダムステータス生成
+    /// 複雑版自動ランダムステータス生成
     /// </summary>
-    /// <returns></returns>
+    /// <returns>ユニットデータ</returns>
     private BaseUnit CreateComplexAutoRandomStatus()
     {
+
         return null;
     }
 
@@ -292,5 +347,6 @@ namespace OfficeGameMasterDebug
     public enum TableSwitch
     {
         FullCustom,
+        SimpleAuto,
     }
 }
