@@ -34,7 +34,7 @@ public class UnitWalk : MonoBehaviour
 	/// “ž’…ƒCƒxƒ“ƒg“o˜^
 	/// </summary>
 	/// <param name="exitMoveEvent"></param>
-	private void RegisterExitMoveEvent(UnityAction<GoalPointType> exitMoveEvent) {
+	public void RegisterExitMoveEvent(UnityAction<GoalPointType> exitMoveEvent) {
 		m_onExitMoveEvent += exitMoveEvent;
 	}
 
