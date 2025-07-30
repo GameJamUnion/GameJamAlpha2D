@@ -1,3 +1,4 @@
+using OfficeGameMasterDebug;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -34,6 +35,10 @@ public class OfficeGameMaster : MonoBehaviour
     [Header("AbilityTable")]
     [SerializeField] AbilityTable _abilityTable;
 
+    [Header("RandomStatusCreation")]
+    [SerializeField] TableSwitch _tableSwitch;
+    [SerializeField] FullCustomRandomStatus _fullCustomRandomStatus;
+
     #region プロパティ
     //public List<BaseUnit> ReserveUnits
     //{
@@ -69,13 +74,12 @@ public class OfficeGameMaster : MonoBehaviour
 
         BaseUnit newBaseUnit = newUnit.GetComponent<BaseUnit>();
 
-        // ユニットのステータスをランダム化
-        newBaseUnit.SetState(
-            _nameTable.Names[Random.Range(0, 20000) % _nameTable.Names.Count],
-            Random.Range(-2f, 2f),
-            Random.Range(-2f, 2f),
-            Random.Range(-2f, 2f)
-            );
+        switch (_tableSwitch)
+        {
+            case TableSwitch.FullCustom:
+                newBaseUnit.SetState(CreateFullCustomRamdomStatus());
+                break;
+        }
 
         if (newBaseUnit == null)// nullチェック
         {
@@ -89,6 +93,42 @@ public class OfficeGameMaster : MonoBehaviour
         // リザーブに入れておく
         _reserveUnits.Add(newBaseUnit);
     }
+
+    #region RandomStatus
+    private BaseUnit CreateFullCustomRamdomStatus()
+    {
+        ProductionEfficiencys productionEfficiencys = _fullCustomRandomStatus.GetRandomProductionEfficiencys();
+
+        BaseUnit newBaseUnit = new BaseUnit();
+        newBaseUnit.SetState(
+            _nameTable.Names[Random.Range(0, 20000) % _nameTable.Names.Count],
+            productionEfficiencys.ProductionEfficiency1,
+            productionEfficiencys.ProductionEfficiency2,
+            productionEfficiencys.ProductionEfficiency3);
+
+        return newBaseUnit;
+    }
+
+    /// <summary>
+    /// 複雑版ランダムステータス生成
+    /// </summary>
+    /// <returns></returns>
+    private BaseUnit CreateSimpleAutoRandomStatus()
+    {
+
+        return null;
+    }
+
+    /// <summary>
+    /// 複雑版ランダムステータス生成
+    /// </summary>
+    /// <returns></returns>
+    private BaseUnit CreateComplexAutoRandomStatus()
+    {
+        return null;
+    }
+
+    #endregion RandomStatus
 
     // 呼び込む
     public void ComeInUnit()
@@ -244,5 +284,13 @@ public class OfficeGameMaster : MonoBehaviour
             }
         }
         return false;
+    }
+}
+
+namespace OfficeGameMasterDebug
+{
+    public enum TableSwitch
+    {
+        FullCustom,
     }
 }
