@@ -1,6 +1,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// アビリティテーブル
+/// </summary>
+[CreateAssetMenu(fileName = "AbilityTable", menuName = "Scriptable Objects/AbilityTable")]
+public class AbilityTable : ScriptableObject {
+	[SerializeField]
+	private List<Ability> m_abilityDatas;
+
+	public List<Ability> abilityDatas => m_abilityDatas;
+
+	/// <summary>
+	/// 面接者用のアビリティデータの作成
+	/// </summary>
+	/// <returns></returns>
+	public IntervieweeUnitAbility CreateIntervieweeUnitAbility() {
+		var data = new IntervieweeUnitAbility();
+
+		for (int i = 0; i < data.abilities.Length; ++i) {
+			int index = Random.Range(0, m_abilityDatas.Count - 1);
+			data.abilities[i] = abilityDatas[index];
+		}
+
+		return data;
+	}
+}
+
 [System.Serializable]
 public class Ability
 {
@@ -28,31 +54,6 @@ public enum AbilityType {
 	Agility_Down	= 1 << 5,		// 速度ダウン
 }
 
-/// <summary>
-/// アビリティテーブル
-/// </summary>
-[CreateAssetMenu(fileName = "AbilityTable", menuName = "Scriptable Objects/AbilityTable")]
-public class AbilityTable : ScriptableObject{
-	[SerializeField]
-	private List<Ability> m_abilityDatas;
-
-	public List<Ability> abilityDatas => m_abilityDatas;
-
-	/// <summary>
-	/// 面接者用のアビリティデータの作成
-	/// </summary>
-	/// <returns></returns>
-	public IntervieweeUnitAbility CreateIntervieweeUnitAbility() {
-		var data = new IntervieweeUnitAbility();
-
-		for(int i = 0; i < data.abilities.Length; ++i) {
-			int index = Random.Range(0, m_abilityDatas.Count - 1);
-			data.abilities[i] = abilityDatas[index];
-		}
-
-		return data;
-	}
-}
 
 /// <summary>
 /// 面接者が持つ特性
