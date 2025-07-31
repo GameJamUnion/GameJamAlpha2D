@@ -62,7 +62,19 @@ public class WorkShopSceneMain : MonoBehaviour
                 { RI.PlacementState.Section3, unit.ProductionEfficiency3 }
             };
 
-            WokerStatus status = new WokerStatus(powerDictionary);
+            // TODO 渡す値は調整
+            float physical = 0.0f;
+            float listeningPower = 0.0f;
+            float lyingPower = 0.5f;
+            float obstaclePower = 0.5f;
+            float speed = 1.0f;
+
+            WokerStatus status = new WokerStatus(powerDictionary,
+                physical,
+                listeningPower,
+                lyingPower,
+                obstaclePower,
+                speed);
 
             // 作業員を複製
             Worker worker = Instantiate<Worker>(workerPrefab, pos, rot, unitRootTrans);

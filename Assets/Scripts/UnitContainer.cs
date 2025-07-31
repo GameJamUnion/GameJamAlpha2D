@@ -1,3 +1,4 @@
+using RI;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -23,6 +24,12 @@ public class UnitContainer : ScriptableObject
     /// 呼び出した後返すイベント
     /// </summary>
     private UnityAction<BaseUnit> onCallBack;
+
+	/// <summary>
+	/// 作業場変更イベント
+	/// </summary>
+	private UnityAction<int, RI.PlacementState> onMoveSectionByWorker;
+
 
     /// <summary>
     /// 雇用
@@ -59,6 +66,14 @@ public class UnitContainer : ScriptableObject
 		onCallBack?.Invoke(unit);
 	}
 
+    /// <summary>
+    /// 作業場変更
+    /// </summary>
+    public void MoveSectionByWorker(int originId, RI.PlacementState placementState)
+	{
+		onMoveSectionByWorker?.Invoke(originId, placementState);
+	}
+
 	/// <summary>
 	/// 雇用イベント登録
 	/// </summary>
@@ -93,5 +108,14 @@ public class UnitContainer : ScriptableObject
     public void RegisterEventOnCallBack(UnityAction<BaseUnit> onCallBack)
 	{
         this.onCallBack += onCallBack;
+    }
+
+    /// <summary>
+    /// 作業場変更イベント登録
+    /// </summary>
+    /// <param name="onMoveSectionByWorker"></param>
+    public void RegisterEventOnMoveSectionByWorker(UnityAction<int, RI.PlacementState> onMoveSectionByWorker)
+    {
+        this.onMoveSectionByWorker += onMoveSectionByWorker;
     }
 }

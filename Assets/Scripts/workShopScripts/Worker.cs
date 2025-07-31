@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -5,6 +6,12 @@ using UnityEngine;
 /// </summary>
 public class Worker : ObjBase
 {
+    /// <summary>
+    /// ユニットコンテナ
+    /// </summary>
+    [SerializeField]
+    private UnitContainer unitContainer;
+
     /// <summary>
     /// ベース疲労値
     /// </summary>
@@ -30,6 +37,17 @@ public class Worker : ObjBase
     private float maxHitPoint;
 
     /// <summary>
+    /// トラブルイベント頻度
+    /// </summary>
+    [SerializeField]
+    private int troubleInterval;
+
+    /// <summary>
+    /// トラブルイベント発火カウント
+    /// </summary>
+    private int troubleCount;
+
+    /// <summary>
     /// 作業員ID
     /// </summary>
     private int originId;
@@ -37,21 +55,24 @@ public class Worker : ObjBase
     /// <summary>
     /// 作業員のステータス
     /// </summary>
-    private WokerStatus wokerStatus;
+    private WokerStatus workerStatus;
 
     /// <summary>
     /// 体力
     /// </summary>
+    [SerializeField]
     private float hitPoint;
 
     /// <summary>
     /// 配属している作業場のID
     /// </summary>
+    [SerializeField]
     private RI.PlacementState assignWorkId;
 
     /// <summary>
     /// 作業員の状態
     /// </summary>
+    [SerializeField]
     private WorkCommon.WorkerState workerState;
 
     #region Property
@@ -69,8 +90,8 @@ public class Worker : ObjBase
     /// </summary>
     public WokerStatus WokerStatus
     {
-        get { return wokerStatus; }
-        set { wokerStatus = value; }
+        get { return workerStatus; }
+        set { workerStatus = value; }
     }
 
     /// <summary>
@@ -103,13 +124,22 @@ public class Worker : ObjBase
                 workerState = WorkCommon.WorkerState.BREAK;
             }
 
-            
+            troubleCount++;
+            if (troubleCount > troubleInterval)
+            {
+                troubleCount = 0;
+                // 嘘つきイベントが発生しなかった場合のみ邪魔イベント判定を実行
+                if (!lyingEvent())
+                {
+                    obstacleEvent();
+                }
+            }
         }
         else if (workerState == WorkCommon.WorkerState.BREAK)
         {
             recoveryHitPoint();
 
-            if (hitPoint >= 100.0f)
+            if (hitPoint >= maxHitPoint)
             {
                 workerState = WorkCommon.WorkerState.WORKING;
             }
@@ -136,6 +166,9 @@ public class Worker : ObjBase
         AssingWorkId = assignWorkId;
         WokerStatus = wokerStatus;
         hitPoint = maxHitPoint;
+        baseDamage = maxHitPoint * 0.05f;
+        troubleCount = 0;
+        workerState = WorkCommon.WorkerState.WORKING;
     }
 
     /// <summary>
@@ -145,7 +178,7 @@ public class Worker : ObjBase
     /// <returns></returns>
     public float getWorkPower(RI.PlacementState workId)
     {
-        return wokerStatus.getWorkPower(workId);
+        return workerStatus.getWorkPower(workId);
     }
 
     /// <summary>
@@ -153,11 +186,11 @@ public class Worker : ObjBase
     /// </summary>
     private void takeDamage()
     {
-        float damage = baseDamage * wokerStatus.Physical;
-        float rate = Random.Range(damageVariationRate * (-1), damageVariationRate);
-        damage = damage * rate;
+        float damage = baseDamage - (workerStatus.Physical * baseDamage);
+        float rate = UnityEngine.Random.Range(damageVariationRate * (-1), damageVariationRate);
+        damage = damage + (damage * rate);
 
-        hitPoint -= damage;
+        hitPoint = hitPoint - damage;
 
         if (hitPoint < 0.0f) hitPoint = 0.0f;
     }
@@ -170,5 +203,78 @@ public class Worker : ObjBase
         hitPoint += baseRecovery;
 
         if (hitPoint > maxHitPoint) hitPoint = maxHitPoint;
+    }
+
+    /// <summary>
+    /// 邪魔イベント
+    /// </summary>
+    private bool obstacleEvent()
+    {
+        if (workerStatus.ObstaclePower <= 0) return false;
+
+        float obstacleValue = workerStatus.ObstaclePower * 100;
+
+        if (UnityEngine.Random.Range(0, 100) < obstacleValue)
+        {
+            // 勝手に作業場を移動する
+            moveWorkSection();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// 嘘つきイベント
+    /// </summary>
+    private bool lyingEvent()
+    {
+        if (workerStatus.LyingPower <= 0) return false;
+
+        float lyingValue = workerStatus.LyingPower * 100;
+
+        if (UnityEngine.Random.Range(0, 100) < lyingValue)
+        {
+            // 強制で状態を休憩にする
+            this.workerState = WorkCommon.WorkerState.BREAK;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// 作業場を勝手に移動する
+    /// </summary>
+    private void moveWorkSection()
+    {
+        assignWorkId = getRondomWorkSection(assignWorkId);
+        unitContainer.MoveSectionByWorker(originId, assignWorkId);
+    }
+
+    /// <summary>
+    /// 指定した作業場以外の作業場を取得する
+    /// </summary>
+    /// <param name="placementState"></param>
+    /// <returns></returns>
+    private RI.PlacementState getRondomWorkSection(RI.PlacementState placementState)
+    {
+        RI.PlacementState movePlace = RI.PlacementState.NONE;
+        int count = Enum.GetNames(typeof(RI.PlacementState)).Length;
+
+        do
+        {
+            int num = UnityEngine.Random.Range(1, count-1);
+            movePlace = (RI.PlacementState)Enum.ToObject(typeof(RI.PlacementState), num);
+        }
+        while (placementState == movePlace
+        || placementState == RI.PlacementState.NONE
+        || placementState == RI.PlacementState.END);
+
+        return movePlace;
     }
 }

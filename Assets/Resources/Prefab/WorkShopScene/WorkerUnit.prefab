@@ -46,10 +46,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   workInterval: 1
-  baseDamage: 10
+  unitContainer: {fileID: 11400000, guid: 6d20c0998ac4d0b409f4cf4a16e96985, type: 2}
+  baseDamage: 5
   damageVariationRate: 0.2
   baseRecovery: 15
   maxHitPoint: 100
+  troubleInterval: 5
+  hitPoint: 0
+  assignWorkId: 0
+  workerState: 0
 --- !u!1001 &4249795535463199519
 PrefabInstance:
   m_ObjectHideFlags: 0

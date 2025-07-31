@@ -51,7 +51,17 @@ namespace WorkCommon
         /// <summary>
         /// 解雇
         /// </summary>
-        REMOVE
+        REMOVE,
+        
+        /// <summary>
+        /// 邪魔中
+        /// </summary>
+        OBSTACLE,
+
+        /// <summary>
+        /// 邪魔され中
+        /// </summary>
+        BE_OBSTACLED
     }
 
 }

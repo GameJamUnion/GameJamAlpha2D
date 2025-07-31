@@ -36,12 +36,28 @@ public class WokerStatus
     private float speed;
 
     /// <summary>
-    /// 作業力
+    /// コンストラクタ
     /// </summary>
-    /// <param name="wPower"></param>
-    public WokerStatus(Dictionary<RI.PlacementState, float> wPower)
+    /// <param name="_workPower"></param>
+    /// <param name="_physical"></param>
+    /// <param name="_listeningPower"></param>
+    /// <param name="_lyingPower"></param>
+    /// <param name="_obstaclePower"></param>
+    /// <param name="_speed"></param>
+    public WokerStatus(Dictionary<RI.PlacementState, float> _workPower,
+        float _physical,
+        float _listeningPower,
+        float _lyingPower,
+        float _obstaclePower,
+        float _speed
+        )
     {
-        workPower = wPower;
+        workPower = _workPower;
+        physical = _physical;
+        listeningPower = _listeningPower;
+        lyingPower = _lyingPower;
+        obstaclePower = _obstaclePower;
+        speed = _speed;
     }
 
     /// <summary>

@@ -14,6 +14,12 @@ public class WorkManager : MonoBehaviour
     private float workPowerRate;
 
     /// <summary>
+    /// 作業場シーンメイン処理
+    /// </summary>
+    [SerializeField]
+    private WorkShopSceneMain sceneMain;
+
+    /// <summary>
     /// 作業場リスト
     /// </summary>
     [SerializeField]

@@ -364,6 +364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   workPowerRate: 5
+  sceneMain: {fileID: 1131180582}
   workList:
   - {fileID: 2080463404}
   - {fileID: 2012282227}
@@ -630,7 +631,6 @@ MonoBehaviour:
   workManager: {fileID: 229329137}
   unitRootTrans: {fileID: 1745313118}
   unitContainer: {fileID: 11400000, guid: 6d20c0998ac4d0b409f4cf4a16e96985, type: 2}
-  workPowerRate: 5
 --- !u!4 &1131180583
 Transform:
   m_ObjectHideFlags: 0
