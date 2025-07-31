@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a50a04feac60183459a27af0c3418190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  workInterval: 0
+  workInterval: 1
+  baseDamage: 10
+  damageVariationRate: 0.2
 --- !u!1001 &4249795535463199519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135,6 +137,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7186fd15c112cf43a72ec4a916fee13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HeadParam:
+    TargetObj: {fileID: 0}
+    ScriptableObject: {fileID: 0}
+  BodyParam:
+    TargetObj: {fileID: 0}
+    ScriptableObject: {fileID: 0}
+  LegParam:
+    TargetObj: {fileID: 0}
+    ScriptableObject: {fileID: 0}
+  RightHandParam:
+    TargetObj: {fileID: 0}
+    ScriptableObject: {fileID: 0}
+  LimbLeftHandParam:
+    TargetObj: {fileID: 0}
+    ScriptableObject: {fileID: 0}
 --- !u!4 &8080513234899733937 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5393607545281167022, guid: b6b10d23dfa374b43af30a7389b5940f, type: 3}

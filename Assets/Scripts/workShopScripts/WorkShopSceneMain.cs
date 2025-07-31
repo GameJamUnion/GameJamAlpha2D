@@ -25,7 +25,7 @@ public class WorkShopSceneMain : MonoBehaviour
     private Transform unitRootTrans;
 
     /// <summary>
-    /// ユニット
+    /// ユニットコンテナ
     /// </summary>
     [SerializeField]
     private UnitContainer unitContainer;

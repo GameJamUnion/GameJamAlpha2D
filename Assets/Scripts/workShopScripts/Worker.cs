@@ -6,6 +6,18 @@ using UnityEngine;
 public class Worker : ObjBase
 {
     /// <summary>
+    /// ベース疲労値
+    /// </summary>
+    [SerializeField]
+    private float baseDamage;
+
+    /// <summary>
+    /// 疲労値の幅(割合)
+    /// </summary>
+    [SerializeField]
+    private float damageVariationRate;
+
+    /// <summary>
     /// 作業員ID
     /// </summary>
     private int originId;
@@ -29,6 +41,35 @@ public class Worker : ObjBase
     /// 作業員の状態
     /// </summary>
     private WorkCommon.WorkerState workerState;
+
+    #region Property
+    /// <summary>
+    /// 作業員ID
+    /// </summary>
+    public int OriginId
+    {
+        get { return originId; }
+        set { originId = value; }
+    }
+
+    /// <summary>
+    /// 作業員のステータス
+    /// </summary>
+    public WokerStatus WokerStatus
+    {
+        get { return wokerStatus; }
+        set { wokerStatus = value; }
+    }
+
+    /// <summary>
+    /// 配属している作業場のID
+    /// </summary>
+    public RI.PlacementState AssingWorkId
+    {
+        get { return assignWorkId; }
+        set { assignWorkId = value; }
+    }
+    #endregion
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     override protected void Start()
@@ -85,33 +126,6 @@ public class Worker : ObjBase
     }
 
     /// <summary>
-    /// 作業員ID
-    /// </summary>
-    public int OriginId
-    {
-        get { return originId; }
-        set { originId = value; }
-    }
-
-    /// <summary>
-    /// 作業員のステータス
-    /// </summary>
-    public WokerStatus WokerStatus
-    {
-        get { return wokerStatus; }
-        set { wokerStatus = value; }
-    }
-
-    /// <summary>
-    /// 配属している作業場のID
-    /// </summary>
-    public RI.PlacementState AssingWorkId
-    {
-        get { return assignWorkId; }
-        set { assignWorkId = value; }
-    }
-
-    /// <summary>
     /// 作業力を取得する
     /// </summary>
     /// <param name="workId"></param>
@@ -126,14 +140,11 @@ public class Worker : ObjBase
     /// </summary>
     private void takeDamage()
     {
-        float baseValue = 10f;
-        float variationRate = 0.2f;
-        baseValue = baseValue * wokerStatus.Physical;
+        float damage = baseDamage * wokerStatus.Physical;
+        float rate = Random.Range(damageVariationRate * (-1), damageVariationRate);
+        damage = damage * rate;
 
-        float rate = Random.Range(variationRate * (-1), variationRate);
-        baseValue = baseValue * rate;
-
-        hitPoint -= baseValue;
+        hitPoint -= damage;
 
         if (hitPoint < 0.0f) hitPoint = 0.0f;
     }

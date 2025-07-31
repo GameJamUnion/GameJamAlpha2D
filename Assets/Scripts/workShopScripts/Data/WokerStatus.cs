@@ -54,14 +54,7 @@ public class WokerStatus
         return workPower[workId];
     }
 
-    /// <summary>
-    /// ’®—Í
-    /// </summary>
-    public float ListeningPower
-    {
-        get { return listeningPower; }
-        set { listeningPower = value; }
-    }
+    #region Property
 
     /// <summary>
     /// ‹v—ÍEW’†—Í
@@ -70,6 +63,15 @@ public class WokerStatus
     {
         get { return physical; }
         set { physical = value; }
+    }
+
+    /// <summary>
+    /// ’®—Í
+    /// </summary>
+    public float ListeningPower
+    {
+        get { return listeningPower; }
+        set { listeningPower = value; }
     }
 
     /// <summary>
@@ -98,4 +100,6 @@ public class WokerStatus
         get { return speed; }
         set { speed = value; }
     }
+
+    #endregion
 }

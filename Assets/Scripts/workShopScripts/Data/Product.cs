@@ -24,6 +24,8 @@ public class Product
         scorePoint = 1;     // TODO とりあえず1
     }
 
+    #region Property
+
     /// <summary>
     /// 必要な作業量
     /// </summary>
@@ -42,4 +44,5 @@ public class Product
         set { scorePoint = value; }
     }
 
+    #endregion
 }
