@@ -30,6 +30,12 @@ public class WorkShopSceneMain : MonoBehaviour
     [SerializeField]
     private UnitContainer unitContainer;
 
+    /// <summary>
+    /// スコア
+    /// </summary>
+    [SerializeField]
+    private WorkScore score;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     virtual protected void Start()
     {
@@ -37,6 +43,30 @@ public class WorkShopSceneMain : MonoBehaviour
         unitContainer.RegisterEventOnRemove(removeWorker);
         unitContainer.RegisterEventOnCall(callWorker);
         unitContainer.RegisterEventOnCallBack(callBackWorker);
+    }
+
+    private void Update()
+    {
+        #if UNITY_EDITOR
+        if (checkDebugInput())
+        {
+            score.AddScore(1);
+        }
+        #endif
+    }
+
+    /// <summary>
+    /// Pボタンをチェック
+    /// </summary>
+    /// <returns></returns>
+    private bool checkDebugInput()
+    {
+        if (Input.GetKeyDown(KeyCode.P) == true)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>

@@ -631,6 +631,7 @@ MonoBehaviour:
   workManager: {fileID: 229329137}
   unitRootTrans: {fileID: 1745313118}
   unitContainer: {fileID: 11400000, guid: 6d20c0998ac4d0b409f4cf4a16e96985, type: 2}
+  score: {fileID: 11400000, guid: 3f77c20b27896be429db014f644342d2, type: 2}
 --- !u!4 &1131180583
 Transform:
   m_ObjectHideFlags: 0
