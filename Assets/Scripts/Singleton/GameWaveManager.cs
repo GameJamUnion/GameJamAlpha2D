@@ -24,6 +24,9 @@ public class GameWaveManager : SingletonBase<GameWaveManager>
     private WorkScore _ActiveWorkScore = null;
     private WorkTime _ActiveWorkTime = null;
 
+    // クリアしたウェーブの総スコア
+    private int _TotalClearScore = 0;
+
     // 通知用
     private GameWaveChangeReceiveParam _ReceiveParam = null;
     #endregion Field
@@ -55,6 +58,7 @@ public class GameWaveManager : SingletonBase<GameWaveManager>
             _ActiveWorkTime.RegisterTimeupEvent(onTimeUpEvent);
         }
 
+        _TotalClearScore = 0;
     }
 
     public override void Update()
@@ -138,6 +142,8 @@ public class GameWaveManager : SingletonBase<GameWaveManager>
             return;
         }
 
+        _TotalClearScore += _ActiveWorkScore.score;
+
         var count = _WaveSettings.Configuration.WorkScores.Length;
         if (count - 1 > _ActiveWorkScoreIndex)
         {
@@ -147,6 +153,7 @@ public class GameWaveManager : SingletonBase<GameWaveManager>
 
             // 通知
             _ReceiveParam.WorkScore = _ActiveWorkScore;
+            
             notifyWaveChange();
         }
         else
@@ -174,7 +181,7 @@ public class GameWaveManager : SingletonBase<GameWaveManager>
         var score = 0;
         if (_ActiveWorkScore != null)
         {
-            score = _ActiveWorkScore.score;
+            score = _TotalClearScore + _ActiveWorkScore.score;
         }
 
         var time = 0f;
@@ -198,7 +205,7 @@ public class GameWaveManager : SingletonBase<GameWaveManager>
         var score = 0;
         if (_ActiveWorkScore != null)
         {
-            score = _ActiveWorkScore.score;
+            score = _TotalClearScore + _ActiveWorkScore.score;
         }
 
         var time = 0f;
