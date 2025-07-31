@@ -249,7 +249,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8829985894573850029}
   - component: {fileID: 6389175528168459149}
-  - component: {fileID: 6096494659817665072}
   m_Layer: 0
   m_Name: GameClear
   m_TagString: Untagged
@@ -290,20 +289,6 @@ MonoBehaviour:
   _SelectPanel: {fileID: 4903070211270585485}
   _ScoreObject: {fileID: 3252953163949355529}
   _RemainingTimeObject: {fileID: 564577496324579451}
---- !u!114 &6096494659817665072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133650616352108104}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 725d713e14a1aff41969613cfb45d550, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _WorkTime: {fileID: 11400000, guid: 5f684e5fa59a2be4c9c547c3f4e98eef, type: 2}
-  _WorkScore: {fileID: 11400000, guid: 3f77c20b27896be429db014f644342d2, type: 2}
 --- !u!1 &6350561410868080260
 GameObject:
   m_ObjectHideFlags: 0

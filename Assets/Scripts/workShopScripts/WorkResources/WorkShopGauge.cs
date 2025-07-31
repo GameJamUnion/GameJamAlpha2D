@@ -2,7 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
-public class WorkShopGauge : MonoBehaviour {
+public class WorkShopGauge : MonoBehaviour
+    , IGameWaveChangeReceiver
+{
 	private Slider m_slider;
 
 	[SerializeField]
@@ -13,7 +15,8 @@ public class WorkShopGauge : MonoBehaviour {
 	}
 
 	private void Start() {
-		m_score.RegisterGauge(this);
+		//m_score.RegisterGauge(this);
+		GameWaveManager.Instance.registerReceiver(this);
 	}
 
 	/// <summary>
@@ -24,4 +27,12 @@ public class WorkShopGauge : MonoBehaviour {
 		if (m_slider == null) { return; }
 		m_slider.value = rate;
 	}
+
+    #region IGameWaveChangeReceiver
+    public void receiveChangeWave(GameWaveChangeReceiveParam param)
+    {
+        param.WorkScore.RegisterGauge(this);
+    }
+    #endregion IGameWaveChangeReceiver
+
 }

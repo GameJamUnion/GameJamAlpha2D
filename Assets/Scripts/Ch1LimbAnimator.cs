@@ -41,6 +41,11 @@ public class Ch1LimbAnimator
     public void setup(Ch1LimbController.LimbAnimatorParam targetParam)
     {
         _TargetObj = targetParam.TargetObj;
+        if (_TargetObj == null)
+        {
+            return;
+        }
+
         _BasePosition = _TargetObj.transform.localPosition;
         _Data = targetParam.ScriptableObject;
     }
