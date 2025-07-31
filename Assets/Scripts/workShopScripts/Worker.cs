@@ -18,6 +18,18 @@ public class Worker : ObjBase
     private float damageVariationRate;
 
     /// <summary>
+    /// ベース疲労回復値
+    /// </summary>
+    [SerializeField]
+    private float baseRecovery;
+
+    /// <summary>
+    /// 最大体力
+    /// </summary>
+    [SerializeField]
+    private float maxHitPoint;
+
+    /// <summary>
     /// 作業員ID
     /// </summary>
     private int originId;
@@ -30,7 +42,7 @@ public class Worker : ObjBase
     /// <summary>
     /// 体力
     /// </summary>
-    private float hitPoint = 100.0f; // TODO とりあえず100
+    private float hitPoint;
 
     /// <summary>
     /// 配属している作業場のID
@@ -123,6 +135,7 @@ public class Worker : ObjBase
         OriginId = originId;
         AssingWorkId = assignWorkId;
         WokerStatus = wokerStatus;
+        hitPoint = maxHitPoint;
     }
 
     /// <summary>
@@ -154,8 +167,8 @@ public class Worker : ObjBase
     /// </summary>
     private void recoveryHitPoint()
     {
-        hitPoint += 15.0f;
+        hitPoint += baseRecovery;
 
-        if (hitPoint > 100.0f) hitPoint = 100.0f;
+        if (hitPoint > maxHitPoint) hitPoint = maxHitPoint;
     }
 }

@@ -48,6 +48,8 @@ MonoBehaviour:
   workInterval: 1
   baseDamage: 10
   damageVariationRate: 0.2
+  baseRecovery: 15
+  maxHitPoint: 100
 --- !u!1001 &4249795535463199519
 PrefabInstance:
   m_ObjectHideFlags: 0
