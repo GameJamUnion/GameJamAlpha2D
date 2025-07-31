@@ -1715,9 +1715,11 @@ MonoBehaviour:
   _nameTable: {fileID: 11400000, guid: 5f1b26d26419e734a849475b21e88705, type: 2}
   _unitAbilityCanvasUI: {fileID: 2115819146}
   _abilityTable: {fileID: 11400000, guid: 13a2e7bb9d47f9a479a758efeaf1f912, type: 2}
-  _tableSwitch: 1
+  _tableSwitch: 2
   _fullCustomRandomStatus: {fileID: 11400000, guid: fbd0bf57a9f98a6439111dd16c9db4ca, type: 2}
   _customSimpleAutoRandomStatus: {fileID: 11400000, guid: ee3429e7748ec184abbfc6fed4bfffc4, type: 2}
+  _caPointTable: {fileID: 11400000, guid: 60e8a76682e77004397c87a1bfce8ca9, type: 2}
+  _caDistributionTable: {fileID: 11400000, guid: 128fee4f70d8bfc47b84b32de0a0ecb9, type: 2}
 --- !u!1 &1228862419
 GameObject:
   m_ObjectHideFlags: 0

@@ -39,6 +39,8 @@ public class OfficeGameMaster : MonoBehaviour
     [SerializeField] TableSwitch _tableSwitch;
     [SerializeField] FullCustomRandomStatus _fullCustomRandomStatus;
     [SerializeField] CustomSimpleAutoRandomStatus _customSimpleAutoRandomStatus;
+    [SerializeField] CAPointTable _caPointTable;
+    [SerializeField] CADistributionTable _caDistributionTable;
 
     #region プロパティ
     //public List<BaseUnit> ReserveUnits
@@ -84,6 +86,10 @@ public class OfficeGameMaster : MonoBehaviour
             case TableSwitch.SimpleAuto:
                 newBaseUnit.SetState(CreateSimpleAutoRandomStatus());
                 break;
+
+            case TableSwitch.ComplexAuto:
+                newBaseUnit.SetState(CreateComplexAutoRandomStatus());
+                break;
         }
 
         if (newBaseUnit == null)// nullチェック
@@ -122,24 +128,24 @@ public class OfficeGameMaster : MonoBehaviour
     {
         BaseUnit newBaseUnit = new BaseUnit();
 
-        int sumWeigh = 0;
+        int sumWeight = 0;
         foreach (var data in _customSimpleAutoRandomStatus.Datas)
         {
-            sumWeigh += data.Weight;
+            sumWeight += data.Weight;
         }
 
         // ProductionEfficiency1
         // 区間の取り出し
-        SimpleAutoRandomStatusSectionData useData = ExtractingSection(sumWeigh);
+        SimpleAutoRandomStatusSectionData useData = ExtractingSection(sumWeight);
         // 値の取り出し
         float s1 = Random.Range(useData.Max, useData.Min);
 
         // ProductionEfficiency2
-        useData = ExtractingSection(sumWeigh);
+        useData = ExtractingSection(sumWeight);
         float s2 = Random.Range(useData.Max, useData.Min);
 
         // ProductionEfficiency3
-        useData = ExtractingSection(sumWeigh);
+        useData = ExtractingSection(sumWeight);
         float s3 = Random.Range(useData.Max, useData.Min);
 
         newBaseUnit.SetState(
@@ -179,8 +185,107 @@ public class OfficeGameMaster : MonoBehaviour
     /// <returns>ユニットデータ</returns>
     private BaseUnit CreateComplexAutoRandomStatus()
     {
+        BaseUnit newBaseUnit = new BaseUnit();
 
-        return null;
+        float p1, p2, p3;
+        float s1, s2, s3;
+
+        int sumWeightCAD = 0;
+        int sumWeightCAP = 0;
+
+        foreach (var data in _caDistributionTable.Datas)
+        {
+            sumWeightCAD += data.Weight;
+        }
+        foreach (var data in _caPointTable.Datas)
+        {
+            sumWeightCAP += data.Weight;
+        }
+
+        DistributionTableData useDTD = null;
+        PointTableData usePTD = null;
+
+        // p1
+        useDTD = ExtractingSectionCAD(sumWeightCAD);
+
+        if (useDTD == null)
+            return null;
+
+        p1 = Random.Range(useDTD.Min, useDTD.Max);
+
+        // p2
+        useDTD = ExtractingSectionCAD(sumWeightCAD);
+
+        if (useDTD == null)
+            return null;
+
+        p2 = (1f - p1)/*残数*/ * Random.Range(useDTD.Min, useDTD.Max);
+
+        // p3
+        p3 = 1 - p1 - p2;
+
+        /* p1,p2,p3 ポイント配布比率の計算終了 */
+
+        usePTD = ExtractingSectionCAP(sumWeightCAP);
+        float point = Random.Range(usePTD.Min, usePTD.Max);
+
+        Debug.Log("Point : " + point);
+
+        // s1
+        if (usePTD == null)
+            return null;
+
+        // とりあえずマジックナンバーは随時変えつつで... (現在の想定 -1～1)
+        s1 = p1 * point - 1f;
+        s2 = p2 * point - 1f;
+        s3 = p3 * point - 1f;
+        newBaseUnit.SetState(_nameTable.Names[Random.Range(0, 20000) % _nameTable.Names.Count], s1, s2, s3);
+
+        return newBaseUnit;
+    }
+    private PointTableData ExtractingSectionCAP(int sumWeigh)
+    {
+        // 区間の指定
+        int random = Random.Range(0, sumWeigh);
+        int currentRandom = random;
+        PointTableData useData = null;
+        // 区間の取り出し
+        for (int i = 0; i < _caPointTable.Datas.Count; i++)
+        {
+            currentRandom -= _caPointTable.Datas[i].Weight;
+            if (currentRandom <= 0)
+            {
+                useData = _caPointTable.Datas[i];
+                break;
+            }
+        }
+
+        if (useData == null)
+            return null;
+
+        return useData;
+    }
+    private DistributionTableData ExtractingSectionCAD(int sumWeigh)
+    {
+        // 区間の指定
+        int random = Random.Range(0, sumWeigh);
+        int currentRandom = random;
+        DistributionTableData useData = null;
+        // 区間の取り出し
+        for (int i = 0; i < _caDistributionTable.Datas.Count; i++)
+        {
+            currentRandom -= _caDistributionTable.Datas[i].Weight;
+            if (currentRandom <= 0)
+            {
+                useData = _caDistributionTable.Datas[i];
+                break;
+            }
+        }
+
+        if (useData == null)
+            return null;
+
+        return useData;
     }
 
     #endregion RandomStatus
@@ -348,5 +453,6 @@ namespace OfficeGameMasterDebug
     {
         FullCustom,
         SimpleAuto,
+        ComplexAuto
     }
 }

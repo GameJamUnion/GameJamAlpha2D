@@ -46,3 +46,6 @@ MonoBehaviour:
   - _max: 1.8
     _min: 2
     _weight: 1
+  - _max: -2
+    _min: -1.8
+    _weight: 1
