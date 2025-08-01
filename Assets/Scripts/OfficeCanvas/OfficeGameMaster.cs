@@ -116,6 +116,10 @@ public class OfficeGameMaster : MonoBehaviour
             productionEfficiencys.ProductionEfficiency1,
             productionEfficiencys.ProductionEfficiency2,
             productionEfficiencys.ProductionEfficiency3,
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
             Random.Range(-1f, 1f));
 
         return newBaseUnit;
@@ -154,6 +158,10 @@ public class OfficeGameMaster : MonoBehaviour
             s1,
             s2,
             s3,
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
             Random.Range(-1f, 1f));
 
         return newBaseUnit;
@@ -241,7 +249,7 @@ public class OfficeGameMaster : MonoBehaviour
         s1 = p1 * point - 1f;
         s2 = p2 * point - 1f;
         s3 = p3 * point - 1f;
-        newBaseUnit.SetState(_nameTable.Names[Random.Range(0, 20000) % _nameTable.Names.Count], s1, s2, s3, Random.Range(-1f, 1f));
+        newBaseUnit.SetState(_nameTable.Names[Random.Range(0, 20000) % _nameTable.Names.Count], s1, s2, s3, Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
 
         return newBaseUnit;
     }

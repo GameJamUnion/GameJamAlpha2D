@@ -12,8 +12,19 @@ public class BaseUnit : MonoBehaviour
     [SerializeField] private float _productionEfficiency2 = 1f;
     [SerializeField] private float _productionEfficiency3 = 1f;
 
-    // âRÇ¬Ç´éwêî
+    // âRÇ¬Ç´éwêî -1Å`1
     [SerializeField] private float _liarIndex = 0f;
+
+    [SerializeField] private float _obstaclePower = 0f;
+
+    // ëÃóÕ -1Å`1
+    [SerializeField] private float _endurance = 0f;
+
+    // ë¨ìx -1Å`1
+    [SerializeField] private float _movementSpeed = 0f;
+
+    // íÆóÕ -1Å`1
+    [SerializeField] private float _hearingPower = 0f;
 
     // îzëÆ
     [SerializeField] private RI.PlacementState _placementState = RI.PlacementState.Section1;
@@ -47,6 +58,22 @@ public class BaseUnit : MonoBehaviour
     public float LiarIndex
     {
         get { return _liarIndex; }
+    }
+    public float ObstaclePower
+    {
+        get { return _obstaclePower; }
+    }
+    public float Endurance
+    {
+        get { return _endurance; }
+    }
+    public float MovementSpeed
+    {
+        get { return _movementSpeed; }
+    }
+    public float HearingPower
+    {
+        get { return _hearingPower; }
     }
     public ResumeInterface ResumeInterface
     {
@@ -92,6 +119,10 @@ public class BaseUnit : MonoBehaviour
         _productionEfficiency3 = baseUnit.ProductionEfficiency3;
 
         _liarIndex = baseUnit.LiarIndex;
+        _obstaclePower = baseUnit.ObstaclePower;
+        _endurance = baseUnit._endurance;
+        _movementSpeed = baseUnit._movementSpeed;
+        _hearingPower = baseUnit._hearingPower;
     }
     #endregion
 
@@ -105,13 +136,17 @@ public class BaseUnit : MonoBehaviour
         _resumeInterface.Initialize(_baseResume);
     }
     // ÉXÉeÅ[É^ÉXê›íË
-    public void SetState(string name,float productionEfficiency1,float productionEfficiency2,float productionEfficiency3,float liarIndex)
+    public void SetState(string name, float productionEfficiency1, float productionEfficiency2, float productionEfficiency3, float liarIndex, float obstaclePower, float endurance, float movementSpeed, float hearingPower)
     {
         _name = name;
         _productionEfficiency1 = productionEfficiency1;
         _productionEfficiency2 = productionEfficiency2;
         _productionEfficiency3 = productionEfficiency3;
         _liarIndex = liarIndex;
+        _obstaclePower = obstaclePower;
+        _endurance = endurance;
+        _movementSpeed = movementSpeed;
+        _hearingPower = hearingPower;
     }
     public void SetState(BaseUnit baseUnit)
     {
