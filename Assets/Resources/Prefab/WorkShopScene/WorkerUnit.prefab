@@ -55,6 +55,7 @@ MonoBehaviour:
   hitPoint: 0
   assignWorkId: 0
   workerState: 0
+  interfereTime: 5
 --- !u!1001 &4249795535463199519
 PrefabInstance:
   m_ObjectHideFlags: 0

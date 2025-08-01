@@ -102,6 +102,39 @@ public class WorkManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 妨害する
+    /// </summary>
+    /// <param name="interfereOriginId"></param>
+    public void InterfereWorker(int interfereOriginId)
+    {
+        Worker randomWorker = workerList
+            .Where(w => w.OriginId != interfereOriginId && w.WorkerState == WorkCommon.WorkerState.WORKING)
+            .OrderBy(w => Random.value)
+            .FirstOrDefault();
+
+        if (randomWorker != null)
+        {
+            Worker interfereWorker = GetWorker(interfereOriginId);
+            interfereWorker.Interfere(randomWorker.OriginId);
+            randomWorker.BeInterfered();
+        }
+    }
+
+    /// <summary>
+    /// 妨害を終了する
+    /// </summary>
+    /// <param name="interfereOriginId"></param>
+    /// <param name="beInterferedOriginID"></param>
+    public void StopInterfereWorker(int interfereOriginId, int beInterferedOriginID)
+    {
+        Worker interfereWorker = GetWorker(interfereOriginId);
+        interfereWorker.Working();
+
+        Worker beInterfereWorker = GetWorker(beInterferedOriginID);
+        beInterfereWorker.Working();
+    }
+
+    /// <summary>
     /// 指定のオブジェクトを削除する
     /// </summary>
     private void DstroyGameObj(GameObject gameObject)

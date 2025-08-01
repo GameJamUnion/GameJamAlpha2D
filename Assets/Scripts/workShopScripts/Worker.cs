@@ -81,6 +81,22 @@ public class Worker : ObjBase
     [SerializeField]
     private WorkCommon.WorkerState workerState;
 
+    /// <summary>
+    /// 自分が妨害している作業員のID
+    /// </summary>
+    private int interfereOriginId;
+
+    /// <summary>
+    /// 妨害する時間
+    /// </summary>
+    [SerializeField]
+    private int interfereTime;
+
+    /// <summary>
+    /// 妨害カウント
+    /// </summary>
+    private int interfereCount;
+
     #region Property
     /// <summary>
     /// 作業員ID
@@ -107,6 +123,15 @@ public class Worker : ObjBase
     {
         get { return assignWorkId; }
         set { assignWorkId = value; }
+    }
+
+    /// <summary>
+    /// 作業員の状態
+    /// </summary>
+    public WorkCommon.WorkerState WorkerState
+    {
+        get { return workerState; }
+        set { workerState = value; }
     }
     #endregion
 
@@ -150,6 +175,19 @@ public class Worker : ObjBase
                 SetState(WorkCommon.WorkerState.WORKING);
             }
         }
+        else if (workerState == WorkCommon.WorkerState.INTERFERE)
+        {
+            interfereCount++;
+
+            if (interfereCount >= interfereTime)
+            {
+                InterfereTriggerOff();
+            }
+        }
+        else if (workerState == WorkCommon.WorkerState.BE_INTERFERED)
+        {
+            // 妨害されているときは何もしない
+        }
     }
 
     /// <summary>
@@ -176,6 +214,8 @@ public class Worker : ObjBase
         troubleCount = 0;
         charaAnimeBase = this.GetComponentInChildren<CharacterBaseBehavior>();
         SetState(WorkCommon.WorkerState.WORKING);
+        interfereOriginId = 0;
+        interfereCount = 0;
     }
 
     /// <summary>
@@ -223,8 +263,19 @@ public class Worker : ObjBase
 
         if (UnityEngine.Random.Range(0, 100) < obstacleValue)
         {
-            // 勝手に作業場を移動する
-            MoveWorkSection();
+            int rand = UnityEngine.Random.Range(0, 2);
+
+            if (rand == 0)
+            {
+                // 勝手に作業場を移動する
+                MoveWorkSection();
+            }
+            else
+            {
+                // 妨害をする
+                InterfereTriggerOn();
+            }
+            
             return true;
         }
         else
@@ -306,6 +357,66 @@ public class Worker : ObjBase
                 charaAnimeBase.removeStatus(CharacterUnitStatus.Working);
                 charaAnimeBase.setStatus(CharacterUnitStatus.Rest);
                 break;
+
+            case WorkCommon.WorkerState.INTERFERE:
+                workerState = WorkCommon.WorkerState.INTERFERE;
+                break;
+
+            case WorkCommon.WorkerState.BE_INTERFERED:
+                workerState = WorkCommon.WorkerState.BE_INTERFERED;
+                break;
         }
+    }
+
+    /// <summary>
+    /// 妨害イベント発火
+    /// </summary>
+    private void InterfereTriggerOn()
+    {
+        unitContainer.Interfere(originId);
+    }
+
+    /// <summary>
+    /// 妨害を終了する
+    /// </summary>
+    private void InterfereTriggerOff()
+    {
+        unitContainer.StopInterfere(originId, interfereOriginId);
+    }
+
+    /// <summary>
+    /// 妨害する
+    /// </summary>
+    /// <param name="interfereOriginId"></param>
+    public void Interfere(int interfereOriginId)
+    {
+        SetState(WorkCommon.WorkerState.INTERFERE);
+
+        this.interfereOriginId = interfereOriginId;
+
+        // TODO 妨害アクションを実装
+    }
+
+    /// <summary>
+    /// 妨害される
+    /// </summary>
+    public void BeInterfered()
+    {
+        SetState(WorkCommon.WorkerState.BE_INTERFERED);
+    }
+
+    /// <summary>
+    /// 作業をする
+    /// </summary>
+    public void Working()
+    {
+        SetState(WorkCommon.WorkerState.WORKING);
+
+        // 各カウントを初期化
+        troubleCount = 0;
+        interfereCount = 0;
+
+        // 妨害相手を初期化
+        interfereOriginId = 0;
     }
 }

@@ -54,14 +54,14 @@ namespace WorkCommon
         REMOVE,
         
         /// <summary>
-        /// 邪魔中
+        /// 妨害中
         /// </summary>
-        OBSTACLE,
+        INTERFERE,
 
         /// <summary>
-        /// 邪魔され中
+        /// 妨害され中
         /// </summary>
-        BE_OBSTACLED
+        BE_INTERFERED
     }
 
 }

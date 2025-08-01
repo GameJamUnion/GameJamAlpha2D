@@ -43,6 +43,8 @@ public class WorkShopSceneMain : MonoBehaviour
         unitContainer.RegisterEventOnRemove(RemoveWorker);
         unitContainer.RegisterEventOnCall(CallWorker);
         unitContainer.RegisterEventOnCallBack(CallBackWorker);
+        unitContainer.RegisterEventInterfereOn(InterfereWorker);
+        unitContainer.RegisterEventInterfereOff(StopInterfereWorker);
     }
 
     private void Update()
@@ -145,5 +147,24 @@ public class WorkShopSceneMain : MonoBehaviour
     public void CallBackWorker(BaseUnit unit)
     {
         EmployWorker(unit);
+    }
+
+    /// <summary>
+    /// 妨害する
+    /// </summary>
+    /// <param name="interfereOriginId"></param>
+    public void InterfereWorker(int interfereOriginId)
+    {
+        workManager.InterfereWorker(interfereOriginId);
+    }
+
+    /// <summary>
+    /// 妨害を終了する
+    /// </summary>
+    /// <param name="interfereOriginId"></param>
+    /// <param name="beInterferedOriginID"></param>
+    public void StopInterfereWorker(int interfereOriginId, int beInterferedOriginID)
+    {
+        workManager.StopInterfereWorker(interfereOriginId, beInterferedOriginID);
     }
 }

@@ -30,6 +30,16 @@ public class UnitContainer : ScriptableObject
 	/// </summary>
 	private UnityAction<int, RI.PlacementState> onMoveSectionByWorker;
 
+	/// <summary>
+	/// –WŠQƒCƒxƒ“ƒg
+	/// </summary>
+	private UnityAction<int> onInterfere;
+
+    /// <summary>
+    /// –WŠQI—¹ƒCƒxƒ“ƒg
+    /// </summary>
+    private UnityAction<int, int> onStopInterfere;
+
 
     /// <summary>
     /// ŒÙ—p
@@ -75,9 +85,28 @@ public class UnitContainer : ScriptableObject
 	}
 
 	/// <summary>
-	/// ŒÙ—pƒCƒxƒ“ƒg“o˜^
+	/// –WŠQŠJn
 	/// </summary>
-	/// <param name="onHired"></param>
+	/// <param name="interfereOriginId"></param>
+	public void Interfere(int interfereOriginId)
+	{
+        onInterfere?.Invoke(interfereOriginId);
+	}
+
+    /// <summary>
+    /// –WŠQI—¹
+    /// </summary>
+    /// <param name="interfereOriginId"></param>
+    /// <param name="beInterferedOriginId"></param>
+    public void StopInterfere(int interfereOriginId, int beInterferedOriginId)
+    {
+        onStopInterfere?.Invoke(interfereOriginId, beInterferedOriginId);
+    }
+
+    /// <summary>
+    /// ŒÙ—pƒCƒxƒ“ƒg“o˜^
+    /// </summary>
+    /// <param name="onHired"></param>
     public void RegisterEventOnHired(UnityAction<BaseUnit> onHired)
 	{
         this.onHired += onHired;
@@ -117,5 +146,23 @@ public class UnitContainer : ScriptableObject
     public void RegisterEventOnMoveSectionByWorker(UnityAction<int, RI.PlacementState> onMoveSectionByWorker)
     {
         this.onMoveSectionByWorker += onMoveSectionByWorker;
+    }
+
+    /// <summary>
+    /// –WŠQƒCƒxƒ“ƒg“o˜^
+    /// </summary>
+    /// <param name="onInterfere"></param>
+    public void RegisterEventInterfereOn(UnityAction<int> onInterfere)
+    {
+        this.onInterfere += onInterfere;
+    }
+
+    /// <summary>
+    /// –WŠQI—¹ƒCƒxƒ“ƒg“o˜^
+    /// </summary>
+    /// <param name="onStopInterfere"></param>
+    public void RegisterEventInterfereOff(UnityAction<int, int> onStopInterfere)
+    {
+        this.onStopInterfere += onStopInterfere;
     }
 }
