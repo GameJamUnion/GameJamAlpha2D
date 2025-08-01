@@ -84,6 +84,7 @@ public class ResumeInterface : MonoBehaviour
         _stamp.SetActive(_baseResume.OnStamp);
         _stamp.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0f, 0f, _baseResume.StampRotation);
 
+        DisplayAtTheTop();
         // セクションのUI初期化
         RIPlacementUpdate(true);
     }
@@ -93,11 +94,15 @@ public class ResumeInterface : MonoBehaviour
         // スタンプボタンが押された場合の処理
         _baseResume.OnStamp = true;
         _baseResume.OnStampProcess();
+
+        DisplayAtTheTop();
     }
     public void SectionChange()
     {
         _baseResume.BaseUnit.ChangePlacementState();
         RIPlacementUpdate(false);
+
+        DisplayAtTheTop();
     }
     public void Close()
     {
@@ -109,6 +114,8 @@ public class ResumeInterface : MonoBehaviour
         Vector3 newPos = _resumeInterfaceCustomButton.CurrentMousePos - Input.mousePosition;
         // 移動距離分座標をずらす
         this.gameObject.transform.localPosition = _resumeInterfaceCustomButton.SaveRusumeInterfacePos - newPos;
+
+        DisplayAtTheTop();
     }
     public void Rejected()
     {
@@ -129,5 +136,10 @@ public class ResumeInterface : MonoBehaviour
         {
             Debug.Log("今部屋にいないからまずは呼ばないと...");
         }
+    }
+
+    public void DisplayAtTheTop()
+    {
+        transform.SetSiblingIndex(transform.parent.childCount - 1);
     }
 }

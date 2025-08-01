@@ -73,7 +73,7 @@ public class OfficeGameMaster : MonoBehaviour
         GameObject newUnit = Instantiate(_createUnitPref);
         if (newUnit == null)
             return;
-        newUnit.SetActive(true);
+        newUnit.SetActive(false);
 
         BaseUnit newBaseUnit = newUnit.GetComponent<BaseUnit>();
 
@@ -314,6 +314,8 @@ public class OfficeGameMaster : MonoBehaviour
 
         _reserveUnits.Remove(newBaseUnit);
         CreateUnit();
+
+        newBaseUnit.gameObject.SetActive(true);
 
         if (_resumeInterfaceManager.AssignInactiveResumeInterface)
         {
