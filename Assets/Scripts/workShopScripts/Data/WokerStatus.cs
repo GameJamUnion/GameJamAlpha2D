@@ -65,7 +65,7 @@ public class WokerStatus
     /// </summary>
     /// <param name="workId"></param>
     /// <returns></returns>
-    public float getWorkPower(RI.PlacementState workId)
+    public float GetWorkPower(RI.PlacementState workId)
     {
         return workPower[workId];
     }

@@ -71,25 +71,25 @@ public abstract class WorkBase : StageObjBase
     /// <summary>
     /// 指定秒毎の作業実行
     /// </summary>
-    protected override void workPerSeconds()
+    protected override void WorkPerSeconds()
     {
-        execWork();
+        ExecWork();
     }
 
 
     /// <summary>
     /// フレーム毎の作業実行
     /// </summary>
-    protected override void workPerFlame()
+    protected override void WorkPerFlame()
     {
-        updateWorkState();
+        UpdateWorkState();
     }
 
     /// <summary>
     /// 作業物を追加する
     /// </summary>
     /// <param name="product"></param>
-    public override void addProduct(Product product)
+    public override void AddProduct(Product product)
     {
         if (productList == null)
         {
@@ -101,11 +101,11 @@ public abstract class WorkBase : StageObjBase
     /// <summary>
     /// 作業物を次のオブジェクトに出力して現在の作業物を空にする
     /// </summary>
-    protected void outputProduct()
+    protected void OutputProduct()
     {
         if (outputObj != null && workingProduct != null)
         {
-            outputObj.addProduct(workingProduct);
+            outputObj.AddProduct(workingProduct);
             workingProduct = null;
             workingPoint = 0.0f;
         }
@@ -114,7 +114,7 @@ public abstract class WorkBase : StageObjBase
     /// <summary>
     /// 作業状態を更新する
     /// </summary>
-    private void updateWorkState()
+    private void UpdateWorkState()
     {
         if (productList != null)
         {
@@ -136,24 +136,24 @@ public abstract class WorkBase : StageObjBase
                 workState = WorkCommon.WorkState.EMPTY;
             }
 
-            workColorManager.spriteColorChange(sprite, workState);
+            workColorManager.SpriteColorChange(sprite, workState);
         }
     }
 
     /// <summary>
     /// 作業力にあわせて作業を進める
     /// </summary>
-    protected void execWork()
+    protected void ExecWork()
     {
-        sliceProductToWorkingProduct();
+        SliceProductToWorkingProduct();
 
         if (workingProduct != null)
         {
-            workingPoint += getWorkPower();
+            workingPoint += GetWorkPower();
 
             if (workingPoint >= workingProduct.WorkAmount)
             {
-                outputProduct();
+                OutputProduct();
             }
         }
     }
@@ -161,7 +161,7 @@ public abstract class WorkBase : StageObjBase
     /// <summary>
     /// 作業中の物がない場合に作業物をセットする
     /// </summary>
-    private void sliceProductToWorkingProduct()
+    private void SliceProductToWorkingProduct()
     {
         if (workingProduct == null)
         {
@@ -177,5 +177,5 @@ public abstract class WorkBase : StageObjBase
     /// 作業力を取得する
     /// </summary>
     /// <returns></returns>
-    abstract protected float getWorkPower();
+    abstract protected float GetWorkPower();
 }

@@ -34,7 +34,7 @@ public class WorkManager : MonoBehaviour
     /// 作業員を解雇する
     /// </summary>
     /// <param name="originId"></param>
-    public void removeWorker(int originId)
+    public void RemoveWorker(int originId)
     {
         if (workerList != null)
         {
@@ -44,7 +44,7 @@ public class WorkManager : MonoBehaviour
             {
                 if (worker != null)
                 {
-                    destroyGameObj(worker.gameObject);
+                    DstroyGameObj(worker.gameObject);
                 }
                 workerList.Remove(worker);
             }
@@ -54,9 +54,19 @@ public class WorkManager : MonoBehaviour
     /// <summary>
     /// 作業員を雇用する
     /// </summary>
-    public void employWoker(Worker worker)
+    public void EmployWoker(Worker worker)
     {
         workerList.Add(worker);
+    }
+
+    /// <summary>
+    /// 指定IDの作業員を取得する
+    /// </summary>
+    /// <param name="originId"></param>
+    /// <returns></returns>
+    public Worker GetWorker(int originId)
+    {
+        return workerList.FirstOrDefault(w => w.OriginId == originId);
     }
 
     /// <summary>
@@ -64,7 +74,7 @@ public class WorkManager : MonoBehaviour
     /// </summary>
     /// <param name="placementState"></param>
     /// <returns></returns>
-    public List<Worker> getWokerList(RI.PlacementState placementState)
+    public List<Worker> GetWokerList(RI.PlacementState placementState)
     {
           return workerList.Where(w => w.AssingWorkId == placementState).ToList();
     }
@@ -84,17 +94,17 @@ public class WorkManager : MonoBehaviour
     /// </summary>
     /// <param name="placementState"></param>
     /// <returns></returns>
-    public float getWorkPower(RI.PlacementState placementState)
+    public float GetWorkPower(RI.PlacementState placementState)
     {
-        List<Worker> list = getWokerList(placementState);
-        float power = list.Sum(w => w.WokerStatus.getWorkPower(placementState));
+        List<Worker> list = GetWokerList(placementState);
+        float power = list.Sum(w => w.WokerStatus.GetWorkPower(placementState));
         return power * workPowerRate; // TODO 後々倍掛けはやめる
     }
 
     /// <summary>
     /// 指定のオブジェクトを削除する
     /// </summary>
-    private void destroyGameObj(GameObject gameObject)
+    private void DstroyGameObj(GameObject gameObject)
     {
         GameObject.Destroy(gameObject);
     }

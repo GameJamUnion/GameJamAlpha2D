@@ -29,7 +29,7 @@ public class WorkColorManager : MonoBehaviour
     /// <summary>
     /// カラー変更メソッド
     /// </summary>
-    public void spriteColorChange(SpriteRenderer sprite, WorkCommon.WorkState state)
+    public void SpriteColorChange(SpriteRenderer sprite, WorkCommon.WorkState state)
     {
         if (state == WorkCommon.WorkState.EMPTY)
         {
