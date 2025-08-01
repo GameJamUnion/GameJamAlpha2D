@@ -15,4 +15,5 @@ MonoBehaviour:
   Configuration:
     WorkScores:
     - {fileID: 11400000, guid: 3f77c20b27896be429db014f644342d2, type: 2}
+    - {fileID: 11400000, guid: ddf6f24fd7cea3b4f8d5410e5c3513da, type: 2}
     WorkTime: {fileID: 11400000, guid: 5f684e5fa59a2be4c9c547c3f4e98eef, type: 2}

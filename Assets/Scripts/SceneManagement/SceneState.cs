@@ -74,6 +74,8 @@ public class TitleSceneState : SceneStateBase
     {
         base.OnEnter();
 
+        FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeIn);
+
         SoundManager.Instance.requestPlaySound(BGMKind.Title);
     }
 
@@ -83,6 +85,7 @@ public class TitleSceneState : SceneStateBase
         
         if (checkInput() == true)
         {
+            FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeOut);
             return new GameLoadSceneState();
         }
 
@@ -291,7 +294,7 @@ public abstract class InGameSceneStateBase : SceneStateBase
     public override void OnEnter()
     {
         base.OnEnter();
-
+        FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeIn);
         SoundManager.Instance.requestPlaySound(BGMKind.MainGame);
     }
 }
