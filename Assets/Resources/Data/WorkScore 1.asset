@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89fa3605495511d488e4c5eb3cec961e, type: 3}
   m_Name: WorkScore 1
   m_EditorClassIdentifier: 
-  m_goalScore: 0
+  m_goalScore: 250
