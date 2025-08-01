@@ -29,20 +29,20 @@ public abstract class ObjBase : MonoBehaviour
             time = 0.0f;
 
             // 指定秒毎の作業実行処理
-            workPerSeconds();
+            WorkPerSeconds();
         }
 
         // フレーム毎の作業実行処理
-        workPerFlame();
+        WorkPerFlame();
     }
 
     /// <summary>
     /// 指定秒毎の作業実行
     /// </summary>
-    protected abstract void workPerSeconds();
+    protected abstract void WorkPerSeconds();
 
     /// <summary>
     /// フレーム毎の作業実行
     /// </summary>
-    protected abstract void workPerFlame();
+    protected abstract void WorkPerFlame();
 }

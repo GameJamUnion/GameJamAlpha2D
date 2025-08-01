@@ -39,16 +39,16 @@ public class WorkShopSceneMain : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     virtual protected void Start()
     {
-        unitContainer.RegisterEventOnHired(employWorker);
-        unitContainer.RegisterEventOnRemove(removeWorker);
-        unitContainer.RegisterEventOnCall(callWorker);
-        unitContainer.RegisterEventOnCallBack(callBackWorker);
+        unitContainer.RegisterEventOnHired(EmployWorker);
+        unitContainer.RegisterEventOnRemove(RemoveWorker);
+        unitContainer.RegisterEventOnCall(CallWorker);
+        unitContainer.RegisterEventOnCallBack(CallBackWorker);
     }
 
     private void Update()
     {
         #if UNITY_EDITOR
-        if (checkDebugInput())
+        if (CheckDebugInput())
         {
             score.AddScore(1);
         }
@@ -59,7 +59,7 @@ public class WorkShopSceneMain : MonoBehaviour
     /// Pボタンをチェック
     /// </summary>
     /// <returns></returns>
-    private bool checkDebugInput()
+    private bool CheckDebugInput()
     {
         if (Input.GetKeyDown(KeyCode.P) == true)
         {
@@ -73,8 +73,14 @@ public class WorkShopSceneMain : MonoBehaviour
     /// 作業員を雇用する
     /// </summary>
     /// <param name="unit"></param>
-    public void employWorker(BaseUnit unit)
+    public void EmployWorker(BaseUnit unit)
     {
+        if (workManager.GetWorker(unit.Origin) != null)
+        {
+            Debug.LogWarning("雇用するやつの作業員IDもうおるから雇用キャンセルしたぞ");
+            return;
+        }
+
         WorkBase work = workManager.GetWork(unit.PlacementState);
 
         if (work != null)
@@ -82,7 +88,7 @@ public class WorkShopSceneMain : MonoBehaviour
             // 座標を設定
             // TODO とりあえず作業場の隣に並べてる
             Vector3 pos = work.transform.position;
-            pos.x += 25 + (workManager.getWokerList(unit.PlacementState).Count * 10);
+            pos.x += 25 + (workManager.GetWokerList(unit.PlacementState).Count * 10);
             Quaternion rot = Quaternion.identity;
 
             Dictionary<RI.PlacementState, float> powerDictionary = new Dictionary<RI.PlacementState, float>
@@ -108,9 +114,9 @@ public class WorkShopSceneMain : MonoBehaviour
 
             // 作業員を複製
             Worker worker = Instantiate<Worker>(workerPrefab, pos, rot, unitRootTrans);
-            worker.initializeWoker(unit.Origin, unit.PlacementState, status);
+            worker.InitializeWoker(unit.Origin, unit.PlacementState, status);
 
-            workManager.employWoker(worker);
+            workManager.EmployWoker(worker);
         }
     }
 
@@ -118,26 +124,26 @@ public class WorkShopSceneMain : MonoBehaviour
     /// 作業員を解雇する
     /// </summary>
     /// <param name="unit"></param>
-    public void removeWorker(BaseUnit unit)
+    public void RemoveWorker(BaseUnit unit)
     {
-        workManager.removeWorker(unit.Origin);
+        workManager.RemoveWorker(unit.Origin);
     }
 
     /// <summary>
     /// 作業員を呼び出す
     /// </summary>
     /// <param name="unit"></param>
-    public void callWorker(BaseUnit unit)
+    public void CallWorker(BaseUnit unit)
     {
-        removeWorker(unit);
+        RemoveWorker(unit);
     }
 
     /// <summary>
     /// 作業員が呼び出しから戻ってくる
     /// </summary>
     /// <param name="unit"></param>
-    public void callBackWorker(BaseUnit unit)
+    public void CallBackWorker(BaseUnit unit)
     {
-        employWorker(unit);
+        EmployWorker(unit);
     }
 }

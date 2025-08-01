@@ -14,7 +14,7 @@ public class DeliveryWork : StageObjBase
     /// <summary>
     /// 指定秒毎の作業実行
     /// </summary>
-    protected override void workPerSeconds()
+    protected override void WorkPerSeconds()
     {
 
     }
@@ -22,7 +22,7 @@ public class DeliveryWork : StageObjBase
     /// <summary>
     /// フレーム毎の作業実行
     /// </summary>
-    protected override void workPerFlame()
+    protected override void WorkPerFlame()
     {
 
     }
@@ -31,7 +31,7 @@ public class DeliveryWork : StageObjBase
     /// 作業物を追加する
     /// </summary>
     /// <param name="product"></param>
-    public override void addProduct(Product product)
+    public override void AddProduct(Product product)
     {
         score.AddScore(product.ScorePoint);
     }

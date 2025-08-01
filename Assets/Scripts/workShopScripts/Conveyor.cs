@@ -34,16 +34,16 @@ public class Conveyor : StageObjBase
     /// <summary>
     /// 指定秒毎の作業実行
     /// </summary>
-    protected override void workPerSeconds()
+    protected override void WorkPerSeconds()
     {
-        carryProduct();
-        outputProduct();
+        CarryProduct();
+        OutputProduct();
     }
 
     /// <summary>
     /// フレーム毎の作業実行
     /// </summary>
-    protected override void workPerFlame()
+    protected override void WorkPerFlame()
     {
 
     }
@@ -51,7 +51,7 @@ public class Conveyor : StageObjBase
     /// <summary>
     /// 作業物を運搬する(1処理分)
     /// </summary>
-    public void carryProduct()
+    public void CarryProduct()
     {
         if (productList != null && productList.Count > 0
             && productsCarryTimeList != null && productsCarryTimeList.Count > 0)
@@ -67,14 +67,14 @@ public class Conveyor : StageObjBase
     /// <summary>
     /// 最初の作業物を出力する
     /// </summary>
-    public void outputProduct()
+    public void OutputProduct()
     {
         if (productList != null && productList.Count > 0
             && productsCarryTimeList != null && productsCarryTimeList.Count > 0)
         {
             if (productsCarryTimeList[0] > carryDistance)
             {
-                outputObj.addProduct(productList[0]);
+                outputObj.AddProduct(productList[0]);
                 productList.RemoveAt(0);
                 productsCarryTimeList.RemoveAt(0);
             }
@@ -85,7 +85,7 @@ public class Conveyor : StageObjBase
     /// 作業物を追加する
     /// </summary>
     /// <param name="product"></param>
-    public override void addProduct(Product product)
+    public override void AddProduct(Product product)
     {
         if (productList == null)
         {

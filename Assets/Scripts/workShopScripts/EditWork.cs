@@ -9,25 +9,25 @@ public class EditWork : WorkBase
     /// <summary>
     /// 指定秒毎の作業実行
     /// </summary>
-    protected override void workPerSeconds()
+    protected override void WorkPerSeconds()
     {
-        base.workPerSeconds();
+        base.WorkPerSeconds();
     }
 
     /// <summary>
     /// フレーム毎の作業実行
     /// </summary>
-    protected override void workPerFlame()
+    protected override void WorkPerFlame()
     {
-        base.workPerFlame();
+        base.WorkPerFlame();
     }
 
     /// <summary>
     /// 作業力を取得する
     /// </summary>
     /// <returns></returns>
-    protected override float getWorkPower()
+    protected override float GetWorkPower()
     {
-        return workManager.getWorkPower(workId);
+        return workManager.GetWorkPower(workId);
     }
 }

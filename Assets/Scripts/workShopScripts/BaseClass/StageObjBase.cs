@@ -25,5 +25,5 @@ public abstract class StageObjBase : ObjBase
     /// ì‹Æ•¨‚ğ’Ç‰Á‚·‚é
     /// </summary>
     /// <param name="product"></param>
-    public abstract void addProduct(Product product);
+    public abstract void AddProduct(Product product);
 }

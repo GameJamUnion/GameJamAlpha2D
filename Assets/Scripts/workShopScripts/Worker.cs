@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +7,11 @@ using UnityEngine;
 /// </summary>
 public class Worker : ObjBase
 {
+    /// <summary>
+    /// アニメーションベース
+    /// </summary>
+    private CharacterBaseBehavior charaAnimeBase;
+
     /// <summary>
     /// ユニットコンテナ
     /// </summary>
@@ -113,15 +119,15 @@ public class Worker : ObjBase
     /// <summary>
     /// 指定秒毎の作業実行
     /// </summary>
-    protected override void workPerSeconds()
+    protected override void WorkPerSeconds()
     {
         if (workerState == WorkCommon.WorkerState.WORKING)
         {
-            takeDamage();
+            TakeDamage();
 
             if (hitPoint <= 0.0f)
             {
-                workerState = WorkCommon.WorkerState.BREAK;
+                SetState(WorkCommon.WorkerState.BREAK);
             }
 
             troubleCount++;
@@ -129,19 +135,19 @@ public class Worker : ObjBase
             {
                 troubleCount = 0;
                 // 嘘つきイベントが発生しなかった場合のみ邪魔イベント判定を実行
-                if (!lyingEvent())
+                if (!LyingEvent())
                 {
-                    obstacleEvent();
+                    ObstacleEvent();
                 }
             }
         }
         else if (workerState == WorkCommon.WorkerState.BREAK)
         {
-            recoveryHitPoint();
+            RecoveryHitPoint();
 
             if (hitPoint >= maxHitPoint)
             {
-                workerState = WorkCommon.WorkerState.WORKING;
+                SetState(WorkCommon.WorkerState.WORKING);
             }
         }
     }
@@ -149,7 +155,7 @@ public class Worker : ObjBase
     /// <summary>
     /// フレーム毎の作業実行
     /// </summary>
-    protected override void workPerFlame()
+    protected override void WorkPerFlame()
     {
         
     }
@@ -160,7 +166,7 @@ public class Worker : ObjBase
     /// <param name="originId"></param>
     /// <param name="assignWorkId"></param>
     /// <param name="wokerStatus"></param>
-    public void initializeWoker(int originId, RI.PlacementState assignWorkId, WokerStatus wokerStatus)
+    public void InitializeWoker(int originId, RI.PlacementState assignWorkId, WokerStatus wokerStatus)
     {
         OriginId = originId;
         AssingWorkId = assignWorkId;
@@ -168,7 +174,8 @@ public class Worker : ObjBase
         hitPoint = maxHitPoint;
         baseDamage = maxHitPoint * 0.05f;
         troubleCount = 0;
-        workerState = WorkCommon.WorkerState.WORKING;
+        charaAnimeBase = this.GetComponentInChildren<CharacterBaseBehavior>();
+        SetState(WorkCommon.WorkerState.WORKING);
     }
 
     /// <summary>
@@ -176,15 +183,15 @@ public class Worker : ObjBase
     /// </summary>
     /// <param name="workId"></param>
     /// <returns></returns>
-    public float getWorkPower(RI.PlacementState workId)
+    public float GetWorkPower(RI.PlacementState workId)
     {
-        return workerStatus.getWorkPower(workId);
+        return workerStatus.GetWorkPower(workId);
     }
 
     /// <summary>
     /// ヒットポイントを削る
     /// </summary>
-    private void takeDamage()
+    private void TakeDamage()
     {
         float damage = baseDamage - (workerStatus.Physical * baseDamage);
         float rate = UnityEngine.Random.Range(damageVariationRate * (-1), damageVariationRate);
@@ -198,7 +205,7 @@ public class Worker : ObjBase
     /// <summary>
     /// 体力を回復する
     /// </summary>
-    private void recoveryHitPoint()
+    private void RecoveryHitPoint()
     {
         hitPoint += baseRecovery;
 
@@ -208,7 +215,7 @@ public class Worker : ObjBase
     /// <summary>
     /// 邪魔イベント
     /// </summary>
-    private bool obstacleEvent()
+    private bool ObstacleEvent()
     {
         if (workerStatus.ObstaclePower <= 0) return false;
 
@@ -217,7 +224,7 @@ public class Worker : ObjBase
         if (UnityEngine.Random.Range(0, 100) < obstacleValue)
         {
             // 勝手に作業場を移動する
-            moveWorkSection();
+            MoveWorkSection();
             return true;
         }
         else
@@ -229,7 +236,7 @@ public class Worker : ObjBase
     /// <summary>
     /// 嘘つきイベント
     /// </summary>
-    private bool lyingEvent()
+    private bool LyingEvent()
     {
         if (workerStatus.LyingPower <= 0) return false;
 
@@ -238,7 +245,7 @@ public class Worker : ObjBase
         if (UnityEngine.Random.Range(0, 100) < lyingValue)
         {
             // 強制で状態を休憩にする
-            this.workerState = WorkCommon.WorkerState.BREAK;
+            SetState(WorkCommon.WorkerState.BREAK);
             return true;
         }
         else
@@ -250,10 +257,12 @@ public class Worker : ObjBase
     /// <summary>
     /// 作業場を勝手に移動する
     /// </summary>
-    private void moveWorkSection()
+    private void MoveWorkSection()
     {
-        assignWorkId = getRondomWorkSection(assignWorkId);
-        unitContainer.MoveSectionByWorker(originId, assignWorkId);
+        assignWorkId = GetRondomWorkSection(assignWorkId);
+
+        // 左画面には知らせない
+        //unitContainer.MoveSectionByWorker(originId, assignWorkId);
     }
 
     /// <summary>
@@ -261,7 +270,7 @@ public class Worker : ObjBase
     /// </summary>
     /// <param name="placementState"></param>
     /// <returns></returns>
-    private RI.PlacementState getRondomWorkSection(RI.PlacementState placementState)
+    private RI.PlacementState GetRondomWorkSection(RI.PlacementState placementState)
     {
         RI.PlacementState movePlace = RI.PlacementState.NONE;
         int count = Enum.GetNames(typeof(RI.PlacementState)).Length;
@@ -276,5 +285,27 @@ public class Worker : ObjBase
         || placementState == RI.PlacementState.END);
 
         return movePlace;
+    }
+
+    /// <summary>
+    /// 作業員の状態を設定する
+    /// </summary>
+    /// <param name="state"></param>
+    private void SetState(WorkCommon.WorkerState state)
+    {
+        switch (state)
+        {
+            case WorkCommon.WorkerState.WORKING:
+                workerState = WorkCommon.WorkerState.WORKING;
+                charaAnimeBase.removeStatus(CharacterUnitStatus.Rest);
+                charaAnimeBase.setStatus(CharacterUnitStatus.Working);
+                break;
+
+            case WorkCommon.WorkerState.BREAK:
+                workerState = WorkCommon.WorkerState.BREAK;
+                charaAnimeBase.removeStatus(CharacterUnitStatus.Working);
+                charaAnimeBase.setStatus(CharacterUnitStatus.Rest);
+                break;
+        }
     }
 }
