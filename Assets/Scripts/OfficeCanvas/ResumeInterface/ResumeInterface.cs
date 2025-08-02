@@ -104,8 +104,11 @@ public class ResumeInterface : MonoBehaviour
     }
     public void SectionChange()
     {
-        _baseResume.BaseUnit.ChangePlacementState();
-        RIPlacementUpdate(false);
+        if (_officeGameMaster.AmIInTheRoom(_baseResume.BaseUnit))
+        {
+            _baseResume.BaseUnit.ChangePlacementState();
+            RIPlacementUpdate(false);
+        }
 
         DisplayAtTheTop();
     }
