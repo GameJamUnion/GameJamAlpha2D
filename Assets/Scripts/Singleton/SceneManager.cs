@@ -38,9 +38,15 @@ public class SceneManager : SingletonBase<SceneManager>
         public float Progress;
     }
 
-
+    public class FadeEndReserveData
+    {
+        public SceneStateBase OldScene;
+        public SceneStateBase NewScene;
+    }
     private SceneNames[] _CurrentScene = new SceneNames[1] { SceneNames.Invalid };
     private SceneStateBase _CurrentState = null;
+    private FadeEndReserveData _FadeEndReserveData = null;
+
     private bool _IsPending = false;
     private bool _IsFadeWait = false;
     #region Request
@@ -120,12 +126,24 @@ public class SceneManager : SingletonBase<SceneManager>
 
             if (_CurrentState.UseExitFadeOut == true)
             {
+
+                // ƒV[ƒ“‘JˆÚ—\–ñ
+                _FadeEndReserveData = new FadeEndReserveData();
+                _FadeEndReserveData.OldScene = _CurrentState;
+                _FadeEndReserveData.NewScene = nextState;
+
                 var next = nextState;
                 void onFadeEnd()
                 {
-                    _CurrentState.OnExit();
-                    _CurrentState = next;
-                    onEnter();
+                    // —\–ñ‚µ‚Ä‚¢‚½î•ñ‚ğ‚à‚Æ‚ÉƒV[ƒ“‘JˆÚ
+                    if (_FadeEndReserveData != null)
+                    {
+                        _FadeEndReserveData.OldScene.OnExit();
+                        _CurrentState = _FadeEndReserveData.NewScene;
+                        onEnter();
+                    }
+                    _FadeEndReserveData = null;
+                    
                     _IsFadeWait = false;
                 }
 
