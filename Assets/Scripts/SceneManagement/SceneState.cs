@@ -115,6 +115,35 @@ public class TitleSceneState : SceneStateBase
 
 #endregion Title
 
+#region Tutorial
+public class GameTutorialState : SceneStateBase
+{
+    public override SceneNames[] SceneName => new SceneNames[] { };
+
+    public override void OnEnter()
+    {
+        base.OnEnter();
+
+        FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeIn);
+    }
+    public override SceneStateBase checkNext()
+    {
+        if (checkEndTutorial() == true)
+        {
+            FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeOut);
+            return new GameLoadSceneState();
+        }
+
+        return base.checkNext();
+    }
+
+    private bool checkEndTutorial()
+    {
+        return false;
+    }
+}
+#endregion Tutorial
+
 #region Loading
 public class GameLoadSceneState : SceneStateBase
 {
