@@ -1,5 +1,7 @@
-using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using WorkCommon;
 
 /// <summary>
 /// 加工場クラス

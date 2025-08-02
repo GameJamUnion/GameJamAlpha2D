@@ -66,6 +66,12 @@ public abstract class WorkBase : StageObjBase
     protected Transform productsRootTrans;
 
     /// <summary>
+    /// パーティクル
+    /// </summary>
+    [SerializeField]
+    private SmokeParticle smokeParticle;
+
+    /// <summary>
     /// 作業場のID
     /// </summary>
     public RI.PlacementState WorkId
@@ -140,19 +146,39 @@ public abstract class WorkBase : StageObjBase
             if (productList.Count == 0 && workingProduct == null)
             {
                 workState = WorkCommon.WorkState.EMPTY;
+
+                if (smokeParticle != null)
+                {
+                    smokeParticle.requestStopParticle();
+                }
             }
             else if (productList.Count > burningCount)
             {
                 workState = WorkCommon.WorkState.BURNING;
+
+                if (smokeParticle != null)
+                {
+                    smokeParticle.requestStartParticle();
+                }
             }
             else if (workingProduct != null || productList.Count != 0)
             {
                 workState = WorkCommon.WorkState.WORKING;
+
+                if (smokeParticle != null)
+                {
+                    smokeParticle.requestStopParticle();
+                }
             }
             else
             {
                 // 入ることはないはず
                 workState = WorkCommon.WorkState.EMPTY;
+
+                if (smokeParticle != null)
+                {
+                    smokeParticle.requestStopParticle();
+                }
             }
         }
     }
