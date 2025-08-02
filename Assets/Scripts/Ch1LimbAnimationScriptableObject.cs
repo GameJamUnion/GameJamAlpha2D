@@ -12,7 +12,7 @@ public class Ch1LimbAnimationScriptableObject : ScriptableObject
     [Serializable]
     public class MoveParams<T>
     {
-        [Header("有効")]
+        [Header("有効"), SerializeField]
         public bool Enable = true;
 
         [Header("移動量 (m or 度)"), SerializeField]
@@ -47,7 +47,7 @@ public class Ch1LimbAnimationScriptableObject : ScriptableObject
     [Serializable]
     public class RestParam
     {
-        [Header("ループ時間")]
+        [Header("ループ時間 (秒)"), SerializeField]
         public float LoopTime = 2f;
 
         [Header("縦移動")]
