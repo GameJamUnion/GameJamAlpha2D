@@ -107,6 +107,11 @@ public class WorkManager : MonoBehaviour
     {
         List<Worker> list = GetWokerList(placementState);
         float power = list.Sum(w => w.WokerStatus.GetWorkPower(placementState));
+        if (power < 0.0f)
+        {
+            power = 0.0f;
+        }
+
         return power * workPowerRate; // TODO ŒãX”{Š|‚¯‚Í‚â‚ß‚é
     }
 

@@ -45,7 +45,7 @@ public abstract class WorkBase : StageObjBase
     /// <summary>
     /// 現在の作業物
     /// </summary>
-    private Product workingProduct;
+    protected Product workingProduct;
 
     /// <summary>
     /// 実作業ポイント

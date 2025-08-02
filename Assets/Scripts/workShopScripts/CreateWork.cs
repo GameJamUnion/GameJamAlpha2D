@@ -1,16 +1,12 @@
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 /// <summary>
 /// 生産場クラス
 /// </summary>
 public class CreateWork : WorkBase
-{
-    /// <summary>
-    /// 作成上限
-    /// </summary>
-    [SerializeField]
-    private int maxCreateProductsNum;
-
+{ 
     /// <summary>
     /// 生産力
     /// </summary>
@@ -23,15 +19,7 @@ public class CreateWork : WorkBase
     override protected void Start()
     {
         base.Start();
-        Vector3 pos = Vector3.zero;
-        Quaternion rot = Quaternion.identity;
-
-        for (int i = 0; i < maxCreateProductsNum; i++)
-        {
-            Product product = Instantiate<Product>(productPrefab, pos, rot, productsRootTrans);
-            product.gameObject.SetActive(false);
-            productList.Add(product);
-        }
+        CreateProduct();
     }
 
     /// <summary>
@@ -39,6 +27,10 @@ public class CreateWork : WorkBase
     /// </summary>
     protected override void WorkPerSeconds()
     {
+        if (workingProduct == null)
+        {
+            CreateProduct();
+        }
         base.WorkPerSeconds();
     }
 
@@ -57,5 +49,17 @@ public class CreateWork : WorkBase
     protected override float GetWorkPower()
     {
         return createPower;
+    }
+
+    /// <summary>
+    /// ぬい作成
+    /// </summary>
+    private void CreateProduct()
+    {
+        Vector3 pos = Vector3.zero;
+        Quaternion rot = Quaternion.identity;
+        Product product = Instantiate<Product>(productPrefab, pos, rot, productsRootTrans);
+        product.gameObject.SetActive(false);
+        workingProduct = product;
     }
 }
