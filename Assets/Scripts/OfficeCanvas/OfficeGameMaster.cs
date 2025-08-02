@@ -486,6 +486,8 @@ public class OfficeGameMaster : MonoBehaviour
         }
         _selectUnit = _baseUnits[no];
         _hiredListManager.HiredListUpdate();
+
+        SoundManager.Instance.requestPlaySound(SEKind.Paper);
     }
     public void PrevSelectUnit()
     {
@@ -499,6 +501,8 @@ public class OfficeGameMaster : MonoBehaviour
         }
         _selectUnit = _baseUnits[no];
         _hiredListManager.HiredListUpdate();
+
+        SoundManager.Instance.requestPlaySound(SEKind.Paper);
     }
 
     public bool AmIInTheRoom(BaseUnit baseUnit)
