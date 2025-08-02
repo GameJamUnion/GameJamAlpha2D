@@ -10,18 +10,27 @@ public class Ch1LimbAnimationScriptableObject : ScriptableObject
 {
     #region Definition
     [Serializable]
-    public class MoveParams
+    public class MoveParams<T>
     {
-        [Header("ˆÚ“®—Ê (m)"), SerializeField]
-        public float MoveValue = 1f;
+        [Header("—LŒø")]
+        public bool Enable = true;
+
+        [Header("ˆÚ“®—Ê (m or “x)"), SerializeField]
+        public T MoveValue = default;
 
         [Header("ˆÚ“®ƒJ[ƒu"), SerializeField]
         public AnimationCurve MoveCurve = new AnimationCurve();
     }
 
     [Serializable]
-    public class VerticalMoveParam : MoveParams { }
+    public class RotationMoveParam : MoveParams<Vector3> { }
 
+    [Serializable]
+    public class VerticalMoveParam : MoveParams<float> { }
+
+    /// <summary>
+    /// ‘Ò‹@’†
+    /// </summary>
     [Serializable]
     public class WaitingParam
     {
@@ -30,6 +39,22 @@ public class Ch1LimbAnimationScriptableObject : ScriptableObject
 
         [Header("cˆÚ“®")]
         public VerticalMoveParam VerticalMove = new VerticalMoveParam();
+    }
+
+    /// <summary>
+    /// ‹xŒe’†
+    /// </summary>
+    [Serializable]
+    public class RestParam
+    {
+        [Header("ƒ‹[ƒvŠÔ")]
+        public float LoopTime = 2f;
+
+        [Header("cˆÚ“®")]
+        public VerticalMoveParam VerticalMove = new VerticalMoveParam();
+
+        [Header("‰ñ“]")]
+        public RotationMoveParam RotationMove = new RotationMoveParam();
     }
     #endregion Definition
 
@@ -41,6 +66,15 @@ public class Ch1LimbAnimationScriptableObject : ScriptableObject
     }
     [SerializeField, Header("’Êí‘Ò‹@")]
     private WaitingParam _Waiting = new WaitingParam();
+
+    
+    public RestParam Rest
+    {
+        get => _Rest;
+        set => _Rest = value;
+    }
+    [SerializeField, Header("‹xŒeó‘Ô")]
+    private RestParam _Rest = new RestParam();
     #endregion
 
 

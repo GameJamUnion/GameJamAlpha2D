@@ -15,6 +15,7 @@ MonoBehaviour:
   _Waiting:
     LoopTime: 2
     VerticalMove:
+      Enable: 1
       MoveValue: 0.1
       MoveCurve:
         serializedVersion: 2
@@ -46,6 +47,26 @@ MonoBehaviour:
           weightedMode: 0
           inWeight: 0.17210242
           outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  _Rest:
+    LoopTime: 2
+    VerticalMove:
+      Enable: 1
+      MoveValue: 0
+      MoveCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    RotationMove:
+      Enable: 0
+      MoveValue: {x: 0, y: 0, z: 0}
+      MoveCurve:
+        serializedVersion: 2
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4

@@ -91,6 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7186fd15c112cf43a72ec4a916fee13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FullBodyParam:
+    TargetObj: {fileID: 3899220194347693240}
+    ScriptableObject: {fileID: 11400000, guid: 28c296e79252f6741a486e6d272a026d, type: 2}
   HeadParam:
     TargetObj: {fileID: 1781087987294633932}
     ScriptableObject: {fileID: 11400000, guid: 3e0b768561369bb499271a3edf681e07, type: 2}

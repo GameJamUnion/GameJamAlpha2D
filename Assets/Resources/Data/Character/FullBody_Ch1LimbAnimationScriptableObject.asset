@@ -10,13 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85a0e95be3db9d2459be8fb151b3e2c4, type: 3}
-  m_Name: Body_Ch1LimbAnimationScriptableObject
+  m_Name: FullBody_Ch1LimbAnimationScriptableObject
   m_EditorClassIdentifier: 
   _Waiting:
     LoopTime: 2
     VerticalMove:
+      Enable: 0
+      MoveValue: 0
+      MoveCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  _Rest:
+    LoopTime: 2
+    VerticalMove:
+      Enable: 0
+      MoveValue: 0
+      MoveCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    RotationMove:
       Enable: 1
-      MoveValue: 0.55
+      MoveValue: {x: 0, y: 0, z: -90}
       MoveCurve:
         serializedVersion: 2
         m_Curve:
@@ -30,16 +50,25 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.5
+          time: 0.02
           value: 1
-          inSlope: 0.0069358954
+          inSlope: 0.6132368
+          outSlope: 0
+          tangentMode: 65
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.98
+          value: 1
+          inSlope: -0
           outSlope: 0.0069358954
-          tangentMode: 0
+          tangentMode: 5
           weightedMode: 0
           inWeight: 0.33333334
           outWeight: 0.24634403
         - serializedVersion: 3
-          time: 0.95126903
+          time: 1
           value: 0
           inSlope: -0.009149652
           outSlope: -0.009149652
@@ -47,26 +76,6 @@ MonoBehaviour:
           weightedMode: 0
           inWeight: 0.17210242
           outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-  _Rest:
-    LoopTime: 2
-    VerticalMove:
-      Enable: 1
-      MoveValue: 0
-      MoveCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-    RotationMove:
-      Enable: 0
-      MoveValue: {x: 0, y: 0, z: 0}
-      MoveCurve:
-        serializedVersion: 2
-        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
