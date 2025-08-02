@@ -429,6 +429,7 @@ public class OfficeGameMaster : MonoBehaviour
                 _inRoomUnits.Remove(_selectUnit);
                 _selectUnit.gameObject.SetActive(false);
                 SoundManager.Instance.requestPlaySound(SEKind.DoorClose);
+                _unitAbilityCanvasUI.OnHide();
                 return;
             }
         }
@@ -444,6 +445,8 @@ public class OfficeGameMaster : MonoBehaviour
         _unitContainer.Call(_selectUnit);
         _inRoomUnits.Add(_selectUnit);
         _selectUnit.gameObject.SetActive(true);
+
+        _unitAbilityCanvasUI.OnDisplay(_selectUnit.IntervieweeUnitAbility);
 
         SoundManager.Instance.requestPlaySound(SEKind.DoorOpen);
     }
