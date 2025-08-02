@@ -1,33 +1,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
 public class TutorialEvent : MonoBehaviour, IPointerClickHandler
 {
 	[SerializeField]
-	private List<Sprite> m_sprites;
+	private List<GameObject> m_sheets;
 
-	private Image m_tutorialImage;
+	private GameObject m_currentSheet;
 
 	private int m_currentTutorialIndex = 0;
 
 	private void Start() {
-		TryGetComponent(out m_tutorialImage);
-		m_tutorialImage.sprite = m_sprites[m_currentTutorialIndex];
+		m_currentTutorialIndex = 0;
+		m_currentSheet = m_sheets[m_currentTutorialIndex];
+		m_currentSheet.SetActive(true);
 	}
 
 	public void OnPointerClick(PointerEventData eventData) {
 		m_currentTutorialIndex++;
+
 		// 次の画像がない
-		if (m_currentTutorialIndex >= m_sprites.Count){
+		if (m_currentTutorialIndex >= m_sheets.Count){
 			// チュートリアル終了
 			SceneManager.Instance.requestEndTutorialScene();
 			return;
 		}
 
-		m_tutorialImage.sprite = m_sprites[m_currentTutorialIndex];
+		m_currentSheet.SetActive(false);
+		m_currentSheet = m_sheets[m_currentTutorialIndex];
+
+		m_currentSheet.SetActive(true);
 	}
+
 
 }
