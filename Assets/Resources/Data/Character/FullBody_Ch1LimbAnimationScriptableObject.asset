@@ -24,7 +24,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
   _Rest:
-    LoopTime: 2
+    LoopTime: 30
     VerticalMove:
       Enable: 0
       MoveValue: 0
