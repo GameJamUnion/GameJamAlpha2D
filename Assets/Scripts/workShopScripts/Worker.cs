@@ -176,7 +176,7 @@ public class Worker : ObjBase
         {
             _MoveTimeCount += deltaTime;
             var rate = _MoveTimeCount / MoveSpeed;
-            if (rate >= 0.9f)
+            if (rate >= 0.95f)
             {
                 rate = 1f;
             }
