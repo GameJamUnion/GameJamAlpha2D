@@ -113,10 +113,21 @@ public class SceneManager : SingletonBase<SceneManager>
             // 次のステートへ移行
             _CurrentState.OnExit();
             _CurrentState = nextState;
-            _CurrentScene = nextState.SceneName;
-            _CurrentState.OnEnter();
 
-            _EndTutorialRequest = false;
+            // スキップしてさらに次のシーンに移行する場合は
+            // さらに次のシーン再生を試みる
+            void onEnter()
+            {
+                var result = _CurrentState.OnEnter();
+                if (result != null)
+                {
+                    _CurrentState = result;
+                    _CurrentScene = _CurrentState.SceneName;
+                    onEnter();
+                }
+            }
+
+            onEnter();
         }
     }
     #endregion
