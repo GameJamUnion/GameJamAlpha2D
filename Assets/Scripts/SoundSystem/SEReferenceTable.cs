@@ -65,4 +65,5 @@ public enum SEKind {
 	MachineWork,
 	Watch,
 	Bell,
+	Call,
 }
