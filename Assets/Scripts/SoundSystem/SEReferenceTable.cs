@@ -64,4 +64,5 @@ public enum SEKind {
 	Paper,
 	MachineWork,
 	Watch,
+	Bell,
 }
