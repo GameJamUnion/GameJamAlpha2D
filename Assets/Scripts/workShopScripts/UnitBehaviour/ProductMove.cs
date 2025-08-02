@@ -11,7 +11,7 @@ public class ProductMove : MonoBehaviour
 
 	private float m_moveSpeed;
 
-	public enum State {
+    public enum State {
 		Wait,
 		Walking,
 	}
@@ -30,13 +30,13 @@ public class ProductMove : MonoBehaviour
 	// 移動ルート
 	UnitWalkRoute unitWalkRoute = null;
 
-	UnityAction<GoalPointType> m_onExitMoveEvent;
+	UnityAction m_onExitMoveEvent;
 
 	/// <summary>
 	/// 到着イベント登録
 	/// </summary>
 	/// <param name="exitMoveEvent"></param>
-	public void RegisterExitMoveEvent(UnityAction<GoalPointType> exitMoveEvent) {
+	public void RegisterExitMoveEvent(UnityAction exitMoveEvent) {
 		m_onExitMoveEvent += exitMoveEvent;
 	}
 
@@ -70,7 +70,7 @@ public class ProductMove : MonoBehaviour
 			// 到達
 			if (m_moveInfo.nextPointIndex >= unitWalkRoute.pointList.Count) {
 				unitWalkRoute = null;
-				m_onExitMoveEvent?.Invoke(unitWalkRoute.goalType);
+				m_onExitMoveEvent?.Invoke();
 				m_state = State.Wait;
 			}
 		}

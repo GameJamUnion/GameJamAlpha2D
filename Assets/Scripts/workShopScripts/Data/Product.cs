@@ -8,21 +8,12 @@ public class Product : ProductMove
     /// <summary>
     /// 必要な作業量
     /// </summary>
-    private int workAmount;
+    private int workAmount = 100;
 
     /// <summary>
     /// 点数
     /// </summary>
-    private int scorePoint;
-
-    /// <summary>
-    /// コンストラクタ
-    /// </summary>
-    public Product()
-    {
-        workAmount = 100;   // TODO とりあえず100
-        scorePoint = 1;     // TODO とりあえず1
-    }
+    private int scorePoint = 1;
 
     #region Property
 

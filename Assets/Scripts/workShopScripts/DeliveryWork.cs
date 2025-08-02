@@ -39,10 +39,9 @@ public class DeliveryWork : StageObjBase
     /// <summary>
     /// 作業物を追加する
     /// </summary>
-    /// <param name="product"></param>
-    public override void AddProduct(Product product)
+    public override void AddProduct()
     {
-        score.AddScore(product.ScorePoint);
+        score.AddScore(1);
     }
 
     /// <summary>

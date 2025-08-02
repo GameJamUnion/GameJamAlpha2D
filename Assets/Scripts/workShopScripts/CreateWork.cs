@@ -1,5 +1,7 @@
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 /// <summary>
 /// 生産場クラス
@@ -24,7 +26,15 @@ public class CreateWork : WorkBase
     override protected void Start()
     {
         base.Start();
-        productList = Enumerable.Range(0, maxCreateProductsNum).Select(i => new Product()).ToList();
+        Vector3 pos = Vector3.zero;
+        Quaternion rot = Quaternion.identity;
+
+        for (int i = 0; i < maxCreateProductsNum; i++)
+        {
+            Product product = Instantiate<Product>(productPrefab, pos, rot, productsRootTrans);
+            product.gameObject.SetActive(false);
+            productList.Add(product);
+        }
     }
 
     /// <summary>
