@@ -303,15 +303,56 @@ public class OfficeGameMaster : MonoBehaviour
     // ŒÄ‚Ñž‚Þ
     public void ComeInUnit()
     {
-		SoundManager.Instance.requestPlaySound(SEKind.Bell);
-		// ŒÙ—p‚Ì‚½‚ß‚É•”‰®‚ÉŒÄ‚ÔŒÀŠEãŒÀ‚R‘Ì
-		if (_inRoomUnits.Count >= 1)
+        SoundManager.Instance.requestPlaySound(SEKind.Bell);
+
+        // ŒÙ—p‚Ì‚½‚ß‚É•”‰®‚ÉŒÄ‚ÔŒÀŠEãŒÀ‚R‘Ì
+        if (_inRoomUnits.Count >= 1)
             return;
 
         if (_reserveUnits.Count == 0)
             return;
 
         BaseUnit newBaseUnit = _reserveUnits[0];
+
+        // ’®—Í‚É‚æ‚Á‚Ä•·‚±‚¦‚È‚¢Šm—¦
+        if (_reserveUnits[0].HearingPower < 0)// ’®—Í‚ª•‰‚ÌŽž•·‚±‚¦‚È‚¢‰Â”\«‚ª‚ ‚é
+        {
+            float unhear = Random.Range(0f, 1f);
+            if (_reserveUnits[0].HearingPower < -0.8f)
+            {
+                if (unhear <= 0.95f)// 95%‚Å•·‚±‚¦‚È‚¢
+                {
+                    Debug.Log("Hear : " + unhear + " /// 95%");
+                    return;
+                }
+            }
+            else if (_reserveUnits[0].HearingPower < -0.6f)
+            {
+                if (unhear <= 0.85f)// 85%‚Å•·‚±‚¦‚È‚¢
+                {
+                    Debug.Log("Hear : " + unhear + " /// 90%");
+                    return;
+                }
+            }
+            else if (_reserveUnits[0].HearingPower < -0.4f)
+            {
+                if (unhear <= 0.7f)// 70%‚Å•·‚±‚¦‚È‚¢
+                {
+                    Debug.Log("Hear : " + unhear + " /// 85%");
+                    return;
+                }
+            }
+            else if (_reserveUnits[0].HearingPower < -0.2f)
+            {
+                if (unhear <= 0.6f)// 50%‚Å•·‚±‚¦‚È‚¢
+                {
+                    Debug.Log("Hear : " + unhear + " /// 70%");
+                    return;
+                }
+            }
+
+            Debug.Log("Hear : " + unhear);
+        }
 
         _reserveUnits.Remove(newBaseUnit);
         CreateUnit();
