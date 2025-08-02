@@ -183,8 +183,11 @@ public abstract class WorkBase : StageObjBase
             .OrderBy(u => Random.value)
             .FirstOrDefault();
 
-        unitPlacement.PlacementOriginId = originId;
-        unitPlacement.Available = false;
+        if (unitPlacement != null)
+        {
+            unitPlacement.PlacementOriginId = originId;
+            unitPlacement.Available = false;
+        }
 
         return unitPlacement.Transform;
     } 

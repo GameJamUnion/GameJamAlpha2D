@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05a86147bb9bf1c4ea3d533c10ad5cbc, type: 3}
+  m_Name: UnitWalkRoute4
+  m_EditorClassIdentifier: 
+  m_pointList:
+  - {x: -8.1, y: 12.15, z: -2}
+  - {x: -22.8, y: 12.15, z: -2}
+  - {x: -22.8, y: 39.35, z: -2}
+  m_goalType: 3

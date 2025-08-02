@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// 作業物クラス
 /// </summary>
-public class Product : MonoBehaviour
+public class Product : ProductMove
 {
     /// <summary>
     /// 必要な作業量

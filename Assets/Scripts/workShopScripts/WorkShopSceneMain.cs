@@ -5,6 +5,7 @@ using UnityEngine;
 ///  作業場シーンメイン処理
 /// </summary>
 public class WorkShopSceneMain : MonoBehaviour
+    , IGameWaveChangeReceiver
 {
     /// <summary>
     /// 作業員プレハブ
@@ -19,7 +20,7 @@ public class WorkShopSceneMain : MonoBehaviour
     private WorkManager workManager;
 
     /// <summary>
-    /// シーンの親オブジェクト
+    /// ユニット配置の親オブジェクト
     /// </summary>
     [SerializeField]
     private Transform unitRootTrans;
@@ -39,6 +40,7 @@ public class WorkShopSceneMain : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     virtual protected void Start()
     {
+        GameWaveManager.Instance.registerReceiver(this);
         unitContainer.RegisterEventOnHired(EmployWorker);
         unitContainer.RegisterEventOnRemove(RemoveWorker);
         unitContainer.RegisterEventOnCall(CallWorker);
@@ -184,5 +186,10 @@ public class WorkShopSceneMain : MonoBehaviour
             Transform transform = afterWork.GetAvailableUnitPlacement(originId);
             worker.Move(transform.position);
         }
+    }
+
+    public void receiveChangeWave(GameWaveChangeReceiveParam param)
+    {
+        score = param.WorkScore;
     }
 }

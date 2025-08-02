@@ -1,15 +1,24 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 /// <summary>
 /// 納品場クラス
 /// </summary>
 public class DeliveryWork : StageObjBase
+    , IGameWaveChangeReceiver
 {
     /// <summary>
     /// スコア
     /// </summary>
     [SerializeField]
     private WorkScore score;
+
+    override protected void Start()
+    {
+        base.Start();
+        GameWaveManager.Instance.registerReceiver(this);
+    }
 
     /// <summary>
     /// 指定秒毎の作業実行
@@ -34,5 +43,14 @@ public class DeliveryWork : StageObjBase
     public override void AddProduct(Product product)
     {
         score.AddScore(product.ScorePoint);
+    }
+
+    /// <summary>
+    /// ウェーブが変更した際のイベント
+    /// </summary>
+    /// <param name="param"></param>
+    public void receiveChangeWave(GameWaveChangeReceiveParam param)
+    {
+        score = param.WorkScore;
     }
 }

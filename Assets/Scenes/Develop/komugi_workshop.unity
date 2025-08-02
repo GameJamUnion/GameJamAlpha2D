@@ -673,6 +673,14 @@ PrefabInstance:
       propertyPath: outputObj
       value: 
       objectReference: {fileID: 1510371248}
+    - target: {fileID: 235579370865915062, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
+      propertyPath: productPrefab
+      value: 
+      objectReference: {fileID: 4299778229854090180, guid: 4d5eddd98079f554ca34a046c2927ab2, type: 3}
+    - target: {fileID: 235579370865915062, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
+      propertyPath: productsRootTrans
+      value: 
+      objectReference: {fileID: 1776852010}
     - target: {fileID: 6644169905044609844, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
       propertyPath: m_Name
       value: Conveyor3
@@ -1479,6 +1487,14 @@ PrefabInstance:
       propertyPath: outputObj
       value: 
       objectReference: {fileID: 1061515574}
+    - target: {fileID: 235579370865915062, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
+      propertyPath: productPrefab
+      value: 
+      objectReference: {fileID: 6349677057970613128, guid: deebf84b7b560c04bb2d259fce61260a, type: 3}
+    - target: {fileID: 235579370865915062, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
+      propertyPath: productsRootTrans
+      value: 
+      objectReference: {fileID: 1776852010}
     - target: {fileID: 6644169905044609844, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
       propertyPath: m_Name
       value: Conveyor4
@@ -2064,31 +2080,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5732397095065570181, guid: e5df3be675ff39944adc97dd2ece99be, type: 3}
   m_PrefabInstance: {fileID: 938578807}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &695200962 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6644169905044609844, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
-  m_PrefabInstance: {fileID: 801032987}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &695200964 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7465273860991248882, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
   m_PrefabInstance: {fileID: 801032987}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &695200965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 695200962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e21c43b44283f7a46a64155cc1ad1c5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_moveTime: 4
-  m_animator: {fileID: 0}
-  m_route: {fileID: 11400000, guid: 5da975bd914faba4d84c04881cfc8fb7, type: 2}
 --- !u!1 &709882718
 GameObject:
   m_ObjectHideFlags: 0
@@ -2596,6 +2592,14 @@ PrefabInstance:
       propertyPath: outputObj
       value: 
       objectReference: {fileID: 2012282227}
+    - target: {fileID: 235579370865915062, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
+      propertyPath: productPrefab
+      value: 
+      objectReference: {fileID: -6914796927310195021, guid: f43203b78845a9b4881d4fc982199004, type: 3}
+    - target: {fileID: 235579370865915062, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
+      propertyPath: productsRootTrans
+      value: 
+      objectReference: {fileID: 1776852010}
     - target: {fileID: 6644169905044609844, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
       propertyPath: m_Name
       value: Conveyor1
@@ -2670,10 +2674,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7465273860991248882, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1914860266}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6644169905044609844, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 695200965}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
 --- !u!1 &828398988
 GameObject:
@@ -3234,7 +3235,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1061515571}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -6018,6 +6019,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42012d0e53232eb4891c1c2b28e53f23, type: 3}
+--- !u!1 &1776852009
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1776852010}
+  m_Layer: 0
+  m_Name: ProductsToot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1776852010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776852009}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.594557, y: -3.4567459, z: -0.7683133}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1802018897
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7151,6 +7183,14 @@ PrefabInstance:
       propertyPath: outputObj
       value: 
       objectReference: {fileID: 1639104575}
+    - target: {fileID: 235579370865915062, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
+      propertyPath: productPrefab
+      value: 
+      objectReference: {fileID: 2855495988984011660, guid: 5aaa51adc0439de49b4df10e7618e450, type: 3}
+    - target: {fileID: 235579370865915062, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
+      propertyPath: productsRootTrans
+      value: 
+      objectReference: {fileID: 1776852010}
     - target: {fileID: 6644169905044609844, guid: 2c15de95ba7e497489e4d9630acfaba2, type: 3}
       propertyPath: m_Name
       value: Conveyor2
@@ -7504,9 +7544,10 @@ SceneRoots:
   - {fileID: 1753848098}
   - {fileID: 206871719}
   - {fileID: 229329138}
-  - {fileID: 1745313118}
   - {fileID: 801032987}
   - {fileID: 2040999902}
   - {fileID: 144617567}
   - {fileID: 511226229}
+  - {fileID: 1745313118}
+  - {fileID: 1776852010}
   - {fileID: 777052844}

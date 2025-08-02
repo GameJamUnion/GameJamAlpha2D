@@ -137,10 +137,16 @@ public class WorkManager : MonoBehaviour
     public void StopInterfereWorker(int interfereOriginId, int beInterferedOriginID)
     {
         Worker interfereWorker = GetWorker(interfereOriginId);
-        interfereWorker.Working();
+        if (interfereWorker != null)
+        {
+            interfereWorker.Working();
+        }
 
         Worker beInterfereWorker = GetWorker(beInterferedOriginID);
-        beInterfereWorker.Working();
+        if (beInterfereWorker != null)
+        {
+            beInterfereWorker.Working();
+        }   
     }
 
     /// <summary>
