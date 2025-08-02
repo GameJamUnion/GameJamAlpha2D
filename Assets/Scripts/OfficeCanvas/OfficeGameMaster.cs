@@ -375,7 +375,7 @@ public class OfficeGameMaster : MonoBehaviour
         if (_resumeInterfaceManager.AssignInactiveResumeInterface)
         {
             newBaseUnit.ResumeInterface = _resumeInterfaceManager.GetInactiveResumeInterface();
-            newBaseUnit.ResumeInterface.gameObject.GetComponent<RectTransform>().transform.localPosition = new Vector3(10f * ((float)_resumeInterfaceManager.GetInactiveResumeInterfaceCount() - 1f), 10f * ((float)_resumeInterfaceManager.GetInactiveResumeInterfaceCount() - 1), 0f);
+            newBaseUnit.ResumeInterface.gameObject.GetComponent<RectTransform>().transform.localPosition = new Vector3(970f + 10f * ((float)_resumeInterfaceManager.GetInactiveResumeInterfaceCount() - 1f), 10f * ((float)_resumeInterfaceManager.GetInactiveResumeInterfaceCount() - 1), 0f);
             newBaseUnit.Initialize(_nextID, this);
             _nextID++;
             _inRoomUnits.Add(newBaseUnit);
