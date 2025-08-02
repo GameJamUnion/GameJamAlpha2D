@@ -17,8 +17,25 @@ public abstract class SceneStateBase
 {
     public abstract SceneNames[] SceneName { get; }
 
+    /// <summary>
+    /// Enter時にフェードインする
+    /// </summary>
+    public virtual bool UseEnterFadeIn { get; private set; } = false;
+    /// <summary>
+    /// Exit時にフェードアウトする
+    /// </summary>
+    public virtual bool UseExitFadeOut { get; private set; } = false;
+
     public virtual SceneStateBase OnEnter()
     {
+        if (UseEnterFadeIn == true)
+        {
+            FadeManager.Instance.requestStartFade(new FadeInOut.FadeInOutArgs()
+            {
+                FadeType = FadeManager.FadeType.FadeIn,
+            });
+        }
+
         for (int i = 0; i < SceneName.Length; i++)
         {
             // 対象シーンロード
@@ -55,6 +72,12 @@ public abstract class SceneStateBase
 public class MasterSceneState : SceneStateBase
 {
     public override SceneNames[] SceneName => new SceneNames[] { SceneNames.Master};
+
+    public override SceneStateBase OnEnter()
+    {
+        return new TitleSceneState();
+    }
+    
     public override SceneStateBase checkNext()
     {
         // タイトルへ
@@ -71,14 +94,13 @@ public class TitleSceneState : SceneStateBase
 {
     public override SceneNames[] SceneName => new SceneNames[] { SceneNames.Title };
 
+    public override bool UseEnterFadeIn => true;
+    public override bool UseExitFadeOut => true;
+
     public override SceneStateBase OnEnter()
     {
         base.OnEnter();
 
-        FadeManager.Instance.requestStartFade(new FadeInOut.FadeInOutArgs
-        {
-            FadeType = FadeManager.FadeType.FadeIn,
-        });
 
         SoundManager.Instance.requestPlaySound(BGMKind.Title);
 
@@ -91,10 +113,6 @@ public class TitleSceneState : SceneStateBase
         
         if (checkInput() == true)
         {
-            FadeManager.Instance.requestStartFade(new FadeInOut.FadeInOutArgs
-            {
-                FadeType = FadeManager.FadeType.FadeOut,
-            });
             return new GameTutorialState();
         }
 
@@ -129,6 +147,9 @@ public class GameTutorialState : SceneStateBase
 {
     public override SceneNames[] SceneName => new SceneNames[] { SceneNames.Tutorial };
 
+    public override bool UseEnterFadeIn => true;
+    public override bool UseExitFadeOut => true;
+
     public override SceneStateBase OnEnter()
     {
         // チュートリアル終了なら即ロードシーンへ
@@ -139,21 +160,12 @@ public class GameTutorialState : SceneStateBase
 
         base.OnEnter();
 
-        FadeManager.Instance.requestStartFade(new FadeInOut.FadeInOutArgs
-        {
-            FadeType = FadeManager.FadeType.FadeIn,
-        });
-
         return null;
     }
     public override SceneStateBase checkNext()
     {
         if (checkEndTutorial() == true)
         {
-            FadeManager.Instance.requestStartFade(new FadeInOut.FadeInOutArgs
-            {
-                FadeType = FadeManager.FadeType.FadeOut,
-            });
             return new GameLoadSceneState();
         }
 
@@ -354,13 +366,11 @@ public class GameLoadSceneState : SceneStateBase
 #region InGame
 public abstract class InGameSceneStateBase : SceneStateBase
 {
+    public override bool UseExitFadeOut => true;
+    public override bool UseEnterFadeIn => true;
     public override SceneStateBase OnEnter()
     {
         base.OnEnter();
-        FadeManager.Instance.requestStartFade(new FadeInOut.FadeInOutArgs
-        {
-            FadeType = FadeManager.FadeType.FadeIn,
-        });
         SoundManager.Instance.requestPlaySound(BGMKind.MainGame);
 
         return null;

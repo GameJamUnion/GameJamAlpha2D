@@ -130,11 +130,14 @@ public class FadeInOut : MonoBehaviour
 
             case StepType.End:
                 {
+                    var fadeType = _FadeInOutArgs.FadeType;
+                    _StepType = StepType.None;
+                    _FadeInOutArgs.FadeType = FadeType.None;
                     // Š®‘S‚É“§–¾ or •s“§–¾‚É‚·‚é
                     _Alfa = (_FadeInOutArgs.FadeType == FadeType.FadeIn) ? Alfa_Min : Alfa_Max;
                     setAlfa(_Alfa);
 
-                    if (_FadeInOutArgs.FadeType == FadeType.FadeIn)
+                    if (fadeType == FadeType.FadeIn)
                     {
                         _FadeInOutArgs.onFadeInEndEvent?.Invoke();
 
@@ -144,13 +147,10 @@ public class FadeInOut : MonoBehaviour
                             _PanelObject.SetActive(false);
                         }
                     }
-                    else if (_FadeInOutArgs.FadeType == FadeType.FadeOut)
+                    else if (fadeType == FadeType.FadeOut)
                     {
                         _FadeInOutArgs.onFadeOutEndEvent?.Invoke();
                     }
-
-                    _StepType = StepType.None;
-                    _FadeInOutArgs.FadeType = FadeType.None;
                 }
                 break;
         }

@@ -42,6 +42,7 @@ public class SceneManager : SingletonBase<SceneManager>
     private SceneNames[] _CurrentScene = new SceneNames[1] { SceneNames.Invalid };
     private SceneStateBase _CurrentState = null;
     private bool _IsPending = false;
+    private bool _IsFadeWait = false;
     #region Request
     private bool _ToTitleRequest = false;
     private bool _RestartInGameRequest = false;
@@ -59,8 +60,6 @@ public class SceneManager : SingletonBase<SceneManager>
         
         // 常駐シーンをロード
         UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(SceneNames.GameMastering.ToString(), LoadSceneMode.Additive);
-
-
 
         for (int i = 0; i < sceneCount; i++)
         {
@@ -92,6 +91,13 @@ public class SceneManager : SingletonBase<SceneManager>
         {
             return;
         }
+
+        // Fade終了待ち
+        if (_IsFadeWait == true)
+        {
+            return;
+        }
+
         // 現在のシーンステートを更新
         var nextState = _CurrentState?.checkNext();
 
@@ -111,8 +117,36 @@ public class SceneManager : SingletonBase<SceneManager>
         if (nextState != null)
         {
             // 次のステートへ移行
-            _CurrentState.OnExit();
-            _CurrentState = nextState;
+
+            if (_CurrentState.UseExitFadeOut == true)
+            {
+                var next = nextState;
+                void onFadeEnd()
+                {
+                    _CurrentState.OnExit();
+                    _CurrentState = next;
+                    onEnter();
+                    _IsFadeWait = false;
+                }
+
+                // フェードアウトが終わってから切り替える
+                FadeManager.Instance.requestStartFade(new FadeInOut.FadeInOutArgs()
+                {
+                    FadeType = FadeManager.FadeType.FadeOut,
+                    onFadeOutEndEvent = onFadeEnd,
+                });
+                _IsFadeWait = true;
+            }
+            else
+            {
+                // 即切り替え
+                _CurrentState.OnExit();
+                _CurrentState = nextState;
+                _CurrentScene = _CurrentState.SceneName;
+                onEnter();
+            }
+
+                
 
             // スキップしてさらに次のシーンに移行する場合は
             // さらに次のシーン再生を試みる
@@ -125,9 +159,9 @@ public class SceneManager : SingletonBase<SceneManager>
                     _CurrentScene = _CurrentState.SceneName;
                     onEnter();
                 }
-            }
 
-            onEnter();
+                _CurrentScene = _CurrentState.SceneName;
+            }
         }
     }
     #endregion
