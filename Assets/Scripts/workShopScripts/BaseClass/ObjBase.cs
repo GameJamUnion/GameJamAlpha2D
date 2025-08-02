@@ -21,7 +21,7 @@ public abstract class ObjBase : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void Update()
+    virtual protected void Update()
     {
         time += Time.deltaTime;
         if (time >= workInterval)

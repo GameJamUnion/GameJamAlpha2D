@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -169,8 +170,10 @@ public class Worker : ObjBase
         _DefaultPos = gameObject.transform.position;
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         var deltaTime = Time.deltaTime;
         if (_TargetPos.HasValue == true)
         {
