@@ -42,6 +42,10 @@ public class OfficeGameMaster : MonoBehaviour
     [SerializeField] CAPointTable _caPointTable;
     [SerializeField] CADistributionTable _caDistributionTable;
 
+    [Header("Config")]
+    [SerializeField] private int _maxUnhearCount = 10;
+    private int _currentUnhearCount = 0;
+
     #region プロパティ
     //public List<BaseUnit> ReserveUnits
     //{
@@ -323,7 +327,9 @@ public class OfficeGameMaster : MonoBehaviour
                 if (unhear <= 0.95f)// 95%で聞こえない
                 {
                     Debug.Log("Hear : " + unhear + " /// 95%");
-                    return;
+                    _currentUnhearCount++;
+                    if (_currentUnhearCount < _maxUnhearCount)
+                        return;
                 }
             }
             else if (_reserveUnits[0].HearingPower < -0.6f)
@@ -331,7 +337,9 @@ public class OfficeGameMaster : MonoBehaviour
                 if (unhear <= 0.85f)// 85%で聞こえない
                 {
                     Debug.Log("Hear : " + unhear + " /// 90%");
-                    return;
+                    _currentUnhearCount++;
+                    if (_currentUnhearCount < _maxUnhearCount)
+                        return;
                 }
             }
             else if (_reserveUnits[0].HearingPower < -0.4f)
@@ -339,20 +347,25 @@ public class OfficeGameMaster : MonoBehaviour
                 if (unhear <= 0.7f)// 70%で聞こえない
                 {
                     Debug.Log("Hear : " + unhear + " /// 85%");
-                    return;
+                    _currentUnhearCount++;
+                    if (_currentUnhearCount < _maxUnhearCount)
+                        return;
                 }
             }
             else if (_reserveUnits[0].HearingPower < -0.2f)
             {
-                if (unhear <= 0.6f)// 50%で聞こえない
+                if (unhear <= 0.6f)// 60%で聞こえない
                 {
                     Debug.Log("Hear : " + unhear + " /// 70%");
-                    return;
+                    _currentUnhearCount++;
+                    if (_currentUnhearCount < _maxUnhearCount)
+                        return;
                 }
             }
-
             Debug.Log("Hear : " + unhear);
         }
+
+        _currentUnhearCount = 0;
 
         _reserveUnits.Remove(newBaseUnit);
         CreateUnit();
