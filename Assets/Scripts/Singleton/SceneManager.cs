@@ -43,6 +43,7 @@ public class SceneManager : SingletonBase<SceneManager>
     #region Request
     private bool _ToTitleRequest = false;
     private bool _RestartInGameRequest = false;
+    private bool _EndTutorialRequest = false;
     #endregion
 
     /// <summary>
@@ -165,6 +166,15 @@ public class SceneManager : SingletonBase<SceneManager>
         _IsPending = true;
     }
 
+    /// <summary>
+    /// チュートリアル終了していいか
+    /// </summary>
+    /// <returns></returns>
+    public bool checkEndTutorialScene()
+    {
+        return _EndTutorialRequest == true;
+    }
+
     #region Load
 
     /// <summary>
@@ -208,6 +218,14 @@ public class SceneManager : SingletonBase<SceneManager>
     public void requestRestartInGame()
     {
         _RestartInGameRequest = true;
+    }
+
+    /// <summary>
+    /// チュートリアルシーン終了リクエスト
+    /// </summary>
+    public void requestEndTutorialScene()
+    {
+        _EndTutorialRequest = true;
     }
     #endregion Request
 }

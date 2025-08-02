@@ -137,8 +137,17 @@ public class GameTutorialState : SceneStateBase
         return base.checkNext();
     }
 
+    /// <summary>
+    /// チュートリアル終了チェック
+    /// </summary>
+    /// <returns></returns>
     private bool checkEndTutorial()
     {
+        if (SceneManager.Instance.checkEndTutorialScene() == true)
+        {
+            return true;
+        }
+
         return false;
     }
 }
