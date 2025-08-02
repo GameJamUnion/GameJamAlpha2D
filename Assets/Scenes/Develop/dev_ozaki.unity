@@ -424,6 +424,7 @@ MonoBehaviour:
   _baseResume: {fileID: 566407574}
   _resumeData: {fileID: 11400000, guid: 56ab703aee1d5e342af6eeaccac28eeb, type: 2}
   _resumeInterface: {fileID: 0}
+  _liar: 0
 --- !u!1 &595736403
 GameObject:
   m_ObjectHideFlags: 0
@@ -2659,7 +2660,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8076896618595370867, guid: 61033cbc6bfb7734eb9b987f357a6b45, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 128.1166
       objectReference: {fileID: 0}
     - target: {fileID: 8076896618595370867, guid: 61033cbc6bfb7734eb9b987f357a6b45, type: 3}
       propertyPath: m_LocalScale.x
@@ -2707,7 +2708,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8076896618595370867, guid: 61033cbc6bfb7734eb9b987f357a6b45, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -278.6
+      value: -261.88373
       objectReference: {fileID: 0}
     - target: {fileID: 8076896618595370867, guid: 61033cbc6bfb7734eb9b987f357a6b45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
