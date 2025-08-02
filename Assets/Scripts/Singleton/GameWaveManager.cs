@@ -182,7 +182,7 @@ public class GameWaveManager : SingletonBase<GameWaveManager>
         var score = 0;
         if (_ActiveWorkScore != null)
         {
-            score = _TotalClearScore + _ActiveWorkScore.score;
+            score = (_TotalClearScore + _ActiveWorkScore.score) * _ActiveWorkScoreIndex;
         }
 
         var time = 0f;
