@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: a379f2bb160fb9f4bacd899849f225c0
+guid: 5d3cd47a1ec3be745be76eda9c341432
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5744563787780099260
-    second: Body1_0
-  - first:
-      213: 7229178850038870636
-    second: Body1_1
-  - first:
-      213: -7392225613436957956
-    second: Body1_2
+      213: 8874664975275959002
+    second: Hand_R 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -106,45 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Body1_0
+      name: Hand_R 1_0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 166
-        width: 382
-        height: 302
+        x: 30
+        y: 66
+        width: 299
+        height: 298
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cbc8438345ac8bf40800000000000000
-      internalID: 5744563787780099260
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Body1_1
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 18
-        width: 254
-        height: 146
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c62755ebcd3335460800000000000000
-      internalID: 7229178850038870636
+      spriteID: ad2ace766c4292b70800000000000000
+      internalID: 8874664975275959002
       vertices: []
       indices: 
       edges: []
@@ -153,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7a0ada2d0b9913b4aa518c28c7002d9d
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -163,9 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Body1_0: 5744563787780099260
-      Body1_1: 7229178850038870636
-      Body1_2: -7392225613436957956
+      Hand_R 1_0: 8874664975275959002
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
