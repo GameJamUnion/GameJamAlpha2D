@@ -30,17 +30,26 @@ public class WorkManager : MonoBehaviour
     /// </summary>
     private List<Worker> workerList = new List<Worker>();
 
+
     /// <summary>
     /// çÏã∆àıÇâåŸÇ∑ÇÈ
     /// </summary>
     /// <param name="originId"></param>
-    public void RemoveWorker(int originId)
+    /// <param name="placementState"></param>
+    public void RemoveWorker(int originId, RI.PlacementState placementState)
     {
-        if (workerList != null)
+        if (workerList != null && workList != null)
         {
-            List<Worker> removeList = workerList.Where(w => w.OriginId == originId).ToList();
+            WorkBase work = workList.Where(w => w.WorkId == placementState).FirstOrDefault();
 
-            foreach (Worker worker in removeList)
+            if (work != null)
+            {
+                work.RemoveUnit(originId);
+            }
+
+            List<Worker> removeWorkerList = workerList.Where(w => w.OriginId == originId).ToList();
+
+            foreach (Worker worker in removeWorkerList)
             {
                 if (worker != null)
                 {

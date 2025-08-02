@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// 作業員クラス
@@ -311,9 +312,6 @@ public class Worker : ObjBase
     private void MoveWorkSection()
     {
         assignWorkId = GetRondomWorkSection(assignWorkId);
-
-        // 左画面には知らせない
-        //unitContainer.MoveSectionByWorker(originId, assignWorkId);
     }
 
     /// <summary>
@@ -334,6 +332,8 @@ public class Worker : ObjBase
         while (placementState == movePlace
         || placementState == RI.PlacementState.NONE
         || placementState == RI.PlacementState.END);
+
+        unitContainer.MoveSectionByWorker(originId, placementState, movePlace);
 
         return movePlace;
     }
@@ -418,5 +418,14 @@ public class Worker : ObjBase
 
         // 妨害相手を初期化
         interfereOriginId = 0;
+    }
+
+    /// <summary>
+    /// キャラを動かす
+    /// </summary>
+    /// <param name="pos"></param>
+    public void Move(Vector3 pos)
+    {
+        this.transform.position = pos;
     }
 }

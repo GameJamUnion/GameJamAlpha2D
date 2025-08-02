@@ -43,6 +43,7 @@ public class WorkShopSceneMain : MonoBehaviour
         unitContainer.RegisterEventOnRemove(RemoveWorker);
         unitContainer.RegisterEventOnCall(CallWorker);
         unitContainer.RegisterEventOnCallBack(CallBackWorker);
+        unitContainer.RegisterEventOnMoveSectionByWorker(MoveSectionByWorker);
         unitContainer.RegisterEventInterfereOn(InterfereWorker);
         unitContainer.RegisterEventInterfereOff(StopInterfereWorker);
     }
@@ -87,11 +88,8 @@ public class WorkShopSceneMain : MonoBehaviour
 
         if (work != null)
         {
-            // 座標を設定
-            // TODO とりあえず作業場の隣に並べてる
-            Vector3 pos = work.transform.position;
-            pos.x += 25 + (workManager.GetWokerList(unit.PlacementState).Count * 10);
-            Quaternion rot = Quaternion.identity;
+            // 座標を取得する
+            Transform transform = work.GetAvailableUnitPlacement(unit.Origin);
 
             Dictionary<RI.PlacementState, float> powerDictionary = new Dictionary<RI.PlacementState, float>
             {
@@ -115,7 +113,7 @@ public class WorkShopSceneMain : MonoBehaviour
                 speed);
 
             // 作業員を複製
-            Worker worker = Instantiate<Worker>(workerPrefab, pos, rot, unitRootTrans);
+            Worker worker = Instantiate<Worker>(workerPrefab, transform.position, transform.rotation, unitRootTrans);
             worker.InitializeWoker(unit.Origin, unit.PlacementState, status);
 
             workManager.EmployWoker(worker);
@@ -128,7 +126,7 @@ public class WorkShopSceneMain : MonoBehaviour
     /// <param name="unit"></param>
     public void RemoveWorker(BaseUnit unit)
     {
-        workManager.RemoveWorker(unit.Origin);
+        workManager.RemoveWorker(unit.Origin, unit.PlacementState);
     }
 
     /// <summary>
@@ -166,5 +164,25 @@ public class WorkShopSceneMain : MonoBehaviour
     public void StopInterfereWorker(int interfereOriginId, int beInterferedOriginID)
     {
         workManager.StopInterfereWorker(interfereOriginId, beInterferedOriginID);
+    }
+
+    /// <summary>
+    /// 作業場変更イベント
+    /// </summary>
+    /// <param name="originId"></param>
+    /// <param name="beforePlacementState"></param>
+    /// <param name="afterPlacementState"></param>
+    public void MoveSectionByWorker(int originId, RI.PlacementState beforePlacementState, RI.PlacementState afterPlacementState)
+    {
+        WorkBase beforeWork = workManager.GetWork(beforePlacementState);
+        WorkBase afterWork = workManager.GetWork(afterPlacementState);
+        Worker worker = workManager.GetWorker(originId);
+
+        if (beforeWork != null && afterWork != null && worker != null)
+        {
+            beforeWork.RemoveUnit(originId);
+            Transform transform = afterWork.GetAvailableUnitPlacement(originId);
+            worker.Move(transform.position);
+        }
     }
 }

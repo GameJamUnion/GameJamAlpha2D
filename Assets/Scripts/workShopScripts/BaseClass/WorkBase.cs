@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// 作業場の基底クラス
@@ -29,6 +30,12 @@ public abstract class WorkBase : StageObjBase
     /// </summary>
     [SerializeField]
     protected WorkManager workManager;
+
+    /// <summary>
+    /// 作業員の配置場所リスト
+    /// </summary>
+    [SerializeField]
+    private List<UnitPlacement> unitPlacementList;
 
     /// <summary>
     /// 作業状況
@@ -162,6 +169,38 @@ public abstract class WorkBase : StageObjBase
                 workingProduct = productList[0];
                 productList.RemoveAt(0);
             }
+        }
+    }
+
+    /// <summary>
+    /// 使用可能な作業員配置場所を取得して配置作業員情報を入力する
+    /// </summary>
+    /// <param name="originId"></param>
+    /// <returns></returns>
+    public Transform GetAvailableUnitPlacement(int originId)
+    {
+        UnitPlacement unitPlacement = unitPlacementList.Where(u => u.Available == true)
+            .OrderBy(u => Random.value)
+            .FirstOrDefault();
+
+        unitPlacement.PlacementOriginId = originId;
+        unitPlacement.Available = false;
+
+        return unitPlacement.Transform;
+    } 
+
+    /// <summary>
+    /// 配置していた作業員を削除する
+    /// </summary>
+    /// <param name="originId"></param>
+    public void RemoveUnit(int originId)
+    {
+        List<UnitPlacement> removeUnitPlacementList = unitPlacementList.Where(u => u.PlacementOriginId == originId).ToList();
+        
+        foreach (UnitPlacement unitPlacement in removeUnitPlacementList)
+        {
+            unitPlacement.PlacementOriginId = 0;
+            unitPlacement.Available = true;
         }
     }
 

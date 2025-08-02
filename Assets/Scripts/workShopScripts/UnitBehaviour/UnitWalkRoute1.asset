@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: UnitWalkRoute1
   m_EditorClassIdentifier: 
   m_pointList:
-  - {x: 0, y: 0, z: 0}
+  - {x: 24, y: -69.6, z: -2}
+  - {x: 24, y: -41.75, z: -2}
+  - {x: 7.9, y: -41.75, z: -2}
   m_goalType: 0

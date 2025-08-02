@@ -28,7 +28,7 @@ public class UnitContainer : ScriptableObject
 	/// <summary>
 	/// 作業場変更イベント
 	/// </summary>
-	private UnityAction<int, RI.PlacementState> onMoveSectionByWorker;
+	private UnityAction<int, RI.PlacementState, RI.PlacementState> onMoveSectionByWorker;
 
 	/// <summary>
 	/// 妨害イベント
@@ -79,9 +79,9 @@ public class UnitContainer : ScriptableObject
     /// <summary>
     /// 作業場変更
     /// </summary>
-    public void MoveSectionByWorker(int originId, RI.PlacementState placementState)
+    public void MoveSectionByWorker(int originId, RI.PlacementState beforePlacementState, RI.PlacementState afterPlacementState)
 	{
-		onMoveSectionByWorker?.Invoke(originId, placementState);
+		onMoveSectionByWorker?.Invoke(originId, beforePlacementState, afterPlacementState);
 	}
 
 	/// <summary>
@@ -143,7 +143,7 @@ public class UnitContainer : ScriptableObject
     /// 作業場変更イベント登録
     /// </summary>
     /// <param name="onMoveSectionByWorker"></param>
-    public void RegisterEventOnMoveSectionByWorker(UnityAction<int, RI.PlacementState> onMoveSectionByWorker)
+    public void RegisterEventOnMoveSectionByWorker(UnityAction<int, RI.PlacementState, RI.PlacementState> onMoveSectionByWorker)
     {
         this.onMoveSectionByWorker += onMoveSectionByWorker;
     }
