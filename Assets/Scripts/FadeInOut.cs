@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +26,24 @@ public class FadeInOut : MonoBehaviour
         Action,
         End,
     }
+
+    public class FadeInOutArgs
+    {
+        /// <summary>
+        /// フェードタイプ
+        /// </summary>
+        public FadeType FadeType = FadeType.None;
+
+        /// <summary>
+        /// フェードインが終了した時に呼ばれる
+        /// </summary>
+        public Action onFadeInEndEvent;   
+
+        /// <summary>
+        /// フェードアウトが終了した時に呼ばれる
+        /// </summary>
+        public Action onFadeOutEndEvent;   
+    }
     #endregion
 
     #region Field
@@ -35,12 +54,12 @@ public class FadeInOut : MonoBehaviour
     private float _FadeTime = 1.0f;
 
     private StepType _StepType = StepType.None;
-    private FadeType _FadeType = FadeType.None;
     private Image _Image = null;
     private float _Red = 0.0f;
     private float _Green = 0.0f;
     private float _Blue = 0.0f;
     private float _Alfa = 0.0f;
+    private FadeInOutArgs _FadeInOutArgs = new FadeInOutArgs();
     #endregion
 
     #region Method
@@ -64,6 +83,7 @@ public class FadeInOut : MonoBehaviour
                 _Alfa = _Image.color.a;
             }
 
+            // 無効にしておく
             _PanelObject.SetActive(false);
         }
     }
@@ -71,14 +91,16 @@ public class FadeInOut : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_StepType == StepType.None || _FadeType == FadeType.None)
+        if (_StepType == StepType.None || _FadeInOutArgs.FadeType == FadeType.None)
+        {
             return;
+        }
 
         switch (_StepType)
         {
             case StepType.Start:
                 {
-                    _Alfa = (_FadeType == FadeType.FadeIn) ? Alfa_Max : Alfa_Min;
+                    _Alfa = (_FadeInOutArgs.FadeType == FadeType.FadeIn) ? Alfa_Max : Alfa_Min;
                     _StepType = StepType.Action;
                 }
                 break;
@@ -86,31 +108,49 @@ public class FadeInOut : MonoBehaviour
             case StepType.Action:
                 {
                     // アルファ値変更
-                    if (_FadeType == FadeType.FadeIn)
+                    if (_FadeInOutArgs.FadeType == FadeType.FadeIn)
+                    {
                         _Alfa -= Time.deltaTime / _FadeTime;
-                    else if (_FadeType == FadeType.FadeOut)
+                    }
+                    else if (_FadeInOutArgs.FadeType == FadeType.FadeOut)
+                    {
                         _Alfa += Time.deltaTime / _FadeTime;
+                    }
 
                     // アルファ値反映
                     setAlfa(_Alfa);
 
                     // アルファ値が最大 or 最小になったら終了へ
                     if (_Alfa >= Alfa_Max || _Alfa <= Alfa_Min)
+                    {
                         _StepType = StepType.End;
+                    }
                 }
                 break;
 
             case StepType.End:
                 {
                     // 完全に透明 or 不透明にする
-                    _Alfa = (_FadeType == FadeType.FadeIn) ? Alfa_Min : Alfa_Max;
+                    _Alfa = (_FadeInOutArgs.FadeType == FadeType.FadeIn) ? Alfa_Min : Alfa_Max;
                     setAlfa(_Alfa);
 
-                    _StepType = StepType.None;
-                    _FadeType = FadeType.None;
+                    if (_FadeInOutArgs.FadeType == FadeType.FadeIn)
+                    {
+                        _FadeInOutArgs.onFadeInEndEvent?.Invoke();
 
-                    if (_PanelObject != null && _Alfa == Alfa_Min)
-                        _PanelObject.SetActive(false);
+                        // 非表示にしておく
+                        if (_PanelObject != null)
+                        {
+                            _PanelObject.SetActive(false);
+                        }
+                    }
+                    else if (_FadeInOutArgs.FadeType == FadeType.FadeOut)
+                    {
+                        _FadeInOutArgs.onFadeOutEndEvent?.Invoke();
+                    }
+
+                    _StepType = StepType.None;
+                    _FadeInOutArgs.FadeType = FadeType.None;
                 }
                 break;
         }
@@ -123,7 +163,9 @@ public class FadeInOut : MonoBehaviour
     private void setAlfa(float alfa)
     {
         if (_Image == null)
+        {
             return;
+        }
 
         _Image.color = new Color(_Red, _Green, _Blue, alfa);
     }
@@ -132,10 +174,15 @@ public class FadeInOut : MonoBehaviour
     /// フェード開始リクエスト
     /// </summary>
     /// <param name="fadeType"></param>
-    public void requestStartFade(FadeType fadeType)
+    public void requestStartFade(FadeInOutArgs args)
     {
+        // 有効にする
         _PanelObject.SetActive(true);
-        _FadeType = fadeType;
+
+        _FadeInOutArgs.FadeType = args.FadeType;
+        _FadeInOutArgs.onFadeInEndEvent += args.onFadeInEndEvent;
+        _FadeInOutArgs.onFadeOutEndEvent += args.onFadeOutEndEvent;
+
         _StepType = StepType.Start;
     }
 
@@ -143,15 +190,21 @@ public class FadeInOut : MonoBehaviour
 
     #region Debug
     [ContextMenu("FadeIn")]
-    public void devFadeIn()
+    private void devFadeIn()
     {
-        requestStartFade(FadeType.FadeIn);
+        requestStartFade(new FadeInOutArgs()
+        {
+            FadeType = FadeType.FadeIn,           
+        });
     }
 
     [ContextMenu("FadeOut")]
-    public void devFadeOut()
+    private void devFadeOut()
     {
-        requestStartFade(FadeType.FadeOut);
+        requestStartFade(new FadeInOutArgs()
+        {
+            FadeType = FadeType.FadeOut
+        });
     }
     #endregion
 

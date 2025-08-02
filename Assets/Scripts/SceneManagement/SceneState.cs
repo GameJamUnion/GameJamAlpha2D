@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UI;
 
 
 #region Base
@@ -74,7 +75,10 @@ public class TitleSceneState : SceneStateBase
     {
         base.OnEnter();
 
-        FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeIn);
+        FadeManager.Instance.requestStartFade(new FadeInOut.FadeInOutArgs
+        {
+            FadeType = FadeManager.FadeType.FadeIn,
+        });
 
         SoundManager.Instance.requestPlaySound(BGMKind.Title);
 
@@ -87,7 +91,10 @@ public class TitleSceneState : SceneStateBase
         
         if (checkInput() == true)
         {
-            FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeOut);
+            FadeManager.Instance.requestStartFade(new FadeInOut.FadeInOutArgs
+            {
+                FadeType = FadeManager.FadeType.FadeOut,
+            });
             return new GameTutorialState();
         }
 
@@ -132,7 +139,10 @@ public class GameTutorialState : SceneStateBase
 
         base.OnEnter();
 
-        FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeIn);
+        FadeManager.Instance.requestStartFade(new FadeInOut.FadeInOutArgs
+        {
+            FadeType = FadeManager.FadeType.FadeIn,
+        });
 
         return null;
     }
@@ -140,7 +150,10 @@ public class GameTutorialState : SceneStateBase
     {
         if (checkEndTutorial() == true)
         {
-            FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeOut);
+            FadeManager.Instance.requestStartFade(new FadeInOut.FadeInOutArgs
+            {
+                FadeType = FadeManager.FadeType.FadeOut,
+            });
             return new GameLoadSceneState();
         }
 
@@ -344,7 +357,10 @@ public abstract class InGameSceneStateBase : SceneStateBase
     public override SceneStateBase OnEnter()
     {
         base.OnEnter();
-        FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeIn);
+        FadeManager.Instance.requestStartFade(new FadeInOut.FadeInOutArgs
+        {
+            FadeType = FadeManager.FadeType.FadeIn,
+        });
         SoundManager.Instance.requestPlaySound(BGMKind.MainGame);
 
         return null;

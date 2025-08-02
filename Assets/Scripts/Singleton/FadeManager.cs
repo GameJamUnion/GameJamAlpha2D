@@ -31,9 +31,9 @@ public class FadeManager : SingletonBase<FadeManager>
     /// フェード開始
     /// </summary>
     /// <param name="type"> フェードタイプ </param>
-    public void requestStartFade(FadeType type)
+    public void requestStartFade(FadeInOut.FadeInOutArgs args)
     {
-        _FadeInOut.requestStartFade(type);
+        _FadeInOut.requestStartFade(args);
     }
     #endregion
 }
