@@ -100,19 +100,12 @@ public class WorkShopSceneMain : MonoBehaviour
                 { RI.PlacementState.Section3, unit.ProductionEfficiency3 }
             };
 
-            // TODO 渡す値は調整
-            float physical = 0.0f;
-            float listeningPower = 0.0f;
-            float lyingPower = 0.5f;
-            float obstaclePower = 0.5f;
-            float speed = 1.0f;
-
             WokerStatus status = new WokerStatus(powerDictionary,
-                physical,
-                listeningPower,
-                lyingPower,
-                obstaclePower,
-                speed);
+                unit.Endurance,
+                unit.HearingPower,
+                unit.LiarIndex,
+                unit.ObstaclePower,
+                unit.MovementSpeed);
 
             // 作業員を複製
             var pos = new Vector3(-72f, -12f, 2.0f);// 画面外開始
