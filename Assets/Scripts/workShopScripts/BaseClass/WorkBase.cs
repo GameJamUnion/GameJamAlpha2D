@@ -50,7 +50,20 @@ public abstract class WorkBase : StageObjBase
     /// <summary>
     /// 実作業ポイント
     /// </summary>
+    [SerializeField]
     private float workingPoint;
+
+    /// <summary>
+    /// 作成物運搬クラス
+    /// </summary>
+    [SerializeField]
+    protected Product productPrefab;
+
+    /// <summary>
+    /// プロダクト配置の親オブジェクト
+    /// </summary>
+    [SerializeField]
+    protected Transform productsRootTrans;
 
     /// <summary>
     /// 作業場のID
@@ -90,12 +103,16 @@ public abstract class WorkBase : StageObjBase
     /// 作業物を追加する
     /// </summary>
     /// <param name="product"></param>
-    public override void AddProduct(Product product)
+    public override void AddProduct()
     {
         if (productList == null)
         {
             productList = new List<Product>();
         }
+        Vector3 pos = new Vector3(100, 0, 0);
+        Quaternion rot = Quaternion.identity;
+
+        Product product = Instantiate<Product>(productPrefab, pos, rot, productsRootTrans);
         productList.Add(product);
     }
 
@@ -106,7 +123,8 @@ public abstract class WorkBase : StageObjBase
     {
         if (outputObj != null && workingProduct != null)
         {
-            outputObj.AddProduct(workingProduct);
+            outputObj.AddProduct();
+            DstroyGameObj(workingProduct.gameObject);
             workingProduct = null;
             workingPoint = 0.0f;
         }
@@ -212,4 +230,12 @@ public abstract class WorkBase : StageObjBase
     /// </summary>
     /// <returns></returns>
     abstract protected float GetWorkPower();
+
+    /// <summary>
+    /// 指定のオブジェクトを削除する
+    /// </summary>
+    private void DstroyGameObj(GameObject gameObject)
+    {
+        GameObject.Destroy(gameObject);
+    }
 }

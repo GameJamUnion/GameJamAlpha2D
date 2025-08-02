@@ -7,11 +7,6 @@ using System.Collections.Generic;
 public class Conveyor : StageObjBase
 {
     /// <summary>
-    /// 作成物毎の経過運搬時間
-    /// </summary>
-    //private List<int> productsCarryTimeList;
-
-    /// <summary>
     /// 作成物運搬クラス
     /// </summary>
     [SerializeField]
@@ -24,17 +19,16 @@ public class Conveyor : StageObjBase
     private Transform productsRootTrans;
 
     /// <summary>
-    /// 運搬距離
+    /// プロダクトの運搬ルート
     /// </summary>
     [SerializeField]
-    private int carryTime;
+    private UnitWalkRoute m_route;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     override protected void Start()
     {
         base.Start();
         productList = new List<Product>();
-        //productsCarryTimeList = new List<int>();
     }
 
     /// <summary>
@@ -42,8 +36,7 @@ public class Conveyor : StageObjBase
     /// </summary>
     protected override void WorkPerSeconds()
     {
-        //CarryProduct();
-        //OutputProduct();
+
     }
 
     /// <summary>
@@ -54,44 +47,11 @@ public class Conveyor : StageObjBase
 
     }
 
-    /// <summary>
-    /// 作業物を運搬する(1処理分)
-    /// </summary>
-    //public void CarryProduct()
-    //{
-    //    if (productList != null && productList.Count > 0
-    //        && productsCarryTimeList != null && productsCarryTimeList.Count > 0)
-    //    {
-    //        for (int i = 0; i < productsCarryTimeList.Count; i++)
-    //        {
-    //            productsCarryTimeList[i] -= 1;
-    //        }
-
-    //    }
-    //}
-
-    /// <summary>
-    /// 最初の作業物を出力する
-    /// </summary>
-    //public void OutputProduct()
-    //{
-    //    if (productList != null && productList.Count > 0
-    //        && productsCarryTimeList != null && productsCarryTimeList.Count > 0)
-    //    {
-    //        if (productsCarryTimeList[0] <= 0)
-    //        {
-    //            outputObj.AddProduct(productList[0]);
-    //            productList.RemoveAt(0);
-    //            productsCarryTimeList.RemoveAt(0);
-    //        }
-    //    }
-    //}
-
     public void OutputProduct()
     {
         if (productList != null && productList.Count > 0)
         {
-            outputObj.AddProduct(productList[0]);
+            outputObj.AddProduct();
 
             DstroyGameObj(productList[0].gameObject);
             productList.RemoveAt(0);
@@ -101,26 +61,21 @@ public class Conveyor : StageObjBase
     /// <summary>
     /// 作業物を追加する
     /// </summary>
-    /// <param name="product"></param>
-    public override void AddProduct(Product product)
+    public override void AddProduct()
     {
         if (productList == null)
         {
             productList = new List<Product>();
         }
 
+        // 画面に表示されない場所に生成
         Vector3 pos = new Vector3(100, 0, 0);
         Quaternion rot = Quaternion.identity;
 
-        Product productMove = Instantiate<Product>(productPrefab, pos, rot, productsRootTrans);
-
-        productList.Add(productMove);
-
-        //if (productsCarryTimeList == null)
-        //{
-        //    productsCarryTimeList = new List<int>();
-        //}
-        //productsCarryTimeList.Add(carryTime);
+        Product product = Instantiate<Product>(productPrefab, pos, rot, productsRootTrans);
+        product.RegisterExitMoveEvent(OutputProduct);
+        productList.Add(product);
+        product.StartWalk(m_route);
     }
 
     /// <summary>
