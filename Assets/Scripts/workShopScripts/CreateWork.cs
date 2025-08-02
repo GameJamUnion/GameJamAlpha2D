@@ -1,7 +1,4 @@
-using System.Linq;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 /// <summary>
 /// 生産場クラス
