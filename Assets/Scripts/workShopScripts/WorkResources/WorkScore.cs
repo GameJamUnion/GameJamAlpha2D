@@ -52,6 +52,7 @@ public class WorkScore : ScriptableObject
 	/// <param name="gauge"></param>
 	public void RegisterGauge(WorkShopGauge gauge) {
 		scoreGauge = gauge;
+		score = 0;
 		scoreGauge.UpdateValue((float)score / (float)goalScore);
 	}
 
