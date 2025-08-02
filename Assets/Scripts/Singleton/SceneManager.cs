@@ -21,6 +21,8 @@ public enum SceneNames :int
     komugi_workshop,
     dev_ozaki,
 
+    Tutorial,
+
     [Browsable(false)]
     Max_Num,
 }
@@ -113,6 +115,8 @@ public class SceneManager : SingletonBase<SceneManager>
             _CurrentState = nextState;
             _CurrentScene = nextState.SceneName;
             _CurrentState.OnEnter();
+
+            _EndTutorialRequest = false;
         }
     }
     #endregion

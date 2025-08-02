@@ -86,7 +86,7 @@ public class TitleSceneState : SceneStateBase
         if (checkInput() == true)
         {
             FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeOut);
-            return new GameLoadSceneState();
+            return new GameTutorialState();
         }
 
         return result;
@@ -118,7 +118,7 @@ public class TitleSceneState : SceneStateBase
 #region Tutorial
 public class GameTutorialState : SceneStateBase
 {
-    public override SceneNames[] SceneName => new SceneNames[] { };
+    public override SceneNames[] SceneName => new SceneNames[] { SceneNames.Tutorial };
 
     public override void OnEnter()
     {
