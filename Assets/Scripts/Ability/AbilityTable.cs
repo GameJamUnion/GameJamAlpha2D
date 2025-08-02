@@ -18,8 +18,15 @@ public class AbilityTable : ScriptableObject {
 	public IntervieweeUnitAbility CreateIntervieweeUnitAbility() {
 		var data = new IntervieweeUnitAbility();
 
+		List<int> choiceIndex = new List<int>();
+
 		for (int i = 0; i < data.abilities.Length; ++i) {
 			int index = Random.Range(0, m_abilityDatas.Count - 1);
+			if (choiceIndex.Contains(index)) {
+				--i;
+				continue;
+			}
+			choiceIndex.Add(index);
 			data.abilities[i] = abilityDatas[index];
 		}
 
