@@ -12,16 +12,10 @@ public class Conveyor : StageObjBase
     private List<int> productsCarryTimeList;
 
     /// <summary>
-    /// 運搬力
-    /// </summary>
-    [SerializeField]
-    private int carryPower;
-
-    /// <summary>
     /// 運搬距離
     /// </summary>
     [SerializeField]
-    private int carryDistance;
+    private int carryTime;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     override protected void Start()
@@ -58,7 +52,7 @@ public class Conveyor : StageObjBase
         {
             for (int i = 0; i < productsCarryTimeList.Count; i++)
             {
-                productsCarryTimeList[i] += carryPower;
+                productsCarryTimeList[i] -= 1;
             }
 
         }
@@ -72,7 +66,7 @@ public class Conveyor : StageObjBase
         if (productList != null && productList.Count > 0
             && productsCarryTimeList != null && productsCarryTimeList.Count > 0)
         {
-            if (productsCarryTimeList[0] > carryDistance)
+            if (productsCarryTimeList[0] <= 0)
             {
                 outputObj.AddProduct(productList[0]);
                 productList.RemoveAt(0);
@@ -97,6 +91,6 @@ public class Conveyor : StageObjBase
         {
             productsCarryTimeList = new List<int>();
         }
-        productsCarryTimeList.Add(0);
+        productsCarryTimeList.Add(carryTime);
     }
 }

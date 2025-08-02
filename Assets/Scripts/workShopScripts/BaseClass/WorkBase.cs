@@ -25,12 +25,6 @@ public abstract class WorkBase : StageObjBase
     private SpriteRenderer sprite;
 
     /// <summary>
-    /// カラーマネージャー
-    /// </summary>
-    [SerializeField]
-    private WorkColorManager workColorManager;
-
-    /// <summary>
     /// 作業場の管理クラス
     /// </summary>
     [SerializeField]
@@ -135,8 +129,6 @@ public abstract class WorkBase : StageObjBase
                 // 入ることはないはず
                 workState = WorkCommon.WorkState.EMPTY;
             }
-
-            workColorManager.SpriteColorChange(sprite, workState);
         }
     }
 
