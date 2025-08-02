@@ -34,6 +34,8 @@ public class BaseUnit : MonoBehaviour
     [SerializeField] private ResumeInterface _resumeInterface;
     [SerializeField] private IntervieweeUnitAbility _intervieweeUnitAbility;
 
+    [SerializeField] private bool _liar = false;
+
     #region プロパティ
     public int Origin
     {
@@ -93,6 +95,10 @@ public class BaseUnit : MonoBehaviour
         get { return _intervieweeUnitAbility; }
         set { _intervieweeUnitAbility = value; }
     }
+    public bool Liar
+    {
+        get { return _liar; }
+    }
     #endregion
 
     void Start()
@@ -147,6 +153,39 @@ public class BaseUnit : MonoBehaviour
         _endurance = endurance;
         _movementSpeed = movementSpeed;
         _hearingPower = hearingPower;
+
+        // _liarIndexを参照して 虚偽の値を入れる(初回のみ)
+        // 嘘をついているかどうか確認
+        if(_liarIndex > 0)// 0以下の場合嘘は必ずつかない
+        {
+            // 嘘をついている場合しっちゃかめっちゃかな値が入るように変更
+            if (_liarIndex >= 0.8f)
+            {
+                // 100%
+                _liar = true;
+            }
+            else if (_liarIndex >= 0.6f)
+            {
+                if (Random.Range(0f, 1f) >= 0.5f)// 50%
+                {
+                    _liar = true;
+                }
+            }
+            else if (_liarIndex >= 0.4f)
+            {
+                if (Random.Range(0f, 1f) >= 0.8f)// 20%
+                {
+                    _liar = true;
+                }
+            }
+            else if (_liarIndex >= 0.2)
+            {
+                if (Random.Range(0f, 1f) >= 0.95f)// 5%
+                {
+                    _liar = true;
+                }
+            }
+        }
     }
     public void SetState(BaseUnit baseUnit)
     {
@@ -155,6 +194,14 @@ public class BaseUnit : MonoBehaviour
         _productionEfficiency1 = baseUnit.ProductionEfficiency1;
         _productionEfficiency2 = baseUnit.ProductionEfficiency2;
         _productionEfficiency3 = baseUnit.ProductionEfficiency3;
+
+        _liarIndex = baseUnit.LiarIndex;
+        _obstaclePower = baseUnit.ObstaclePower;
+        _endurance = baseUnit.Endurance;
+        _movementSpeed = baseUnit.MovementSpeed;
+        _hearingPower = baseUnit.HearingPower;
+
+        _liar = baseUnit.Liar;
     }
     #endregion SetData
 
@@ -182,33 +229,67 @@ public class BaseUnit : MonoBehaviour
                 break;
         }
 
-        if (_resumeData.RankS.MinProductionEfficiency <= Mathf.Abs( productionEfficiencyNum))
+        if (!_liar)
         {
-            return _resumeData.RankS.ScoreStr;
-        }
-        else if (_resumeData.RankA.MinProductionEfficiency <= Mathf.Abs(productionEfficiencyNum))
-        {
-            return _resumeData.RankA.ScoreStr;
-        }
-        else if (_resumeData.RankB.MinProductionEfficiency <= Mathf.Abs(productionEfficiencyNum))
-        {
-            return _resumeData.RankB.ScoreStr;
-        }
-        else if (_resumeData.RankC.MinProductionEfficiency <= Mathf.Abs(productionEfficiencyNum))
-        {
-            return _resumeData.RankC.ScoreStr;
-        }
-        else if (_resumeData.RankD.MinProductionEfficiency <= Mathf.Abs(productionEfficiencyNum))
-        {
-            return _resumeData.RankD.ScoreStr;
-        }
-        else if (_resumeData.RankE.MinProductionEfficiency <= Mathf.Abs(productionEfficiencyNum))
-        {
-            return _resumeData.RankE.ScoreStr;
+            // 嘘つきじゃない
+            if (_resumeData.RankS.MinProductionEfficiency <= productionEfficiencyNum)
+            {
+                return _resumeData.RankS.ScoreStr;
+            }
+            else if (_resumeData.RankA.MinProductionEfficiency <= productionEfficiencyNum)
+            {
+                return _resumeData.RankA.ScoreStr;
+            }
+            else if (_resumeData.RankB.MinProductionEfficiency <= productionEfficiencyNum)
+            {
+                return _resumeData.RankB.ScoreStr;
+            }
+            else if (_resumeData.RankC.MinProductionEfficiency <= productionEfficiencyNum)
+            {
+                return _resumeData.RankC.ScoreStr;
+            }
+            else if (_resumeData.RankD.MinProductionEfficiency <= productionEfficiencyNum)
+            {
+                return _resumeData.RankD.ScoreStr;
+            }
+            else if (_resumeData.RankE.MinProductionEfficiency <= productionEfficiencyNum)
+            {
+                return _resumeData.RankE.ScoreStr;
+            }
+            else
+            {
+                return _resumeData.RankF.ScoreStr;
+            }
         }
         else
         {
-            return _resumeData.RankF.ScoreStr;
+            switch (Random.Range(0, 7))
+            {
+                case 0:
+                    return _resumeData.RankS.ScoreStr;
+
+                case 1:
+                    return _resumeData.RankA.ScoreStr;
+
+                case 2:
+                    return _resumeData.RankB.ScoreStr;
+
+                case 3:
+                    return _resumeData.RankC.ScoreStr;
+
+                case 4:
+                    return _resumeData.RankD.ScoreStr;
+
+                case 5:
+                    return _resumeData.RankE.ScoreStr;
+
+                case 6:
+                    return _resumeData.RankF.ScoreStr;
+
+                default:
+                    Debug.Log("NONE RANGE");
+                    return _resumeData.RankF.ScoreStr;
+            }
         }
     }
 
