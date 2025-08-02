@@ -16,14 +16,14 @@ public abstract class SceneStateBase
 {
     public abstract SceneNames[] SceneName { get; }
 
-    public virtual void OnEnter()
+    public virtual SceneStateBase OnEnter()
     {
         for (int i = 0; i < SceneName.Length; i++)
         {
             // 対象シーンロード
             SceneManager.Instance.loadScene(SceneName[i]);
         }
-        
+        return null;
     }
 
     public virtual void OnExit()
@@ -70,13 +70,15 @@ public class TitleSceneState : SceneStateBase
 {
     public override SceneNames[] SceneName => new SceneNames[] { SceneNames.Title };
 
-    public override void OnEnter()
+    public override SceneStateBase OnEnter()
     {
         base.OnEnter();
 
         FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeIn);
 
         SoundManager.Instance.requestPlaySound(BGMKind.Title);
+
+        return null;
     }
 
     public override SceneStateBase checkNext()
@@ -120,11 +122,19 @@ public class GameTutorialState : SceneStateBase
 {
     public override SceneNames[] SceneName => new SceneNames[] { SceneNames.Tutorial };
 
-    public override void OnEnter()
+    public override SceneStateBase OnEnter()
     {
+        // チュートリアル終了なら即ロードシーンへ
+        if (checkEndTutorial() == true)
+        {
+            return new GameLoadSceneState();
+        }
+
         base.OnEnter();
 
         FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeIn);
+
+        return null;
     }
     public override SceneStateBase checkNext()
     {
@@ -177,7 +187,7 @@ public class GameLoadSceneState : SceneStateBase
     private Phase _CurrentPhase = Phase.UnloadWait;
     private float _ForceWaitFrameTimer = ForceWaitFrame;
 
-    public override void OnEnter()
+    public override SceneStateBase OnEnter()
     {
         base.OnEnter();
         _CurrentPhase = Phase.UnloadWait;
@@ -188,6 +198,8 @@ public class GameLoadSceneState : SceneStateBase
             Owner = this.GetType(),
             Type = PauseType.InGamePause,
         });
+
+        return null;
     }
 
     public override void OnExit()
@@ -329,11 +341,13 @@ public class GameLoadSceneState : SceneStateBase
 #region InGame
 public abstract class InGameSceneStateBase : SceneStateBase
 {
-    public override void OnEnter()
+    public override SceneStateBase OnEnter()
     {
         base.OnEnter();
         FadeManager.Instance.requestStartFade(FadeManager.FadeType.FadeIn);
         SoundManager.Instance.requestPlaySound(BGMKind.MainGame);
+
+        return null;
     }
 }
 

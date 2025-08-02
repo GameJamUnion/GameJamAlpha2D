@@ -303,8 +303,9 @@ public class OfficeGameMaster : MonoBehaviour
     // ŒÄ‚Ñ‚Ş
     public void ComeInUnit()
     {
-        // ŒÙ—p‚Ì‚½‚ß‚É•”‰®‚ÉŒÄ‚ÔŒÀŠEãŒÀ‚R‘Ì
-        if (_inRoomUnits.Count >= 1)
+		SoundManager.Instance.requestPlaySound(SEKind.Bell);
+		// ŒÙ—p‚Ì‚½‚ß‚É•”‰®‚ÉŒÄ‚ÔŒÀŠEãŒÀ‚R‘Ì
+		if (_inRoomUnits.Count >= 1)
             return;
 
         if (_reserveUnits.Count == 0)
