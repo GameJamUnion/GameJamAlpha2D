@@ -151,6 +151,7 @@ public class GameWaveManager : SingletonBase<GameWaveManager>
             _ActiveWorkScoreIndex += 1;
             _ActiveWorkScore = _WaveSettings.Configuration.WorkScores[_ActiveWorkScoreIndex];
 
+            _ActiveWorkScore.RegisterFullScoreEvent(onFullScoreEvent);
             // ’Ê’m
             _ReceiveParam.WorkScore = _ActiveWorkScore;
             
