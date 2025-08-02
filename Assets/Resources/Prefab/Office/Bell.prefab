@@ -203,7 +203,7 @@ MonoBehaviour:
   _bell: {fileID: 5136266752542797273}
   _bellButton: {fileID: 548300873759916694}
   _bellButtonRect: {fileID: 7778027461484328089}
-  _bellButtonDownSpeed: 1
+  _bellButtonDownSpeed: 3
   _bellButtonUpSpeed: 1
   _stopBottomWaitTimer: 0.2
   _localBellButtonDownPos: {x: -7.8, y: 93.8, z: 0}

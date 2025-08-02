@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2405741347367616050}
+  - component: {fileID: 7312060181479852213}
   m_Layer: 5
   m_Name: Rope
   m_TagString: Untagged
@@ -36,6 +37,25 @@ RectTransform:
   m_AnchoredPosition: {x: 363, y: 356}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7312060181479852213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832663044260936595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 554cc014c479a3b42ab4f2611f6f18c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ropeObj: {fileID: 7494714228942274641}
+  _ropeRec: {fileID: 6608836806732319269}
+  _ropeDownSpeed: 2
+  _ropeUpSpeed: 1
+  _stopRopeWaitTimer: 0
+  _localRopeDownPos: {x: 0, y: -90, z: 0}
+  _localRopeUpPos: {x: 0, y: 0, z: 0}
 --- !u!1 &7494714228942274641
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,8 +7,6 @@ public class BellManager : MonoBehaviour
     [SerializeField] private GameObject _bellButton;
     [SerializeField] private RectTransform _bellButtonRect;
 
-    private bool _pushFlg = false;
-
     [Header("Config")]
     [SerializeField] private float _bellButtonDownSpeed;
     [SerializeField] private float _bellButtonUpSpeed;
