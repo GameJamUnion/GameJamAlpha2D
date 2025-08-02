@@ -382,6 +382,8 @@ public class OfficeGameMaster : MonoBehaviour
             newBaseUnit.gameObject.GetComponent<RectTransform>().transform.localPosition = Vector3.zero;
             _unitAbilityCanvasUI.OnDisplay(newBaseUnit.IntervieweeUnitAbility);
         }
+
+        SoundManager.Instance.requestPlaySound(SEKind.DoorOpen);
     }
 
     // 雇用処理
@@ -401,12 +403,15 @@ public class OfficeGameMaster : MonoBehaviour
 
         // ※とりあえず瞬間雇用
         _unitContainer.Hired(baseUnit);
+
+        SoundManager.Instance.requestPlaySound(SEKind.DoorClose);
     }
     public void Reject(BaseUnit baseUnit)
     {
         _unitAbilityCanvasUI.OnHide();
         _inRoomUnits.Remove(baseUnit);// 部屋から退出
         Destroy(baseUnit.gameObject);// Unitの削除
+        SoundManager.Instance.requestPlaySound(SEKind.DoorClose);
     }
     // 呼び出し処理
     public void Call()
@@ -423,6 +428,7 @@ public class OfficeGameMaster : MonoBehaviour
                 _unitContainer.CallBack(_selectUnit);
                 _inRoomUnits.Remove(_selectUnit);
                 _selectUnit.gameObject.SetActive(false);
+                SoundManager.Instance.requestPlaySound(SEKind.DoorClose);
                 return;
             }
         }
@@ -438,6 +444,8 @@ public class OfficeGameMaster : MonoBehaviour
         _unitContainer.Call(_selectUnit);
         _inRoomUnits.Add(_selectUnit);
         _selectUnit.gameObject.SetActive(true);
+
+        SoundManager.Instance.requestPlaySound(SEKind.DoorOpen);
     }
     // 解雇
     public void Fire()

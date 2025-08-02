@@ -100,7 +100,6 @@ public class ResumeInterface : MonoBehaviour
         _baseResume.OnStampProcess();
 
         SoundManager.Instance.requestPlaySound(SEKind.Stamp);
-
         DisplayAtTheTop();
     }
     public void SectionChange()
