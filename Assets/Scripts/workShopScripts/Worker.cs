@@ -98,6 +98,22 @@ public class Worker : ObjBase
     /// </summary>
     private int interfereCount;
 
+    private Vector3 _DefaultPos = Vector3.zero;
+
+    /// <summary>
+    /// 移動先予定
+    /// </summary>
+    private Vector3? _TargetPos = null;
+
+    /// <summary>
+    /// 移動速度
+    /// </summary>
+    private float _MoveSpeed = 1f;
+
+    /// <summary>
+    /// 移動時間合計
+    /// </summary>
+    private float _MoveTimeCount = 0f;
     #region Property
     /// <summary>
     /// 作業員ID
@@ -134,12 +150,46 @@ public class Worker : ObjBase
         get { return workerState; }
         set { workerState = value; }
     }
+
+    /// <summary>
+    /// 移動速度
+    /// </summary>
+    public float MoveSpeed
+    {
+        get { return _MoveSpeed; }
+        set { _MoveSpeed = value; }
+    }
     #endregion
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     override protected void Start()
     {
         base.Start();
+        _DefaultPos = gameObject.transform.position;
+    }
+
+    private void Update()
+    {
+        var deltaTime = Time.deltaTime;
+        if (_TargetPos.HasValue == true)
+        {
+            _MoveTimeCount += deltaTime;
+            var rate = _MoveTimeCount / MoveSpeed;
+            if (rate >= 0.9f)
+            {
+                rate = 1f;
+            }
+            Move(Vector3.Lerp(_DefaultPos, _TargetPos.Value, rate));
+
+            if (rate == 1f)
+            {
+                _DefaultPos = _TargetPos.Value;
+                _MoveTimeCount = 0;
+                _TargetPos = null;
+            }
+
+        }
     }
 
     /// <summary>
@@ -427,5 +477,23 @@ public class Worker : ObjBase
     public void Move(Vector3 pos)
     {
         this.transform.position = pos;
+    }
+
+    /// <summary>
+    /// 生成位置
+    /// </summary>
+    /// <param name="pos"></param>
+    public void setDefaultPosition(Vector3 pos)
+    {
+        _DefaultPos = pos;
+    }
+
+    /// <summary>
+    /// 移動先設定
+    /// </summary>
+    /// <param name="pos"></param>
+    public void setMoveTarget(Vector3 pos)
+    {
+        _TargetPos = pos;
     }
 }

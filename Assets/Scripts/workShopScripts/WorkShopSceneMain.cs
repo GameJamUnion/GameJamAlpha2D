@@ -115,9 +115,11 @@ public class WorkShopSceneMain : MonoBehaviour
                 speed);
 
             // 作業員を複製
-            Worker worker = Instantiate<Worker>(workerPrefab, transform.position, transform.rotation, unitRootTrans);
-            worker.InitializeWoker(unit.Origin, unit.PlacementState, status);
+            var pos = new Vector3(-72f, -12f, 2.0f);// 画面外開始
 
+            Worker worker = Instantiate<Worker>(workerPrefab, pos, transform.rotation, unitRootTrans);
+            worker.InitializeWoker(unit.Origin, unit.PlacementState, status);
+            worker.setMoveTarget(transform.position);
             workManager.EmployWoker(worker);
         }
     }
@@ -184,7 +186,7 @@ public class WorkShopSceneMain : MonoBehaviour
         {
             beforeWork.RemoveUnit(originId);
             Transform transform = afterWork.GetAvailableUnitPlacement(originId);
-            worker.Move(transform.position);
+            worker.setMoveTarget(transform.position);
         }
     }
 
