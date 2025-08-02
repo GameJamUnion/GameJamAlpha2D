@@ -1300,6 +1300,8 @@ MonoBehaviour:
   _tSection2Rank: {fileID: 7244942223658983264}
   _tSection3Rank: {fileID: 7356105715131562926}
   _stamp: {fileID: 2025530557179966869}
+  _maxTopBottom: {x: 840, y: -840}
+  _maxRightLeft: {x: 1670, y: -715}
   _stampCustomButton: {fileID: 548531395575998585}
   _resumeInterfaceCustomButton: {fileID: 9156303266749116504}
   _riStampManager: {fileID: 7476831476072964371}

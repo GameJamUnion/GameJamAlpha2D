@@ -16,6 +16,10 @@ public class ResumeInterface : MonoBehaviour
     [SerializeField] TextMeshProUGUI _tSection3Rank;
     [SerializeField] GameObject _stamp;
 
+    [Header("最大移動距離")]
+    [SerializeField] Vector2 _maxTopBottom;
+    [SerializeField] Vector2 _maxRightLeft;
+
     [Header("アタッチ")]
     [SerializeField] StampCustomButton _stampCustomButton;
     [SerializeField] ResumeInterfaceCustomButton _resumeInterfaceCustomButton;
@@ -111,9 +115,13 @@ public class ResumeInterface : MonoBehaviour
     public void Hold()
     {
         // マウスの移動距離取得
-        Vector3 newPos = _resumeInterfaceCustomButton.CurrentMousePos - Input.mousePosition;
+        Vector3 newPos = _resumeInterfaceCustomButton.SaveRusumeInterfacePos - (_resumeInterfaceCustomButton.CurrentMousePos - Input.mousePosition);
+        // 範囲外チェック
+        newPos.x = Mathf.Clamp(newPos.x, _maxRightLeft.y, _maxRightLeft.x);
+        newPos.y = Mathf.Clamp(newPos.y, _maxTopBottom.y, _maxTopBottom.x);
+
         // 移動距離分座標をずらす
-        this.gameObject.transform.localPosition = _resumeInterfaceCustomButton.SaveRusumeInterfacePos - newPos;
+        this.gameObject.GetComponent<RectTransform>().transform.localPosition =  newPos;
 
         DisplayAtTheTop();
     }
